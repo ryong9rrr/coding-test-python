@@ -1,3 +1,23 @@
+"""
+--input--
+7
+9
+1 2 4
+1 3 2
+1 4 3
+2 6 3
+2 7 5
+3 5 1
+4 6 4
+5 6 2
+6 7 5
+1 7
+
+--result--
+12
+5
+"""
+
 from collections import deque, defaultdict
 
 a = defaultdict(list)
@@ -24,6 +44,7 @@ def topology_sort(start:int, end:int):
         x = q.popleft()
         for info in a[x]:
             node, time = info
+            # 더 큰 값으로 갱신
             if result[node] <= time + result[x]:
                 result[node] = time + result[x]
             degree[node] -= 1
@@ -46,7 +67,7 @@ def topology_sort(start:int, end:int):
 topology_sort(start, end)
 
 #########################################################################
-# memory over
+# 모든 경로를 찾은 후 그 경로를 바탕으로 값을 구함.. 하지만 graph가 matrix여서 메모리초과.
 from collections import deque, defaultdict
 import sys
 input = sys.stdin.readline
