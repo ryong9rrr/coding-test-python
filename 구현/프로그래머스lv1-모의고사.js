@@ -98,3 +98,41 @@ function solution(answers) {
 테스트 13 〉	통과 (0.23ms, 30.4MB)
 테스트 14 〉	통과 (2.67ms, 33MB)
 */
+
+// 여기서 더 smart 한 방법
+function solution(answers) {
+  const a = [1, 2, 3, 4, 5];
+  const b = [2, 1, 2, 3, 2, 4, 2, 5];
+  const c = [3, 3, 1, 1, 2, 2, 4, 4, 5, 5];
+  let score = [0, 0, 0];
+  answers.forEach((v, i) => {
+    if (v === a[i % 5]) score[0]++;
+    if (v === b[i % 8]) score[1]++;
+    if (v === c[i % 10]) score[2]++;
+  });
+
+  const max = Math.max(...score);
+  const result = [];
+  for (let i = 0; i < 3; i++) {
+    if (score[i] === max) result.push(i + 1);
+  }
+
+  return result;
+}
+/*
+정확성  테스트
+테스트 1 〉	통과 (0.08ms, 30.3MB)
+테스트 2 〉	통과 (0.08ms, 30MB)
+테스트 3 〉	통과 (0.08ms, 30.1MB)
+테스트 4 〉	통과 (0.09ms, 30.2MB)
+테스트 5 〉	통과 (0.10ms, 30.4MB)
+테스트 6 〉	통과 (0.13ms, 30.4MB)
+테스트 7 〉	통과 (0.76ms, 30.1MB)
+테스트 8 〉	통과 (0.35ms, 30.3MB)
+테스트 9 〉	통과 (1.86ms, 33.2MB)
+테스트 10 〉	통과 (0.63ms, 30.4MB)
+테스트 11 〉	통과 (3.33ms, 33MB)
+테스트 12 〉	통과 (1.81ms, 32.9MB)
+테스트 13 〉	통과 (0.20ms, 30.3MB)
+테스트 14 〉	통과 (1.98ms, 33.2MB)
+*/
