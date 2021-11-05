@@ -1,3 +1,7 @@
+"""
+배수판정법 + 그리디 문제
+"""
+
 import sys
 input = lambda : sys.stdin.readline().rstrip()
 
