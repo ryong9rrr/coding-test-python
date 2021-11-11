@@ -53,3 +53,32 @@ def solution(participant, completion):
 테스트 4 〉	통과 (39.76ms, 33.9MB)
 테스트 5 〉	통과 (66.50ms, 34MB)
 """
+
+# Counter 사용
+
+from collections import Counter
+def solution(participant, completion):
+    part = Counter(participant)
+    com = Counter(completion)
+    
+    for key in part.keys():
+        if not com[key]:
+            return key
+        com[key] -= part[key]
+        if com[key] < 0:
+            return key
+
+"""
+정확성  테스트
+테스트 1 〉	통과 (0.03ms, 10.2MB)
+테스트 2 〉	통과 (0.04ms, 10.2MB)
+테스트 3 〉	통과 (0.18ms, 10.4MB)
+테스트 4 〉	통과 (0.67ms, 10.4MB)
+테스트 5 〉	통과 (0.28ms, 10.4MB)
+효율성  테스트
+테스트 1 〉	통과 (20.80ms, 24.4MB)
+테스트 2 〉	통과 (42.82ms, 27.8MB)
+테스트 3 〉	통과 (41.13ms, 30.2MB)
+테스트 4 〉	통과 (45.21ms, 39MB)
+테스트 5 〉	통과 (31.45ms, 38.9MB)
+"""
