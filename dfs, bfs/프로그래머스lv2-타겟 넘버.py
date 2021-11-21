@@ -58,3 +58,39 @@ def solution(numbers, target):
     dfs(0, total, c, target, n)
         
     return result
+
+"""
+👆 과거의 나는 대체 왜 이렇게 접근했을까...??? 대체 왜...?
+"""
+
+# dfs로 풀기
+import sys
+sys.setrecursionlimit(10**6)
+def solution(numbers, target):
+    count = 0
+    n = len(numbers)
+    
+    def dfs(csum, index):
+        nonlocal count
+        if index == n and csum == target:
+            count += 1
+            return
+        if index >= n:
+            return
+        dfs(csum + numbers[index], index+1)
+        dfs(csum - numbers[index], index+1)
+    
+    dfs(0, 0)
+    
+    return count
+"""
+정확성  테스트
+테스트 1 〉	통과 (363.45ms, 10.2MB)
+테스트 2 〉	통과 (336.92ms, 10.2MB)
+테스트 3 〉	통과 (0.32ms, 10.2MB)
+테스트 4 〉	통과 (1.44ms, 10.2MB)
+테스트 5 〉	통과 (10.15ms, 10.2MB)
+테스트 6 〉	통과 (0.64ms, 10.2MB)
+테스트 7 〉	통과 (0.34ms, 10.2MB)
+테스트 8 〉	통과 (2.49ms, 10.2MB)
+"""
