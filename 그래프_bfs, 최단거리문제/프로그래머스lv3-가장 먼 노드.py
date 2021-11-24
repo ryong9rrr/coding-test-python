@@ -1,3 +1,4 @@
+# 다익스트라 문제
 from collections import defaultdict, deque
 def solution(n, edge):
     graph = defaultdict(list)

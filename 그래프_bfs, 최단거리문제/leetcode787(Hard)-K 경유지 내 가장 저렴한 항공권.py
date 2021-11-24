@@ -1,4 +1,4 @@
-# 우선순위 큐+bfs // 100~150ms
+# 다익스트라 // 100~150ms
 class Solution(object):
     def findCheapestPrice(self, n, flights, src, dst, k):
         """
