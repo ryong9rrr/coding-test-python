@@ -55,3 +55,13 @@ class Solution(object):
             l1.next = self.mergeTwoLists(l1.next, l2)
             
         return l1
+        
+
+# 좀 더 직관적인 재귀코드 // 28ms
+class Solution(object):
+    def mergeTwoLists(self, l1, l2):
+        if l1 and l2:
+            if l1.val > l2.val:
+                l1, l2 = l2, l1
+            l1.next = self.mergeTwoLists(l1.next, l2)
+        return l1 or l2
