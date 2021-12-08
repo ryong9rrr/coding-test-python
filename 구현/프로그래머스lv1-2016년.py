@@ -39,3 +39,23 @@ def solution(a, b):
 테스트 13 〉	통과 (0.01ms, 10.2MB)
 테스트 14 〉	통과 (0.00ms, 10.4MB)
 """
+
+def solution(a, b):
+    days_month = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    day_week = ["FRI", "SAT", "SUN", "MON", "TUE", "WED", "THU"]
+
+    days = sum(days_month[0:a - 1]) + b - 1
+    answer = days % 7
+    return day_week[answer]
+    
+"""js
+function solution(a, b) {
+  const month = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  const week = ["FRI", "SAT", "SUN", "MON", "TUE", "WED", "THU"];
+
+  const days =
+    a > 1 ? month.slice(0, a - 1).reduce((a, b) => a + b) + b - 1 : b - 1;
+  const answer = days % 7;
+  return week[answer];
+}
+"""

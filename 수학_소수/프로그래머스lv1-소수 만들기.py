@@ -1,100 +1,105 @@
 def solution(nums):
-    n = int(sum(nums))
-    sosu = [True] * (n+1)
-    sosu[0:2] = [False, False]
-    for num in range(2, int(n**0.5)+1) :
-        if sosu[num] :
-            for i in range(num*num, n+1, num) :
-                sosu[i] = False
-    #print(f"sosu : {sosu}")
+    def makePrimeNumbers(n:int)->list:
+        prime_numbers = [True] * (n + 1)
+        prime_numbers[0:2] = [False, False]
+        for num in range(2, int(n * 0.5) + 1):
+            if prime_numbers[num]:
+                for i in range(num ** 2, n + 1, num):
+                    prime_numbers[i] = False
+        return prime_numbers
+    
+    n = sum(sorted(nums)[-3:])
+    prime = makePrimeNumbers(n)
     
     result = 0
     leng = len(nums)
-    for i in range(0, leng-2) :
-        for j in range(i+1, leng-1) :
-            for k in range(j+1, leng) :
-                print(i,j,k)
-                if sosu[nums[i]+nums[j]+nums[k]] :
+    # 조합찾기
+    for i in range(0, leng - 2) :
+        for j in range(i + 1, leng - 1) :
+            for k in range(j + 1, leng) :
+                a, b, c = nums[i], nums[j], nums[k]
+                if prime[a + b + c] :
                     result += 1
-    
     return result
-
 """
 정확성  테스트
-테스트 1 〉	통과 (2.99ms, 10.4MB)
-테스트 2 〉	통과 (4.31ms, 10.4MB)
-테스트 3 〉	통과 (0.74ms, 10.5MB)
-테스트 4 〉	통과 (0.59ms, 10.5MB)
-테스트 5 〉	통과 (4.27ms, 10.5MB)
-테스트 6 〉	통과 (5.65ms, 10.5MB)
-테스트 7 〉	통과 (0.28ms, 10.3MB)
-테스트 8 〉	통과 (13.92ms, 10.5MB)
-테스트 9 〉	통과 (1.32ms, 10.4MB)
-테스트 10 〉	통과 (12.36ms, 10.5MB)
-테스트 11 〉	통과 (0.14ms, 10.3MB)
-테스트 12 〉	통과 (0.07ms, 10.3MB)
-테스트 13 〉	통과 (0.31ms, 10.3MB)
-테스트 14 〉	통과 (0.07ms, 10.3MB)
-테스트 15 〉	통과 (0.07ms, 10.3MB)
-테스트 16 〉	통과 (13.87ms, 10.5MB)
-테스트 17 〉	통과 (19.66ms, 10.5MB)
-테스트 18 〉	통과 (0.45ms, 10.3MB)
-테스트 19 〉	통과 (0.33ms, 10.4MB)
-테스트 20 〉	통과 (20.60ms, 10.5MB)
-테스트 21 〉	통과 (16.75ms, 10.5MB)
-테스트 22 〉	통과 (3.89ms, 10.5MB)
-테스트 23 〉	통과 (0.02ms, 10.3MB)
-테스트 24 〉	통과 (13.90ms, 10.5MB)
-테스트 25 〉	통과 (14.27ms, 10.5MB)
-테스트 26 〉	통과 (0.02ms, 10.3MB)
+테스트 1 〉	통과 (0.44ms, 10.3MB)
+테스트 2 〉	통과 (1.04ms, 10.3MB)
+테스트 3 〉	통과 (0.21ms, 10.3MB)
+테스트 4 〉	통과 (0.12ms, 10.3MB)
+테스트 5 〉	통과 (0.69ms, 10.3MB)
+테스트 6 〉	통과 (1.23ms, 10.2MB)
+테스트 7 〉	통과 (0.25ms, 10.3MB)
+테스트 8 〉	통과 (3.43ms, 10.2MB)
+테스트 9 〉	통과 (0.28ms, 10.3MB)
+테스트 10 〉	통과 (2.68ms, 10.3MB)
+테스트 11 〉	통과 (0.08ms, 10.3MB)
+테스트 12 〉	통과 (0.03ms, 10.3MB)
+테스트 13 〉	통과 (0.05ms, 10.3MB)
+테스트 14 〉	통과 (0.04ms, 10.3MB)
+테스트 15 〉	통과 (0.04ms, 10.3MB)
+테스트 16 〉	통과 (2.47ms, 10.3MB)
+테스트 17 〉	통과 (3.00ms, 10.3MB)
+테스트 18 〉	통과 (0.47ms, 10.3MB)
+테스트 19 〉	통과 (0.29ms, 10.3MB)
+테스트 20 〉	통과 (3.88ms, 10.3MB)
+테스트 21 〉	통과 (5.37ms, 10.2MB)
+테스트 22 〉	통과 (1.61ms, 10.2MB)
+테스트 23 〉	통과 (0.01ms, 10.3MB)
+테스트 24 〉	통과 (2.79ms, 10.3MB)
+테스트 25 〉	통과 (2.35ms, 10.3MB)
+테스트 26 〉	통과 (0.01ms, 10.3MB)
 """
 
 import itertools
 def solution(nums):
+    def makePrimeNumbers(n:int)->list:
+        prime_numbers = [True] * (n + 1)
+        prime_numbers[0:2] = [False, False]
+        for num in range(2, int(n * 0.5) + 1):
+            if prime_numbers[num]:
+                for i in range(num ** 2, n + 1, num):
+                    prime_numbers[i] = False
+        return prime_numbers
+
     n = sum(sorted(nums)[-3:])
-    sosu = [True] * (n + 1)
-    
-    #sosu array 만들기
-    for i in range(2, int(n*0.5) + 1):
-        if sosu[i]:
-            for j in range(i**2, n + 1, i):
-                sosu[j] = False
-    
+    prime = makePrimeNumbers(n)
+
     #조합찾기
     nCr = list(itertools.combinations(nums, 3))
     result = 0
+    # i는 tuple이다.
     for i in nCr:
-        if sosu[sum(i)]:
+        if prime[sum(i)]:
             result += 1
-            
+
     return result
-            
 """
 정확성  테스트
-테스트 1 〉	통과 (0.70ms, 10.3MB)
-테스트 2 〉	통과 (0.91ms, 10.4MB)
-테스트 3 〉	통과 (0.17ms, 10.3MB)
-테스트 4 〉	통과 (0.26ms, 10.2MB)
-테스트 5 〉	통과 (0.99ms, 10.4MB)
-테스트 6 〉	통과 (1.44ms, 10.4MB)
-테스트 7 〉	통과 (0.14ms, 10.3MB)
-테스트 8 〉	통과 (3.63ms, 11.1MB)
-테스트 9 〉	통과 (0.32ms, 10.3MB)
-테스트 10 〉	통과 (3.23ms, 10.9MB)
-테스트 11 〉	통과 (0.03ms, 10.3MB)
-테스트 12 〉	통과 (0.04ms, 10.2MB)
-테스트 13 〉	통과 (0.04ms, 10.2MB)
-테스트 14 〉	통과 (0.03ms, 10.3MB)
-테스트 15 〉	통과 (0.02ms, 10.2MB)
-테스트 16 〉	통과 (3.76ms, 11MB)
-테스트 17 〉	통과 (4.59ms, 11.3MB)
-테스트 18 〉	통과 (0.30ms, 10.3MB)
-테스트 19 〉	통과 (0.32ms, 10.3MB)
-테스트 20 〉	통과 (4.57ms, 11.3MB)
-테스트 21 〉	통과 (4.32ms, 11.3MB)
-테스트 22 〉	통과 (0.99ms, 10.3MB)
+테스트 1 〉	통과 (0.64ms, 10.4MB)
+테스트 2 〉	통과 (0.87ms, 10.3MB)
+테스트 3 〉	통과 (0.16ms, 10.3MB)
+테스트 4 〉	통과 (0.16ms, 10.3MB)
+테스트 5 〉	통과 (1.98ms, 10.4MB)
+테스트 6 〉	통과 (2.76ms, 10.5MB)
+테스트 7 〉	통과 (0.28ms, 10.2MB)
+테스트 8 〉	통과 (6.65ms, 11.2MB)
+테스트 9 〉	통과 (0.58ms, 10.3MB)
+테스트 10 〉	통과 (3.07ms, 11MB)
+테스트 11 〉	통과 (0.04ms, 10.3MB)
+테스트 12 〉	통과 (0.05ms, 10.4MB)
+테스트 13 〉	통과 (0.08ms, 10.2MB)
+테스트 14 〉	통과 (0.03ms, 10.2MB)
+테스트 15 〉	통과 (0.03ms, 10.2MB)
+테스트 16 〉	통과 (7.94ms, 11.1MB)
+테스트 17 〉	통과 (4.36ms, 11.3MB)
+테스트 18 〉	통과 (0.52ms, 10.3MB)
+테스트 19 〉	통과 (0.30ms, 10.3MB)
+테스트 20 〉	통과 (10.07ms, 11.2MB)
+테스트 21 〉	통과 (4.17ms, 11.3MB)
+테스트 22 〉	통과 (1.15ms, 10.3MB)
 테스트 23 〉	통과 (0.01ms, 10.3MB)
-테스트 24 〉	통과 (3.76ms, 11MB)
-테스트 25 〉	통과 (3.49ms, 11MB)
+테스트 24 〉	통과 (3.87ms, 11MB)
+테스트 25 〉	통과 (3.81ms, 11MB)
 테스트 26 〉	통과 (0.01ms, 10.2MB)
 """
