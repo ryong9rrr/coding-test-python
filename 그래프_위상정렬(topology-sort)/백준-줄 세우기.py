@@ -1,38 +1,30 @@
-from collections import deque, defaultdict
+from collections import defaultdict, deque
 import sys
-input = sys.stdin.readline
+input = lambda :sys.stdin.readline().rstrip()
 
-def topological_sort(graph:dict, degree:list)->list:
+def topology_sort(graph:dict, indegree:list)->list:
     result = []
     q = deque()
-    for i in range(1, n + 1):
-        if degree[i] == 0:
-            q.append(i)
-
+    for v in range(1, n + 1):
+        if indegree[v] == 0:
+            q.append(v)
     while q:
         x = q.popleft()
         result.append(x)
-        for node in graph[x]:
-            degree[node] -= 1
-            if degree[node] == 0:
-                q.append(node)
-
+        for v in graph[x]:
+            indegree[v] -= 1
+            if indegree[v] == 0:
+                q.append(v)
     return result
 
-
-n, m = map(int, input().rstrip().split())
-
+n, m = map(int, input().split())
 graph = defaultdict(list)
-degree = [0] * (n + 1)
-
+indegree = [0] * (n + 1)
 for _ in range(m):
-    a, b = map(int, input().rstrip().split())
-    # exception error
-    if a > n or b > n:
-        print("input range error")
-    graph[a].append(b)
-    degree[b] += 1
+    v, w = map(int, input().split())
+    graph[v].append(w)
+    indegree[w] += 1
 
-result = topological_sort(graph, degree)
-for i in result:
-    print(i, end=" ")
+result = topology_sort(graph, indegree)
+
+print(*result)
