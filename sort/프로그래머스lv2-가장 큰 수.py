@@ -1,15 +1,13 @@
-# functools.cmp_to_key
 import functools
 def solution(numbers):
     def compare(a, b):
-        if int(a + b) < int(b + a):
-            return -1
-        else:
-            return 1
+        return -1 if int(a + b) < int(b + a) else 1
     
-    s = sorted([str(x) for x in numbers], key= functools.cmp_to_key(compare), reverse=True)
+    nums = [str(x) for x in numbers]
     
-    return str(int("".join(s)))
+    result = sorted(nums, key = functools.cmp_to_key(compare), reverse = True)
+    
+    return str(int("".join(result)))
 
 """
 정확성  테스트
