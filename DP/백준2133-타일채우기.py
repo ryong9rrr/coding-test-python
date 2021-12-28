@@ -16,3 +16,20 @@ def dp(x):
 n = int(input())
 dp(n)
 print(d[n])
+
+# 더 직관적인
+import sys
+input = lambda: sys.stdin.readline().rstrip()
+
+def dp(x):
+    d = [0] * 31
+    d[:3] = [1, 0, 3]
+    for i in range(3, x + 1):
+        if i % 2 == 0:
+            d[i] = 3 * d[i - 2]
+            for j in range(4, x + 1, 2):
+                d[i] += 2 * d[i - j]
+    return d[x]
+
+n = int(input())
+print(dp(n))
