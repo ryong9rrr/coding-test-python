@@ -1,35 +1,32 @@
 from collections import defaultdict
 import sys
-input = sys.stdin.readline
-MAX = 201
+input = lambda: sys.stdin.readline().rstrip()
+sys.setrecursionlimit(10**6)
 
 graph = defaultdict(list)
 
-# input
-n, m = map(int, input().rstrip().split())
-for i in range(1, n + 1):
-    _input = list(map(int, input().rstrip().split()))
-    nodes = _input[1:]
-    for node in nodes:
-        graph[i].append(node)
+n, m = map(int, input().split())
+# 그래프 초기화
+for v in range(1, n + 1):
+    data = list(map(int, input().split()))
+    graph[v] = data[1:]
 
-d = [0] * (m + 1)
-
-def dfs(x:int, c:list)->bool:
-    for node in graph[x]:
-        if c[node]:
+# 전체 결과를 담은 전역변수
+result = [0] * (m + 1)
+def dfs(v, visited):
+    for node in graph[v]:
+        if visited[node]:
             continue
-        c[node] = True
-        if d[node] == 0 or dfs(d[node], c):
-            d[node] = x
+        visited[node] = True
+        if not result[node] or dfs(result[node], visited):
+            result[node] = v
             return True
     return False
 
-# output
 count = 0
-for i in range(1, n+1):
-    c = [False] * (m + 1)
-    if dfs(i, c):
+for v in range(1, n + 1):
+    visited = [False] * (m + 1)
+    if dfs(v, visited):
         count += 1
 
 print(count)
