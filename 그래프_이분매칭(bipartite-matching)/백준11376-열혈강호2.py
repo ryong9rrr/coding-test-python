@@ -1,93 +1,95 @@
-# nomalize Bipartite-matching Algorithm, but time over...
+# nomalize Bipartite-matching Algorithm // 시간초과
 from collections import defaultdict
-MAX = 1001
 import sys
+input = lambda: sys.stdin.readline().rstrip()
 sys.setrecursionlimit(10**6)
-input = sys.stdin.readline
 
 graph = defaultdict(list)
-d = [0] * MAX
 
-n, m = map(int, input().rstrip().split())
-for i in range(1, n + 1):
-    _input = list(map(int, input().rstrip().split()))
-    nodes = _input[1:]
-    for node in nodes:
-        graph[i].append(node)
+n, m = map(int, input().split())
+for v in range(1, n + 1):
+    data = list(map(int, input().split()))
+    graph[v] = data[1:]
 
-def dfs(x:int, c:list)->bool:
-    for node in graph[x]:
-        if c[node]:
+result = [0] * (m + 1)
+
+def dfs(v, visited):
+    for node in graph[v]:
+        if visited[node]:
             continue
-        c[node] = True
-        if d[node] == 0 or dfs(d[node], c):
-            d[node] = x
+        visited[node] = True
+        if not result[node] or dfs(result[node], visited):
+            result[node] = v
             return True
     return False
 
-count = 0
+match = 0
 for _ in range(2):
-    for i in range(1, n + 1):
-        c = [False] * MAX
-        if dfs(i, c):
-            count += 1
+    for v in range(1, n + 1):
+        visited = [False] * (m + 1)
+        if dfs(v, visited):
+            match += 1
 
-print(count)
+print(match)
 
 #########################################
-# HopCroft-Karf
-
+# HopCroft-Karf // 628ms
+from collections import defaultdict, deque
 import sys
-from collections import deque
-input = lambda:sys.stdin.readline().rstrip()
+input = lambda: sys.stdin.readline().rstrip()
+sys.setrecursionlimit(10**6)
 INF = sys.maxsize
+
+graph = defaultdict(list)
+
+n, m = map(int, input().split())
+for v in range(1, n + 1):
+    data = list(map(int, input().split()))
+    graph[v] = data[1:]
+
+# 2개의 일을 할 수 있으므로 배열형태로 초기화
+group_A = [[] for _ in range(n + 1)]
+group_B = [0 for _ in range(m + 1)]
+dist = [INF for _ in range(n + 1)]
 
 def bfs()->bool:
     q = deque()
     for a in range(1, n + 1):
-        if len(groupA[a]) < 2:
+        if len(group_A[a]) < 2:
             dist[a] = 0
             q.append(a)
         else:
             dist[a] = INF
-
     dist[0] = INF
     while q:
         a = q.popleft()
         if dist[a] < dist[0]:
             for b in graph[a]:
-                if dist[groupB[b]] == INF:
-                    dist[groupB[b]] = dist[a] + 1
-                    q.append(groupB[b])
+                if dist[group_B[b]] == INF:
+                    dist[group_B[b]] = dist[a] + 1
+                    q.append(group_B[b])
     return dist[0] != INF
 
-def dfs(a:int)->int:
+def dfs(a):
     if a:
         for b in graph[a]:
-            if dist[groupB[b]] == dist[a] + 1 and \
-                    dfs(groupB[b]):
-                groupA[a].append(b)
-                groupB[b] = a
+            if dist[group_B[b]] == dist[a] + 1 and \
+                dfs(group_B[b]):
+                # 배열이므로 append
+                group_A[a].append(b)
+                group_B[b] = a
                 return 1
         dist[a] = INF
         return 0
     return 1
 
-n, m = map(int, input().split())
-graph = [[]]
-
-for i in range(n):
-    graph.append(list(map(int, input().split()))[1:])
-
-groupA = [[] for _ in range(n + 1)]
-groupB = [0 for _ in range(m + 1)]
-dist = [INF for _ in range(n + 1)]
 match = 0
 while bfs():
     for a in range(1, n + 1):
-        if len(groupA[a]) < 2:
+        # 2번 확인
+        if len(group_A[a]) < 2:
             match += dfs(a)
-        if len(groupA[a]) < 2:
+        if len(group_A[a]) < 2:
             match += dfs(a)
 
 print(match)
