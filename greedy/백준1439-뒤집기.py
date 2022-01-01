@@ -10,23 +10,24 @@ for i in range(len(s) - 1):
 print((count + 1) // 2)
 
 
-# 이코테
+# 이코테풀이 + 조금 더 개선
 import sys
-input = lambda : sys.stdin.readline().rstrip()
+input = lambda: sys.stdin.readline().rstrip()
 
 s = input()
-count0 = count1 = 0
 
-if s[0] == "1":
-    count0 += 1
+bundle_0 = bundle_1 = 0
+
+if s[0] == "0":
+    bundle_0 += 1
 else:
-    count1 += 1
+    bundle_1 += 1
 
 for i in range(len(s) - 1):
     if s[i] != s[i + 1]:
-        if s[i + 1] == "1":
-            count0 += 1
+        if s[i + 1] == "0":
+            bundle_0 += 1
         else:
-            count1 += 1
+            bundle_1 += 1
 
-print(min(count0, count1))
+print(min(bundle_0, bundle_1))
