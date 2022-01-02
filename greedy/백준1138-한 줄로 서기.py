@@ -1,6 +1,5 @@
 import sys
 input = lambda: sys.stdin.readline().rstrip()
-INF = sys.maxsize
 
 n = int(input())
 counts = [0] + list(map(int, input().split()))

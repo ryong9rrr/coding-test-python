@@ -1,16 +1,21 @@
 import sys
-input = lambda : sys.stdin.readline().rstrip()
+input = lambda: sys.stdin.readline().rstrip()
 
-N, K = map(int, input().split())
+n, k = map(int, input().split())
+money_table = []
+for _ in range(n):
+    money_table.append(int(input()))
 
-A = []
+# 가장 큰 단위부터 확인해야하므로
+money_table.sort(reverse=True)
 
-for _ in range(N):
-    A.append(int(input()))
+count = 0
+for m in money_table:
+    a, b = divmod(k, m)
+    # 몫이 없다면 그냥 넘어감
+    if not a:
+        continue
+    count += a
+    k = b
 
-result = 0
-for i in range(N-1, -1, -1):
-    result += K // A[i]
-    K %= A[i]
-
-print(result)
+print(count)
