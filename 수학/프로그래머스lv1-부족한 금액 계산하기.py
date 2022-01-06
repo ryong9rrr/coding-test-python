@@ -7,11 +7,11 @@ def solution(price, money, count):
     1. n(a + l) / 2 (l은 마지막항)
     2. n{2a + (n-1)d} / 2
     """
-    Sn = (count * ((2 * price) + (price * (count - 1)))) // 2
-    if money >= Sn:
-        return 0
-    else:
-        return Sn - money
+
+    # 등차수열의 합: n{2a + (n-1)d} / 2
+    total = count * (2 * price + (count - 1) * price) // 2
+
+    return total - money if total > money else 0
     
 """
 정확성  테스트

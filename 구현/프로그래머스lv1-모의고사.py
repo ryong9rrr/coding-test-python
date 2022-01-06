@@ -50,29 +50,56 @@ def solution(answers):
 테스트 14 〉	통과 (2.49ms, 10.3MB)
 """
 
-# 조금 더 smart한 방법
+# 조금 더 smart한 방법 1 -> 딕셔너리
 def solution(answers):
     a = [1, 2, 3, 4, 5]
     b = [2, 1, 2, 3, 2, 4, 2, 5]
     c = [3, 3, 1, 1, 2, 2, 4, 4, 5, 5]
-    score = [0, 0, 0]
-    for i, answer in enumerate(answers):
-        if answer == a[i % 5]:
-            score[0] += 1
-        if answer == b[i % 8]:
-            score[1] += 1
-        if answer == c[i % 10]:
-            score[2] += 1
-        
-    _max = max(score)
+
+    counts = {
+        1: 0,
+        2: 0,
+        3: 0
+    }
+    for i in range(len(answers)):
+        if answers[i] == a[i % len(a)]:
+            counts[1] += 1
+        if answers[i] == b[i % len(b)]:
+            counts[2] += 1
+        if answers[i] == c[i % len(c)]:
+            counts[3] += 1
+    
+    _max = max(counts.values())
+    result = [x[0] for x in counts.items() if x[1] == _max]
+    # sorted(result)를 안해도 무방
+    return result
+
+# 조금 더 smart한 방법 1 -> 배열
+def solution(answers):
+    a = [1, 2, 3, 4, 5]
+    b = [2, 1, 2, 3, 2, 4, 2, 5]
+    c = [3, 3, 1, 1, 2, 2, 4, 4, 5, 5]
+
+    counts = [0] * 3
+    for i in range(len(answers)):
+        if answers[i] == a[i % len(a)]:
+            counts[0] += 1
+        if answers[i] == b[i % len(b)]:
+            counts[1] += 1
+        if answers[i] == c[i % len(c)]:
+            counts[2] += 1
+
+    _max = max(counts)
     result = []
     for i in range(3):
-        if score[i] == _max:
+        if counts[i] == _max:
             result.append(i + 1)
-    
+    # sorted(result) 를 생략해도 무방
     return result
 
 """
+두 결과 모두 비슷하다.
+
 정확성  테스트
 테스트 1 〉	통과 (0.01ms, 10.3MB)
 테스트 2 〉	통과 (0.01ms, 10.2MB)
