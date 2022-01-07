@@ -2,22 +2,23 @@ from collections import deque
 import math
 def solution(progresses, speeds):
     n = len(progresses)
-    # 완료가 되기까지 걸릴 시간
     q = deque()
     for i in range(n):
-        x = math.ceil((100 - progresses[i]) / speeds[i])
-        q.append(x)
+        q.append(math.ceil((100 - progresses[i]) / speeds[i]))
     
-    _max = q.popleft()
+    # 1번 기능이 처음 기준이 됨
+    current = q.popleft()
+    # 첫 날 릴리즈할 기능의 개수
     result = [1]
     while q:
-        x = q.popleft()    
-        if _max >= x:
+        x = q.popleft()
+        # 함께 릴리즈를 할 수 있다면 +1
+        if x <= current:
             result[-1] += 1
+        # 그렇지 않다면 새롭게 릴리즈
         else:
-            _max = x
+            current = x
             result.append(1)
-            
     return result
 
 """
@@ -34,3 +35,26 @@ def solution(progresses, speeds):
 테스트 10 〉	통과 (0.03ms, 10.3MB)
 테스트 11 〉	통과 (0.01ms, 10.3MB)
 """
+
+# 다시 풀었는데 옛날에 푼 방법이 더 참신한듯?
+from collections import deque
+import math
+def solution(progresses, speeds):
+    n = len(progresses)
+    q = deque()
+    for i in range(n):
+        q.append(math.ceil((100 - progresses[i]) / speeds[i]))
+    result = []
+    current = q[0]
+    count = 0
+    while q:
+        x = q.popleft()
+        if x <= current:
+            count += 1
+        else:
+            result.append(count)
+            current = x
+            count = 1
+        if not q:
+            result.append(count)
+    return result
