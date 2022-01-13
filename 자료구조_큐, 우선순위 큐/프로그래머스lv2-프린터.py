@@ -58,7 +58,8 @@ def solution(priorities, location):
     _max = max([x[1] for x in q])
     
     count = 1
-    while True:
+    # while True 도 가능
+    while q:
         i, priority = q.popleft()
         if i == location and priority == _max:
             return count

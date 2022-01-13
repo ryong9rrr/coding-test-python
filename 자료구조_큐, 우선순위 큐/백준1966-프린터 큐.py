@@ -97,3 +97,36 @@ for _ in range(N):
 
 for a in answer:
     print(a)
+
+
+# 그냥 이게 제일 좋은 방법
+import sys
+input = lambda: sys.stdin.readline().rstrip()
+from collections import deque
+
+T = int(input())
+result = []
+for _ in range(T):
+    n, m = map(int, input().split())
+    data = list(map(int, input().split()))
+    q = deque()
+    for i, v in enumerate(data):
+        q.append((i, v))
+
+    _max = max([x[1] for x in q])
+
+    count = 1
+    while q:
+        i, v = q.popleft()
+        if i == m and v == _max:
+            result.append(count)
+            break
+
+        if v == _max:
+            count += 1
+            _max = max([x[1] for x in q])
+        else:
+            q.append((i, v))
+
+for ans in result:
+    print(ans)

@@ -6,20 +6,15 @@ import sys
 input = lambda : sys.stdin.readline().rstrip()
 from collections import deque
 
-N, K = map(int, input().split())
-
+n, k = map(int, input().split())
 cq = deque()
-for i in range(1, N + 1):
+for i in range(1, n + 1):
     cq.append(i)
 
 result = []
 while cq:
-    # K가 3일 때.. 원형큐를 -2만큼 옮겨준다면 [1 2 3] -> [2 3 1] -> [3 2 1] 이렇게됨
-    cq.rotate(-(K - 1))
-    x = cq.popleft()
-    result.append(x)
+    # 양수값은 시계방향, 음수값은 반시계방향
+    cq.rotate(1 - k)
+    result.append(str(cq.popleft()))
 
-print("<", end="")
-for i in range(0, N-1):
-    print(f"{result[i]}, ", end="")
-print(f"{result[-1]}>")
+print(f"<{', '.join(result)}>")
