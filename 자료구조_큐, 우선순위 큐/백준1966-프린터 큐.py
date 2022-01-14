@@ -1,3 +1,4 @@
+# 처음 풀이 // 104ms
 from collections import deque
 import sys
 input = lambda : sys.stdin.readline().rstrip()
@@ -99,7 +100,9 @@ for a in answer:
     print(a)
 
 
-# 그냥 이게 제일 좋은 방법
+#############################################################
+
+# 큐를 이용 // 96ms
 import sys
 input = lambda: sys.stdin.readline().rstrip()
 from collections import deque
@@ -125,6 +128,37 @@ for _ in range(T):
         if v == _max:
             count += 1
             _max = max([x[1] for x in q])
+        else:
+            q.append((i, v))
+
+for ans in result:
+    print(ans)
+
+
+# 큐 최적화 // 88ms
+import sys
+input = lambda: sys.stdin.readline().rstrip()
+from collections import deque
+
+T = int(input())
+result = []
+for _ in range(T):
+    n, m = map(int, input().split())
+    data = list(map(int, input().split()))
+    q = deque()
+    for i, v in enumerate(data):
+        q.append((i, v))
+
+    priorities = sorted(data, reverse=True)
+    count = 0
+    while q:
+        _max = priorities[count]
+        i, v = q.popleft()
+        if i == m and v == _max:
+            result.append(count + 1)
+            break
+        if v == _max:
+            count += 1
         else:
             q.append((i, v))
 
