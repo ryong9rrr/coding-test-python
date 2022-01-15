@@ -11,7 +11,6 @@ def solution(numbers, target):
         elif index == len(numbers) and total == target:
             count += 1
             return
-        return
     
     dfs(0, 0)
     return count
