@@ -1,21 +1,20 @@
 # 리트코드332 - 일정 재구성 문제와 동일
 from collections import defaultdict, deque
 def solution(tickets):
-    
     graph = defaultdict(deque)
-    for _from, _to in sorted(tickets):
-        graph[_from].append(_to)
+    for v, w in sorted(tickets):
+        graph[v].append(w)
+    
+    routes = []
+    
+    def dfs(v):
+        while graph[v]:
+            dfs(graph[v].popleft())
+        routes.append(v)
         
-    route = []
-    
-    def dfs(node):
-        while graph[node]:
-            dfs(graph[node].popleft())
-        route.append(node)
-    
     dfs("ICN")
     
-    return route[::-1]
+    return routes[::-1]
 
 """
 정확성  테스트

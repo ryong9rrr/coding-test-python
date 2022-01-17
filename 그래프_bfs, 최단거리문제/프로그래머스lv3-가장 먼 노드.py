@@ -2,28 +2,27 @@
 from collections import defaultdict, deque
 def solution(n, edge):
     graph = defaultdict(list)
-    for a, b in edge:
-        graph[a].append(b)
-        graph[b].append(a)
+    # 양방향 그래프 구성
+    for v, w in edge:
+        graph[v].append(w)
+        graph[w].append(v)
     
-    #노드에 처음 방문했을때의 거리(최단거리)를 담는다.
+    # 노드에 방문했을 때의 최단거리를 담는다.
     visited = [0] * (n + 1)
-    
     q = deque()
-    # (node, distance)
-    q.append((1,1))
+    q.append((1, 1)) #(v, distance)
+    # bfs 시작
     while q:
-        node, distance = q.popleft()
-        if visited[node]:
+        v, distance = q.popleft()
+        if visited[v]:
             continue
-        visited[node] += distance
-        for v in graph[node]:
-            #최적화를 위해 이미 방문한 노드는 큐에 담지 않음
-            if not visited[v]:
-                q.append((v, distance + 1))
-    #결국 visited에는 각 노드로 가는 거리가 담기게 됨.
-    _max = max(visited)
-    return visited.count(_max)
+        visited[v] += distance
+        for w in graph[v]:
+            # 방문하지 않은 노드만 방문(양방향 그래프라서)
+            if not visited[w]:
+                q.append((w, distance + 1))
+    
+    return visited.count(max(visited))
 
 """
 정확성  테스트
