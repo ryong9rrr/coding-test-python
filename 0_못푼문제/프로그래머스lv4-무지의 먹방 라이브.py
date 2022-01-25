@@ -63,3 +63,25 @@ def solution(food_times, k):
 테스트 7 〉	통과 (287.51ms, 42.1MB)
 테스트 8 〉	통과 (187.12ms, 43.4MB)
 """
+
+import heapq
+def solution(food_times, k):
+    if sum(food_times) <= k:
+        return -1
+    
+    q = []
+    for i, time in enumerate(food_times):
+        heapq.heappush(q, (time, i + 1))
+    
+    total = prev = 0
+    n = len(food_times)
+    
+    while q and total + ((q[0][0] - prev) * n) <= k:
+        time, i = heapq.heappop(q)
+        total += (time - prev) * n
+        n -= 1
+        prev = time
+    
+    result = sorted(q, key = lambda x: x[1])
+    
+    return result[(k - total) % n][1]
