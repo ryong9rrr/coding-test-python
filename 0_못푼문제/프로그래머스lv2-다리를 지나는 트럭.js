@@ -45,3 +45,85 @@ function solution(bridge_length, weight, truck_weights) {
   }
   return time;
 }
+
+// 실패..
+
+/*
+from collections import deque
+def solution(bridge_length, weight, truck_weights):
+    q = deque()
+    bridge = deque()
+    time = 1
+    
+    for truck in truck_weights:
+        q.append(truck)
+    
+    while q or bridge:
+        
+        while q and (not bridge or (bridge and len(bridge) < bridge_length and sum([x[1] for x in bridge]) + truck <= weight)):
+            x = q.popleft()
+            bridge.append((time, x))
+            time += 1
+        
+        t, x = bridge.popleft()
+        time = t + bridge_length
+    
+    return time
+정확성  테스트
+테스트 1 〉	통과 (0.01ms, 10.4MB)
+테스트 2 〉	실패 (0.01ms, 10.3MB)
+테스트 3 〉	통과 (0.01ms, 10.3MB)
+테스트 4 〉	실패 (0.64ms, 10.2MB)
+테스트 5 〉	실패 (1.08ms, 10.3MB)
+테스트 6 〉	실패 (0.98ms, 10.3MB)
+테스트 7 〉	통과 (0.01ms, 10.3MB)
+테스트 8 〉	실패 (0.02ms, 10.3MB)
+테스트 9 〉	실패 (0.36ms, 10.3MB)
+테스트 10 〉	실패 (0.01ms, 10.3MB)
+테스트 11 〉	실패 (0.01ms, 10.3MB)
+테스트 12 〉	실패 (0.06ms, 10.3MB)
+테스트 13 〉	실패 (0.08ms, 10.3MB)
+테스트 14 〉	통과 (0.00ms, 10.2MB)
+
+
+from collections import deque
+def solution(bridge_length, weight, truck_weights):
+    time = 0
+    q = deque()
+    bridge = deque()
+    
+    for truck in truck_weights:
+        q.append(truck)
+    
+    while True:
+        if bridge and bridge[0][0] + bridge_length == time:
+            bridge.popleft()
+        
+        if q:
+            if not bridge:
+                bridge.append((time, q.popleft()))
+            else:
+                if len(bridge) < bridge_length and sum([x[1] for x in bridge]) + truck <= weight:
+                    bridge.append((time, q.popleft()))
+        
+        time += 1
+        if not q and not bridge:
+            break
+    
+    return time
+정확성  테스트
+테스트 1 〉	통과 (0.84ms, 10.2MB)
+테스트 2 〉	실패 (19.23ms, 10.3MB)
+테스트 3 〉	통과 (0.02ms, 10.2MB)
+테스트 4 〉	실패 (30.46ms, 10.3MB)
+테스트 5 〉	실패 (253.71ms, 10.3MB)
+테스트 6 〉	실패 (91.80ms, 10.3MB)
+테스트 7 〉	통과 (0.83ms, 10.3MB)
+테스트 8 〉	실패 (0.15ms, 10.2MB)
+테스트 9 〉	실패 (3.97ms, 10.3MB)
+테스트 10 〉	실패 (0.20ms, 10.3MB)
+테스트 11 〉	실패 (0.01ms, 10.2MB)
+테스트 12 〉	실패 (0.26ms, 10.2MB)
+테스트 13 〉	실패 (1.83ms, 10.3MB)
+테스트 14 〉	통과 (0.01ms, 10.3MB)
+*/

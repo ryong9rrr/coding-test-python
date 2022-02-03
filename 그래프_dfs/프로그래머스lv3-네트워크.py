@@ -96,3 +96,42 @@ def solution(n, computers):
 테스트 12 〉	통과 (0.27ms, 10.2MB)
 테스트 13 〉	통과 (0.14ms, 10.3MB)
 """
+
+# 인접 리스트 모양에서 바로 dfs
+def solution(n, computers):
+    count = 0
+    visited = [False] * n
+    
+    def dfs(computers, v):
+        if visited[v]:
+            return 0  
+        visited[v] = True
+        for node in range(n):
+            if node == v or visited[node]:
+                continue
+            if computers[v][node]:
+                dfs(computers, node)
+        return 1
+    
+    for v in range(n):
+        if not visited[v]:
+            count += dfs(computers, v)
+    
+    return count
+
+"""
+정확성  테스트
+테스트 1 〉	통과 (0.01ms, 10.4MB)
+테스트 2 〉	통과 (0.01ms, 10.4MB)
+테스트 3 〉	통과 (0.03ms, 10.2MB)
+테스트 4 〉	통과 (0.05ms, 10.2MB)
+테스트 5 〉	통과 (0.01ms, 10.3MB)
+테스트 6 〉	통과 (0.24ms, 10.3MB)
+테스트 7 〉	통과 (0.01ms, 10.2MB)
+테스트 8 〉	통과 (0.10ms, 10.3MB)
+테스트 9 〉	통과 (0.07ms, 10.2MB)
+테스트 10 〉	통과 (0.07ms, 10.3MB)
+테스트 11 〉	통과 (0.44ms, 10.3MB)
+테스트 12 〉	통과 (0.37ms, 10.3MB)
+테스트 13 〉	통과 (0.20ms, 10.2MB)
+"""
