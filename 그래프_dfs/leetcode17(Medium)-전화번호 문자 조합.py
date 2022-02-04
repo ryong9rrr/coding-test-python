@@ -1,15 +1,10 @@
 # itertools.product를 이용한 조합추출 // 16ms
-class Solution(object):
-    def letterCombinations(self, digits):
-        """
-        :type digits: str
-        :rtype: List[str]
-        """
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
         if not digits:
             return []
         
-        phone = {
-            "1": "",
+        dic = {
             "2": "abc",
             "3": "def",
             "4": "ghi",
@@ -17,20 +12,14 @@ class Solution(object):
             "6": "mno",
             "7": "pqrs",
             "8": "tuv",
-            "9": "wxyz"
+            "9": "wxyz",
         }
         
-        tempList = []
-        for digit in digits:
-            tempList.append(phone[digit])
+        temp = [dic[char] for char in digits]
         
-        combination = list(itertools.product(*tempList))
+        combinations = list(itertools.product(*temp))
         
-        result = []
-        for tuple in combination:
-            result.append( "".join(tuple) )
-            
-        return result
+        return ["".join(tup) for tup in combinations]
 
 # dfs로 조합추출 // 16ms
 class Solution(object):
@@ -39,8 +28,11 @@ class Solution(object):
         :type digits: str
         :rtype: List[str]
         """
+        # 예외처리
+        if not digits:
+            return []
+
         dic = {
-            "1": "",
             "2": "abc",
             "3": "def",
             "4": "ghi",
@@ -63,10 +55,6 @@ class Solution(object):
             for i in range(index, len(digits)):
                 for j in dic[digits[i]]:
                     dfs(i+1, path + j)
-            
-        # 예외처리
-        if not digits:
-            return []
         
         dfs(0, "")
         
@@ -79,8 +67,10 @@ class Solution(object):
         :type digits: str
         :rtype: List[str]
         """
+        if not digits:
+            return []
+
         dic = {
-            "1": "",
             "2": "abc",
             "3": "def",
             "4": "ghi",
@@ -90,9 +80,6 @@ class Solution(object):
             "8": "tuv",
             "9": "wxyz"
         }
-        
-        if not digits:
-            return []
         
         result = []
         
