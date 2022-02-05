@@ -53,3 +53,28 @@ class Solution(object):
         dfs(target, 0, [])
         
         return result
+
+# 정렬을 시켜주지않아도 break가 아닌 continue로 가능
+class Solution(object):
+    def combinationSum(self, candidates, target):
+        """
+        :type candidates: List[int]
+        :type target: int
+        :rtype: List[List[int]]
+        """
+        
+        result = []
+        
+        def dfs(csum, index, path):
+            if csum == 0:
+                result.append(path)
+                return
+            
+            for i in range(index, len(candidates)):
+                if csum - candidates[i] < 0:
+                    continue
+                dfs(csum - candidates[i], i, path + [candidates[i]])
+        
+        dfs(target, 0, [])
+        
+        return result
