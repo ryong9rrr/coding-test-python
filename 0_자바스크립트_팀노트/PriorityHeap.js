@@ -18,6 +18,11 @@ class PriorityHeap {
     return this.items.length - 1;
   }
 
+  get head() {
+    if (this.items.length < 2) return undefined;
+    return this.items[1];
+  }
+
   // insert heapify
   _percolateUp() {
     let i = this.length;
@@ -88,5 +93,13 @@ for (const [prior, name] of people) {
 }
 
 while (q.length) {
+  console.log(q.extract()); // [ 1, 'yong' ]  [ 2, 'kim' ]  [ 3, 'lee' ]
+}
+
+for (const [prior, name] of people) {
+  q.insert(prior, name);
+}
+
+while (q.head) {
   console.log(q.extract()); // [ 1, 'yong' ]  [ 2, 'kim' ]  [ 3, 'lee' ]
 }

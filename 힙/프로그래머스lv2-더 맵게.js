@@ -1,3 +1,5 @@
+const TEST_CASE = [[[1, 2, 3, 9, 10, 12], 7, 2]];
+
 class BinaryHeap {
   constructor() {
     this.items = [null];
@@ -61,16 +63,27 @@ class BinaryHeap {
   }
 }
 
-const numbers = [1, 10, 5, 8, 7, 6, 4, 3, 2, 9];
+function solution(scoville, K, _return) {
+  const heap = new BinaryHeap();
+  for (const x of scoville) {
+    heap.insert(x);
+  }
+  let count = 0;
 
-const heap = new BinaryHeap();
-
-for (const number of numbers) {
-  heap.insert(number);
+  while (heap.head < K) {
+    if (heap.length < 2) return -1;
+    const first = heap.extract();
+    const second = heap.extract();
+    const _new = first + 2 * second;
+    count++;
+    heap.insert(_new);
+  }
+  return count;
 }
 
-console.log(heap.items); // [null, 1, 2, 4, ... 10, 7, 9]
-
-for (let i = 0; i < numbers.length; i++) {
-  console.log(heap.extract()); // 1 2 3 4 5 6 7 8 9 10
+for (const [scoville, K, _return] of TEST_CASE) {
+  const result = solution(scoville, K, _return);
+  console.log(result === _return);
 }
+
+// true
