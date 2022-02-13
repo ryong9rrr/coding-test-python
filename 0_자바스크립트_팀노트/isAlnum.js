@@ -12,6 +12,10 @@ function isDigit(string) {
   return true;
 }
 
+function isDigit2(string) {
+  return !Number.isNaN(Number(string));
+}
+
 function isAlnum(string) {
   const reg = /[a-zA-Z0-9]/g;
   return string.replace(reg, "") === "";
@@ -22,3 +26,4 @@ const string = "1231a";
 console.log(isAlpha(string));
 console.log(isDigit(string));
 console.log(isAlnum(string));
+console.log(isDigit2(string));
