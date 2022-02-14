@@ -1,10 +1,12 @@
-// nums: int[] -> int[][]
-function permute(nums) {
+// nums: int[], k: int -> int[][]
+function permute(nums, k) {
+  if (k > nums.length) return undefined;
   const results = [];
   prevElements = [];
-  function dfs(elements) {
-    if (elements.length === 0) {
+  function dfs(elements, k) {
+    if (k === 0) {
       results.push([...prevElements]);
+      return;
     }
 
     for (let i = 0; i < elements.length; i++) {
@@ -12,20 +14,25 @@ function permute(nums) {
       nextElements.splice(i, 1);
 
       prevElements.push(elements[i]);
-      dfs(nextElements);
+      dfs(nextElements, k - 1);
       prevElements.pop();
     }
   }
-  dfs(nums);
+  dfs(nums, k);
   return results;
 }
 
 const nums = [1, 2, 3];
 
-const permutations = permute(nums);
+for (let i = 1; i <= 3; i++) {
+  console.log(permute(nums, i));
+}
 
-console.log(permutations);
 /*
+[ [ 1 ], [ 2 ], [ 3 ] ]  
+
+[ [ 1, 2 ], [ 1, 3 ], [ 2, 1 ], [ 2, 3 ], [ 3, 1 ], [ 3, 2 ] ] 
+
 [ [ 1, 2, 3 ],
   [ 1, 3, 2 ],
   [ 2, 1, 3 ],
