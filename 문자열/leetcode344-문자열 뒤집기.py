@@ -15,3 +15,24 @@ def reverseString(self, s):
 # 리스트이기 때문에 reverse()함수 사용가능, 파이써닉한 방식 // 172ms
 def reverseString(self, s):
     s.reverse()
+
+"""js
+// 투포인터 / 106ms
+var reverseString = function(s) {
+    let left = 0;
+    let right = s.length - 1;
+    
+    while (left < right) {
+        let temp = s[left]
+        s[left] = s[right]
+        s[right] = temp;
+        left++;
+        right--;
+    }
+};
+
+// 배열 메서드 reverse() 사용 // 100ms
+var reverseString = function(s) {
+    s.reverse()
+};
+"""
