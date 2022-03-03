@@ -1,6 +1,6 @@
 // nums: int[], k: int -> int[][]
 function permute(nums, k) {
-  if (k > nums.length) return undefined;
+  if (k > nums.length) return null;
   const results = [];
   prevElements = [];
   function dfs(elements, k) {

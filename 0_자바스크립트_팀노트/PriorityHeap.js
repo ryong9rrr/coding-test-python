@@ -19,7 +19,7 @@ class PriorityHeap {
   }
 
   get head() {
-    if (this.items.length < 2) return undefined;
+    if (this.items.length < 2) return null;
     return this.items[1];
   }
 
