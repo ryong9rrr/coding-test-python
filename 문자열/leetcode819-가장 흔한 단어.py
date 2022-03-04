@@ -28,3 +28,34 @@ def mostCommonWord(self, paragraph, banned):
     
     #가장 많이 등장한 값을 반환하고 이 값은 배열안에 튜플로 들어있음
     return counts.most_common(1)[0][0]
+
+
+# count 모듈을 사용하지 않고 딕셔너리를 사용
+class Solution:
+    def mostCommonWord(self, paragraph: str, banned: List[str]) -> str:
+        counts = defaultdict(int)
+        for word in re.sub('[^\w]', ' ', paragraph).lower().split(' '):
+            if not word or word in banned:
+                continue
+            counts[word] += 1
+        
+        return max(counts, key = counts.get)
+
+"""js
+var mostCommonWord = function(paragraph, banned) {
+    const regex = /[^\w]/g
+    const counts = {};
+    
+    const words = paragraph.replace(regex, " ").toLowerCase().split(' ');
+    
+    for (const word of words){
+        if (banned.includes(word) || word === '') continue;
+        if (!counts[word]) counts[word] = 0;
+        counts[word]++;
+    }
+    
+    const _max = Object.entries(counts).sort((a, b) => b[1] - a[1])
+    
+    return _max[0][0]
+};
+"""
