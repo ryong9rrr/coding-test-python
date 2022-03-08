@@ -50,3 +50,15 @@ class Solution(object):
                 return [numbers[m], i]
             else:
                 numbers[nums[i]] = i
+
+"""js
+
+var twoSum = function(nums, target) {
+    const numbers = {};
+    
+    for (let i = 0; i < nums.length; i++){
+        if ((target - nums[i]) in numbers) return [numbers[target - nums[i]], i]
+        numbers[nums[i]] = i;
+    }
+};
+"""
