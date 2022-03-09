@@ -5,13 +5,12 @@ class Solution(object):
         :type height: List[int]
         :rtype: int
         """
-        n = len(height)
-        
+
         if not height:
             return 0
         
         volume = 0
-        left, right = 0, n-1
+        left, right = 0, len(height) - 1
         left_max, right_max = height[left], height[right]
         
         while left < right:
@@ -26,6 +25,37 @@ class Solution(object):
                 right -= 1
                 
         return volume
+
+"""js
+/**
+ * @param {number[]} height
+ * @return {number}
+ */
+var trap = function(height) {
+    if (height.length === 0) return 0
+    
+    let volume = 0;
+    let left = 0;
+    let right = height.length - 1;
+    let left_max = height[left];
+    let right_max = height[right];
+    
+    while (left < right){
+        left_max = Math.max(left_max, height[left]);
+        right_max = Math.max(right_max, height[right]);
+        
+        if (left_max <= right_max){
+            volume += left_max - height[left];
+            left++;
+        }else {
+            volume += right_max - height[right];
+            right--;
+        }
+    }
+    
+    return volume;
+};
+"""
 
 
 # stack // 52ms
