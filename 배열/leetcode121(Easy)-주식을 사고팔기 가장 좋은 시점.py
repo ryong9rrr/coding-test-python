@@ -38,10 +38,23 @@ class Solution(object):
         """
         
         profit = 0
-        min_price = sys.maxsize
+        min_price = sys.maxsize #float("inf")
         
         for price in prices:
             min_price = min(min_price, price)
             profit = max(profit, price - min_price)
             
         return profit
+"""js
+var maxProfit = function(prices) {
+    let profit = 0;
+    let min_price = Infinity
+    
+    for (const price of prices){
+        min_price = Math.min(min_price, price);
+        profit = Math.max(profit, price - min_price);
+    }
+    
+    return profit
+};
+"""

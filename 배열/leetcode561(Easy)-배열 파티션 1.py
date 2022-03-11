@@ -6,7 +6,6 @@ class Solution(object):
         :rtype: int
         """
         nums.sort()
-        p = len(nums) // 2
         result = 0
         for i in range(0, len(nums), 2):
             result += min(nums[i], nums[i+1])
@@ -21,12 +20,22 @@ class Solution(object):
         :rtype: int
         """
         nums.sort()
-        p = len(nums) // 2
         result = 0
         for i in range(0, len(nums), 2):
             result += nums[i]
             
         return result
+
+"""js
+var arrayPairSum = function(nums) {
+    nums.sort((a, b) => a - b);
+    let result = 0;
+    
+    for (let i = 0; i < nums.length; i += 2) result += nums[i]
+    
+    return result
+};
+"""
 
 # 파이써닉 // 220ms
 class Solution(object):
