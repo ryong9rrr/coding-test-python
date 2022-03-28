@@ -1,3 +1,4 @@
+// 최소힙
 class BinaryHeap {
   constructor() {
     this.items = [null];
@@ -73,4 +74,13 @@ console.log(heap.items); // [null, 1, 2, 4, ... 10, 7, 9]
 
 for (let i = 0; i < numbers.length; i++) {
   console.log(heap.extract()); // 1 2 3 4 5 6 7 8 9 10
+}
+
+// 최대힙으로 사용하려면 음수화
+for (const num of numbers) {
+  heap.insert(-num);
+}
+
+while (heap.length > 0) {
+  console.log(-heap.extract()); // 10 9 8 7 6 5 4 3 2 1
 }
