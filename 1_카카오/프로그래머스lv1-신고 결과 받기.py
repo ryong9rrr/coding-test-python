@@ -1,21 +1,79 @@
-from collections import defaultdict
+# 너무 오랜만에 풀었나...
 def solution(id_list, report, k):
-    banned = defaultdict(int)
-    info = defaultdict(set)
+    table = {}
+    banned = {}
     
-    for i in range(len(report)):
-        f_user, t_user = report[i].split(" ")
-        info[f_user].add(t_user)
+    # 데이터 테이블 초기화(배열 이용)
+    for user in id_list:
+        banned[user] = 0
+        table[user] = []
     
-    for v in info.values():
-        for user in v:
-            banned[user] += 1
+    # 신고 현황 테이블 갱신
+    for info in report:
+        user, r_user = info.split(" ")
+        if not r_user in table[user]:
+            table[user].append(r_user)
+            banned[r_user] += 1
     
     result = []
     for user in id_list:
         count = 0
-        for banned_user in info[user]:
-            if banned[banned_user] >= k:
+        for r_user in table[user]:
+            if banned[r_user] >= k:
+                count += 1
+        result.append(count)
+    
+    return result
+"""
+정확성  테스트
+테스트 1 〉	통과 (0.01ms, 10.2MB)
+테스트 2 〉	통과 (0.02ms, 10.2MB)
+테스트 3 〉	통과 (496.39ms, 37.8MB)
+테스트 4 〉	통과 (0.03ms, 10.3MB)
+테스트 5 〉	통과 (0.03ms, 10.2MB)
+테스트 6 〉	통과 (1.15ms, 10.5MB)
+테스트 7 〉	통과 (2.93ms, 10.6MB)
+테스트 8 〉	통과 (5.48ms, 10.9MB)
+테스트 9 〉	통과 (203.94ms, 23.1MB)
+테스트 10 〉	통과 (215.09ms, 23.1MB)
+테스트 11 〉	통과 (469.29ms, 37.7MB)
+테스트 12 〉	통과 (0.22ms, 10.3MB)
+테스트 13 〉	통과 (0.21ms, 10.2MB)
+테스트 14 〉	통과 (103.04ms, 22.1MB)
+테스트 15 〉	통과 (244.52ms, 31.1MB)
+테스트 16 〉	통과 (0.13ms, 10.3MB)
+테스트 17 〉	통과 (0.21ms, 10.3MB)
+테스트 18 〉	통과 (0.34ms, 10.4MB)
+테스트 19 〉	통과 (0.60ms, 10.4MB)
+테스트 20 〉	통과 (97.84ms, 22MB)
+테스트 21 〉	통과 (232.69ms, 30.7MB)
+테스트 22 〉	통과 (0.00ms, 10.1MB)
+테스트 23 〉	통과 (0.00ms, 10.2MB)
+테스트 24 〉	통과 (0.00ms, 10.1MB)
+"""
+
+# set, defaultdict 이용(맨 처음 풀이 참고)
+from collections import defaultdict
+def solution(id_list, report, k):
+    table = defaultdict(set)
+    banned = defaultdict(int)
+    
+    # 신고 현황 테이블 갱신(set 이용)
+    for info in report:
+        user, r_user = info.split(" ")
+        table[user].add(r_user)
+    
+    # 신고당한사람 테이블 갱신
+    for user in table:
+        for r_user in table[user]:
+            banned[r_user] += 1
+    
+    # 결과
+    result = []
+    for user in id_list:
+        count = 0
+        for r_user in table[user]:
+            if banned[r_user] >= k:
                 count += 1
         result.append(count)
     
@@ -23,28 +81,88 @@ def solution(id_list, report, k):
 
 """
 정확성  테스트
-테스트 1 〉	통과 (0.01ms, 10.3MB)
-테스트 2 〉	통과 (0.03ms, 10.2MB)
-테스트 3 〉	통과 (138.93ms, 44.3MB)
-테스트 4 〉	통과 (0.04ms, 10.2MB)
+테스트 1 〉	통과 (0.87ms, 10.1MB)
+테스트 2 〉	통과 (0.87ms, 10.1MB)
+테스트 3 〉	통과 (153.71ms, 44.2MB)
+테스트 4 〉	통과 (0.04ms, 10.3MB)
 테스트 5 〉	통과 (0.04ms, 10.3MB)
-테스트 6 〉	통과 (0.99ms, 10.6MB)
-테스트 7 〉	통과 (2.07ms, 10.6MB)
-테스트 8 〉	통과 (3.53ms, 10.8MB)
-테스트 9 〉	통과 (63.53ms, 26.6MB)
-테스트 10 〉	통과 (60.71ms, 26.4MB)
-테스트 11 〉	통과 (178.90ms, 44.3MB)
-테스트 12 〉	통과 (0.26ms, 10.3MB)
-테스트 13 〉	통과 (0.25ms, 10.4MB)
-테스트 14 〉	통과 (65.44ms, 23.5MB)
-테스트 15 〉	통과 (120.50ms, 38.7MB)
-테스트 16 〉	통과 (0.16ms, 10.2MB)
-테스트 17 〉	통과 (0.25ms, 10.4MB)
-테스트 18 〉	통과 (0.44ms, 10.4MB)
-테스트 19 〉	통과 (1.10ms, 10.4MB)
-테스트 20 〉	통과 (58.20ms, 23.6MB)
-테스트 21 〉	통과 (137.45ms, 38.6MB)
+테스트 6 〉	통과 (0.94ms, 10.4MB)
+테스트 7 〉	통과 (1.92ms, 10.6MB)
+테스트 8 〉	통과 (3.57ms, 10.9MB)
+테스트 9 〉	통과 (67.97ms, 26.5MB)
+테스트 10 〉	통과 (102.89ms, 26.3MB)
+테스트 11 〉	통과 (182.49ms, 44.3MB)
+테스트 12 〉	통과 (0.31ms, 10.3MB)
+테스트 13 〉	통과 (0.27ms, 10.3MB)
+테스트 14 〉	통과 (72.44ms, 23.5MB)
+테스트 15 〉	통과 (142.41ms, 38.5MB)
+테스트 16 〉	통과 (0.16ms, 10.1MB)
+테스트 17 〉	통과 (0.39ms, 10.2MB)
+테스트 18 〉	통과 (0.42ms, 10.3MB)
+테스트 19 〉	통과 (0.71ms, 10.2MB)
+테스트 20 〉	통과 (63.85ms, 23.6MB)
+테스트 21 〉	통과 (150.28ms, 38.5MB)
 테스트 22 〉	통과 (0.01ms, 10.3MB)
 테스트 23 〉	통과 (0.01ms, 10.2MB)
 테스트 24 〉	통과 (0.01ms, 10.2MB)
+"""
+
+"""
+자바스크립트 Set을 이용한 풀이
+
+function solution(id_list, report, k) {
+    const table = {};
+    const banned = {};
+    
+    // 테이블 초기화
+    id_list.forEach(user => {
+        table[user] = new Set();
+        banned[user] = 0;  
+    })
+    
+    // 전체 신고 현황 갱신
+    report.forEach(info => {
+        const [user, rUser] = info.split(" ");
+        table[user].add(rUser)
+    })
+    
+    // 신고당한 유저 테이블 갱신
+    id_list.forEach(user => {
+        [...table[user]].forEach(rUser => banned[rUser] += 1)
+    })
+    
+    return id_list.map(user => {
+        let count = 0;
+        table[user].forEach(rUser => {
+            if (banned[rUser] >= k) count++;
+        })
+        return count
+    })
+}
+
+정확성  테스트
+테스트 1 〉	통과 (0.20ms, 30.3MB)
+테스트 2 〉	통과 (0.22ms, 30MB)
+테스트 3 〉	통과 (156.09ms, 79.2MB)
+테스트 4 〉	통과 (0.45ms, 30MB)
+테스트 5 〉	통과 (0.28ms, 30.2MB)
+테스트 6 〉	통과 (2.19ms, 29.9MB)
+테스트 7 〉	통과 (6.05ms, 32.6MB)
+테스트 8 〉	통과 (9.02ms, 33.1MB)
+테스트 9 〉	통과 (110.39ms, 56.8MB)
+테스트 10 〉	통과 (79.59ms, 55.3MB)
+테스트 11 〉	통과 (165.24ms, 79.1MB)
+테스트 12 〉	통과 (0.70ms, 30.1MB)
+테스트 13 〉	통과 (0.61ms, 30.1MB)
+테스트 14 〉	통과 (77.72ms, 51.3MB)
+테스트 15 〉	통과 (163.23ms, 59.1MB)
+테스트 16 〉	통과 (0.46ms, 30MB)
+테스트 17 〉	통과 (0.76ms, 29.9MB)
+테스트 18 〉	통과 (0.80ms, 30.2MB)
+테스트 19 〉	통과 (1.24ms, 30.3MB)
+테스트 20 〉	통과 (84.69ms, 51.2MB)
+테스트 21 〉	통과 (149.94ms, 59.1MB)
+테스트 22 〉	통과 (0.41ms, 30.2MB)
+테스트 23 〉	통과 (0.37ms, 30MB)
+테스트 24 〉	통과 (0.18ms, 30.2MB)
 """
