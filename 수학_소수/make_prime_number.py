@@ -1,5 +1,5 @@
 # n은 범위
-def makePrimeNumbers(n:int)->list:
+def make_prime_numbers(n:int)->list:
     prime_numbers = [True] * (n + 1)
     prime_numbers[0:2] = [False, False]
     for num in range(2, int(n * 0.5) + 1):
