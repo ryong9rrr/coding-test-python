@@ -1,11 +1,23 @@
+// 첫번째 풀이
+function solution(strings, n) {
+  return strings.sort((a, b) => {
+    if (a[n] == b[n]) {
+      return (a > b) - (a < b)
+    } else {
+      return (a[n] > b[n]) - (a[n] < b[n])
+    }
+  })
+}
+
+// 또는
 function solution(strings, n) {
   function compare(a, b) {
     if (a[n] == b[n]) {
-      return (a > b) - (a < b);
+      return (a > b) - (a < b)
     }
-    return (a[n] > b[n]) - (a[n] < b[n]);
+    return (a[n] > b[n]) - (a[n] < b[n])
   }
-  return strings.sort(compare);
+  return strings.sort(compare)
 }
 /*
 정확성  테스트
@@ -23,9 +35,7 @@ function solution(strings, n) {
 테스트 12 〉	통과 (0.11ms, 30.1MB)
 */
 
-/*
-python
-
-def solution(strings, n):
-    return sorted(strings, key = lambda x: (x[n], x))
-*/
+// 두번째 풀이
+function solution(strings, n) {
+  return strings.sort((a, b) => (a[n] == b[n] ? a.localeCompare(b) : a[n].localeCompare(b[n])))
+}

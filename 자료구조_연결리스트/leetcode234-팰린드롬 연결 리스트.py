@@ -28,40 +28,6 @@ class Solution(object):
             
         return True
 
-"""js 
-1677ms, 5%
-/**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * }
- */
-/**
- * @param {ListNode} head
- * @return {boolean}
- */
-var isPalindrome = function(head) {
-    const q = [];
-    
-    if (!head) return true
-    
-    let node = head
-    
-    while (node){
-        q.push(node.val)
-        node = node.next
-    }
-    
-    while (q.length > 1){
-        if (q.shift() !== q.pop()) return false
-    }
-    return true
-    
-};
-"""
-
-
 # 런너(runner)기법 // 816ms
 class Solution(object):
     def isPalindrome(self, head):
@@ -105,42 +71,3 @@ def isPalindrome(self, head):
         node = node.next
         head = head.next
     return True
-
-"""js
-/**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * }
- */
-/**
- * @param {ListNode} head
- * @return {boolean}
- */
-var isPalindrome = function(head) {
-    let fast;
-    let slow;
-    fast = slow = head;
-    
-    while (fast && fast.next){
-        fast = fast.next.next;
-        slow = slow.next;
-    }
-    
-    let node = null;
-    while (slow){
-        next = slow.next;
-        slow.next = node;
-        node = slow;
-        slow = next;
-    }
-    
-    while (node){
-        if (node.val !== head.val) return false;
-        node = node.next;
-        head = head.next;
-    }
-    return true
-};
-"""

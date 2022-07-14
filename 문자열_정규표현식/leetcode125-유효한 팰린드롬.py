@@ -14,15 +14,3 @@ def isPalindrome(self, s):
     s = re.sub("[^a-z0-9]", "", s)
 
     return s == s[::-1]
-
-"""js // 106ms
-
-var isPalindrome = function(s) {
-    const reg = /[^a-zA-Z0-9]/g
-    
-    s = s.replace(reg, "").toLowerCase()
-    
-    // reverse() 메서드는 문자열에 사용할 수 없다.
-    return s === [...s].reverse().join("")
-};
-"""

@@ -1,23 +1,23 @@
 // 그냥 shift로
 function solution(tickets) {
-  tickets.sort();
-  const graph = {};
+  tickets.sort()
+  const graph = {}
   for (const [v, w] of tickets) {
-    if (!graph[v]) graph[v] = [];
-    graph[v].push(w);
+    if (!graph[v]) graph[v] = []
+    graph[v].push(w)
   }
 
-  const routes = [];
+  const routes = []
 
   function dfs(v) {
     while (graph[v] && graph[v].length > 0) {
-      dfs(graph[v].shift());
+      dfs(graph[v].shift())
     }
-    routes.push(v);
+    routes.push(v)
   }
 
-  dfs("ICN");
-  return routes.reverse();
+  dfs('ICN')
+  return routes.reverse()
 }
 // 정확성  테스트
 // 테스트 1 〉	통과 (0.18ms, 30.3MB)
@@ -28,59 +28,59 @@ function solution(tickets) {
 // 큐를 구현해서 풀기
 class Node {
   constructor(value) {
-    this.value = value;
-    this.next = null;
+    this.value = value
+    this.next = null
   }
 }
 
 class Queue {
   constructor() {
-    this.front = this.tail = null;
-    this.size = 0;
+    this.front = this.tail = null
+    this.size = 0
   }
 
   get peek() {
-    return (this.front && this.front.value) || null;
+    return (this.front && this.front.value) || null
   }
 
   enqueue(newValue) {
-    const newNode = new Node(newValue);
+    const newNode = new Node(newValue)
     if (!this.front) {
-      this.front = this.tail = newNode;
+      this.front = this.tail = newNode
     } else {
-      this.tail = this.tail.next = newNode;
+      this.tail = this.tail.next = newNode
     }
-    this.size++;
+    this.size++
   }
 
   dequeue() {
-    if (!this.front) return null;
-    const extracted = this.front.value;
-    this.front = this.front.next;
-    this.size--;
-    return extracted;
+    if (!this.front) return null
+    const extracted = this.front.value
+    this.front = this.front.next
+    this.size--
+    return extracted
   }
 }
 
 function solution(tickets) {
-  tickets.sort();
-  const graph = {};
+  tickets.sort()
+  const graph = {}
   for (const [v, w] of tickets) {
-    if (!graph[v]) graph[v] = new Queue();
-    graph[v].enqueue(w);
+    if (!graph[v]) graph[v] = new Queue()
+    graph[v].enqueue(w)
   }
 
-  const routes = [];
+  const routes = []
 
   function dfs(v) {
     while (graph[v] && graph[v].size > 0) {
-      dfs(graph[v].dequeue());
+      dfs(graph[v].dequeue())
     }
-    routes.push(v);
+    routes.push(v)
   }
 
-  dfs("ICN");
-  return routes.reverse();
+  dfs('ICN')
+  return routes.reverse()
 }
 
 //   정확성  테스트
@@ -88,33 +88,3 @@ function solution(tickets) {
 //   테스트 2 〉	통과 (0.32ms, 29.8MB)
 //   테스트 3 〉	통과 (0.34ms, 29.9MB)
 //   테스트 4 〉	통과 (0.21ms, 29.9MB)
-
-/*
-python
-
-# 리트코드332 - 일정 재구성 문제와 동일
-from collections import defaultdict, deque
-def solution(tickets):
-    graph = defaultdict(deque)
-    for v, w in sorted(tickets):
-        graph[v].append(w)
-    
-    routes = []
-    
-    def dfs(v):
-        while graph[v]:
-            dfs(graph[v].popleft())
-        routes.append(v)
-        
-    dfs("ICN")
-    
-    return routes[::-1]
-    
-"""
-정확성  테스트
-테스트 1 〉	통과 (0.02ms, 10.2MB)
-테스트 2 〉	통과 (0.01ms, 10.2MB)
-테스트 3 〉	통과 (0.01ms, 10.2MB)
-테스트 4 〉	통과 (0.01ms, 10.2MB)
-"""
-*/

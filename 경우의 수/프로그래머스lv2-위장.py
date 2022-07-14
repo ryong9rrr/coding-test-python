@@ -25,8 +25,8 @@ def solution(clothes):
             counter[key] += 1
     
     result = 1
-    for n in counter.values():
-        result *= (n + 1)
+    for value in counter.values():
+        result *= (value + 1)
     
     return result - 1
 
@@ -70,8 +70,8 @@ def solution(clothes):
     #ex) counter = Counter({'headgear': 2, 'eyewear': 1})
     
     result = 1
-    for n in counter.values():
-        result *= (n + 1)
+    for value in counter.values():
+        result *= (value + 1)
     return result - 1
 
 """
