@@ -110,3 +110,27 @@ def solution(n, lost, reserve):
 테스트 19 〉	통과 (0.01ms, 10.3MB)
 테스트 20 〉	통과 (0.01ms, 10.3MB)
 """
+
+# 2022년 7월 풀이... 이렇게 쉬운 문제였나?
+def solution(n, lost, reserve):
+    table = {}
+    # table 초기화
+    for i in range(1, n + 1):
+        table[i] = 1
+    for i in lost:
+        table[i] -= 1
+    for i in reserve:
+        table[i] += 1
+    
+    # 체육복 빌려주기
+    for i in range(1, n + 1):
+        if table[i] == 0:
+            if i > 1 and table[i - 1] > 1:
+                table[i - 1] -= 1
+                table[i] += 1
+            elif i < n and table[i + 1] > 1:
+                table[i + 1] -= 1
+                table[i] += 1
+    
+    counts = [value for key, value in table.items() if value != 0]
+    return len(counts)
