@@ -19,3 +19,38 @@ def solution(left, right):
 테스트 6 〉	통과 (0.05ms, 10.3MB)
 테스트 7 〉	통과 (0.04ms, 10.3MB)
 """
+
+# 2022년 7월
+import math
+def get_divisor(number):
+    divisors = []
+    limit = math.ceil(math.sqrt(number))
+    for left in range(1, limit + 1):
+        if number % left == 0:
+            right = number // left
+            if left != right:
+                divisors.append(left)
+                divisors.append(right)
+            else:
+                divisors.append(left)
+    return divisors
+
+def solution(left, right):
+    result = 0
+    for number in range(left, right + 1):
+        count = len(get_divisor(number))
+        if count % 2 == 0:
+            result += number
+        else:
+            result -= number
+    return result
+"""
+정확성  테스트
+테스트 1 〉	통과 (1.84ms, 10.3MB)
+테스트 2 〉	통과 (0.50ms, 10.2MB)
+테스트 3 〉	통과 (0.86ms, 10.2MB)
+테스트 4 〉	통과 (0.12ms, 10.2MB)
+테스트 5 〉	통과 (1.51ms, 10.1MB)
+테스트 6 〉	통과 (0.14ms, 10.2MB)
+테스트 7 〉	통과 (0.16ms, 10.2MB)
+"""
