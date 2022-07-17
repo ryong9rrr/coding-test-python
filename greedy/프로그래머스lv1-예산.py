@@ -39,18 +39,16 @@ def solution(d, budget):
 """
 
 def solution(d, budget):
-    # 최대한 많은 부서를 지원해주기 위해 오름차순 정렬
-    d.sort()
-    
     result = 0
-    for i in d:
-        # 남아있는 예산이 지원해줘야 하는 예산보다 적다면 멈춤
-        if budget < i:
+    # 최대한 많은 부서를 지원해주기 위해 오름차순 정렬
+    for money in sorted(d):
+        # 예산이 줘야하는 돈보다 적으면 break
+        if budget < money:
             break
+        budget -= money
         result += 1
-        budget -= i
+    
     return result
-
 """
 정확성  테스트
 테스트 1 〉	통과 (0.00ms, 10.2MB)

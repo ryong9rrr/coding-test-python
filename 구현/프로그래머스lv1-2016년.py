@@ -1,3 +1,4 @@
+# O(N)의 풀이
 def solution(a, b):
     days = ["THU","FRI","SAT","SUN","MON","TUE","WED"]
     month = {
@@ -40,10 +41,38 @@ def solution(a, b):
 테스트 14 〉	통과 (0.00ms, 10.4MB)
 """
 
+# 맞지만 잘못된 풀이, 바로 아래 풀이가 더 정확하다.
 def solution(a, b):
-    days_month = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-    day_week = ["FRI", "SAT", "SUN", "MON", "TUE", "WED", "THU"]
+    MONTH_DAYS = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    WEEKS = ["FRI", "SAT", "SUN", "MON", "TUE", "WED", "THU"]
+    
+    days = sum(MONTH_DAYS[0:a - 1]) + b
+    return WEEKS[(days % 7) - 1]
 
-    days = sum(days_month[0:a - 1]) + b - 1
-    answer = days % 7
-    return day_week[answer]
+# "FRI"는 1번째 인덱스로 보내야한다. 파이썬에서는 음수 인덱스로 접근해도 잘 풀리지만 JS에서는 그렇지 않음.
+# 따라서 "FRI"를 1번째 인덱스로 하는 것이 더 올바른 풀이다. 그러면 1을 빼주지 않아도 된다.
+
+def solution(a, b):
+    MONTH_DAYS = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    WEEKS = ["THU", "FRI", "SAT", "SUN", "MON", "TUE", "WED"]
+    
+    days = sum(MONTH_DAYS[0:a - 1]) + b
+    
+    return WEEKS[days % 7]
+"""
+정확성  테스트
+테스트 1 〉	통과 (0.00ms, 10.3MB)
+테스트 2 〉	통과 (0.00ms, 10.3MB)
+테스트 3 〉	통과 (0.00ms, 10.3MB)
+테스트 4 〉	통과 (0.00ms, 10.3MB)
+테스트 5 〉	통과 (0.00ms, 10.1MB)
+테스트 6 〉	통과 (0.00ms, 10.2MB)
+테스트 7 〉	통과 (0.00ms, 10.3MB)
+테스트 8 〉	통과 (0.00ms, 10.1MB)
+테스트 9 〉	통과 (0.00ms, 9.94MB)
+테스트 10 〉	통과 (0.00ms, 10.2MB)
+테스트 11 〉	통과 (0.00ms, 10.1MB)
+테스트 12 〉	통과 (0.00ms, 10.1MB)
+테스트 13 〉	통과 (0.00ms, 10.2MB)
+테스트 14 〉	통과 (0.00ms, 10.1MB)
+"""
