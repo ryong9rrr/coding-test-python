@@ -37,13 +37,11 @@ def solution(sizes):
 """
 
 def solution(sizes):
-    max_w = max_h = 0
-    for size in sizes:
-        size.sort()
-        w, h = size
-        max_w = max(max_w, w)
-        max_h = max(max_h, h)
-    return max_w * max_h
+    SIZES = [sorted(item) for item in sizes]
+    max_x = max([x for x, y in SIZES])
+    max_y = max([y for x, y in SIZES])
+    
+    return max_x * max_y
 
 """
 정확성  테스트
@@ -67,4 +65,41 @@ def solution(sizes):
 테스트 18 〉	통과 (2.68ms, 10.9MB)
 테스트 19 〉	통과 (2.86ms, 11.5MB)
 테스트 20 〉	통과 (3.26ms, 11.4MB)
+"""
+
+# 루프를 한번으로 줄였는데 마지막 케이스는 시간이 더 걸림(네트워크 탓인듯)
+def solution(sizes):
+    SIZES = [sorted(item) for item in sizes]
+    max_x = max_y = 0
+    
+    for x, y in SIZES:
+        if max_x <= x:
+            max_x = x
+        if max_y <= y:
+            max_y = y
+    
+    return max_x * max_y
+
+"""
+정확성  테스트
+테스트 1 〉	통과 (0.00ms, 10.3MB)
+테스트 2 〉	통과 (0.01ms, 10MB)
+테스트 3 〉	통과 (0.01ms, 9.97MB)
+테스트 4 〉	통과 (0.01ms, 10.3MB)
+테스트 5 〉	통과 (0.01ms, 10.1MB)
+테스트 6 〉	통과 (0.01ms, 10.2MB)
+테스트 7 〉	통과 (0.01ms, 10.2MB)
+테스트 8 〉	통과 (0.01ms, 10.2MB)
+테스트 9 〉	통과 (0.01ms, 10.3MB)
+테스트 10 〉	통과 (0.02ms, 10.1MB)
+테스트 11 〉	통과 (0.05ms, 10.1MB)
+테스트 12 〉	통과 (0.17ms, 10.4MB)
+테스트 13 〉	통과 (0.49ms, 10.2MB)
+테스트 14 〉	통과 (0.51ms, 10.5MB)
+테스트 15 〉	통과 (1.08ms, 10.5MB)
+테스트 16 〉	통과 (1.64ms, 10.8MB)
+테스트 17 〉	통과 (2.29ms, 11.5MB)
+테스트 18 〉	통과 (2.41ms, 11.8MB)
+테스트 19 〉	통과 (2.74ms, 12.4MB)
+테스트 20 〉	통과 (5.11ms, 12.4MB)
 """

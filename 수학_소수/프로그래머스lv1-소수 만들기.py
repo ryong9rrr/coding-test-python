@@ -52,7 +52,6 @@ def solution(nums):
 """
 
 from itertools import combinations
-
 def make_prime_numbers(n:int)->list:
     prime_numbers = [True] * (n + 1)
     prime_numbers[0:2] = [False, False]
