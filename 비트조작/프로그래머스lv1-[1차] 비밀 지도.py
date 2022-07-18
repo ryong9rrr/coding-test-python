@@ -55,24 +55,15 @@ def solution(n, arr1, arr2):
 
 # 22년 7월 풀이
 # string.zfill(n)은 n자리만큼 "0"을 왼쪽에 채워준다.
-def number_to_two(number, n):
+def format_number(number, n):
     return bin(number)[2:].zfill(n)
+
+def make_hash(bin_number):
+    return "".join(["#" if s == "1" else " " for s in bin_number])
 
 def solution(n, arr1, arr2):
     OR_numbers = [arr1[i] | arr2[i] for i in range(n)]
-    
-    result = []
-    for number in OR_numbers:
-        formatted_number = number_to_two(number, n)
-        hashs = ""
-        for string in formatted_number:
-            if string == "1":
-                hashs += "#"
-            else:
-                hashs += " "
-        result.append(hashs)
-    
-    return result
+    return [make_hash(format_number(number, n)) for number in OR_numbers]
 """
 정확성  테스트
 테스트 1 〉	통과 (0.03ms, 10.1MB)
