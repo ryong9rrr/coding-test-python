@@ -31,24 +31,30 @@ function solution(left, right) {
 // 테스트 7 〉	통과 (0.18ms, 30MB)
 
 const getDivisors = (number) => {
-  const limit = Math.ceil(Math.sqrt(number))
-  return Array.from({ length: limit }, (_, i) => i + 1).reduce((result, left) => {
+  if (number < 0) throw new Error('숫자는 0 이상의 정수여야합니다.')
+  if (number === 0) return [0]
+  const limit = Math.floor(Math.sqrt(number))
+  const iters = Array.from({ length: limit }, (_, i) => i + 1)
+  return iters.reduce((divisors, left) => {
     if (number % left === 0) {
       const right = number / left
       if (left === right) {
-        return [...result, left]
+        divisors.push(left)
+        return divisors
       }
-      return [...result, left, right]
+      divisors.push(left)
+      divisors.push(right)
+      return divisors
     }
-    return result
+    return divisors
   }, [])
 }
 
 function solution(left, right) {
   let result = 0
-  for (let number = left; number < right + 1; number++) {
-    const count = getDivisors(number).length
-    if (count % 2 === 0) {
+  for (let number = left; number <= right; number++) {
+    const n = getDivisors(number).length
+    if (n % 2 === 0) {
       result += number
     } else {
       result -= number
@@ -56,7 +62,6 @@ function solution(left, right) {
   }
   return result
 }
-
 // 정확성  테스트
 // 테스트 1 〉	통과 (22.93ms, 33.2MB)
 // 테스트 2 〉	통과 (1.41ms, 29.9MB)
