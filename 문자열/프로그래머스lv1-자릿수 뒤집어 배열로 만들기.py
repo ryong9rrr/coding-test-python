@@ -1,7 +1,6 @@
 def solution(n):
-    numbers = list(map(int, list(str(n))))
+    numbers = list(map(int, str(n)))
     return numbers[::-1]
-  
 # 정확성  테스트
 # 테스트 1 〉	통과 (0.02ms, 10.3MB)
 # 테스트 2 〉	통과 (0.02ms, 10.3MB)
