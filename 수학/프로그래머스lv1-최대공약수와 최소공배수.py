@@ -1,23 +1,22 @@
 from functools import reduce
 def solution(n, m):
     x, y = n, m
-    gcd = [1]
     if n > m:
         n, m = m, n
     
-    i = 2
-    while(i <= n) :
-        if(n % i == 0 and m % i == 0) :
-            gcd.append(i)
-            n //= i
-            m //= i
+    nums = [1]
+    num = 2
+    while(num <= n) :
+        if(n % num == 0 and m % num == 0) :
+            nums.append(num)
+            n //= num
+            m //= num
         else :
-            i += 1
+            num += 1
     
-    GCD = reduce(lambda a, b: a * b, gcd)
-    LCM = (x * y) // GCD
-    return [GCD, LCM]
-
+    gcd = reduce(lambda a, b: a * b, nums)
+    lcm = (x * y) // gcd
+    return [gcd, lcm]
 """
 정확성  테스트
 테스트 1 〉	통과 (0.00ms, 10.3MB)
