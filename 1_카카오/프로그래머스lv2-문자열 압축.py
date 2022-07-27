@@ -64,53 +64,58 @@ def solution(s):
 테스트 28 〉	통과 (0.02ms, 10.4MB)
 """
 
-# 나랑 비슷하지만 조금 더 직관적인 풀이
+# 22년 7월 풀이
+# 문자열 + 스택 풀이
 def solution(s):
-    answer = len(s)
-    for step in range(1, len(s) // 2 + 1):
-        compressed = ""
-        prev = s[0:step]
+    strings_length = len(s)    
+    limit = strings_length // 2
+    result = strings_length
+    
+    for unit in range(1, limit + 1):
+        stack = []
         count = 1
-        for j in range(step, len(s), step):
-            if prev == s[j:j + step]:
+        for index in range(0, strings_length, unit):
+            cur = s[index : index + unit]
+            if stack and stack[-1] == cur:
                 count += 1
             else:
-                compressed += str(count) + prev if count > 1 else prev
-                prev = s[j:j + step]
-                count = 1
-        compressed += str(count) + prev if count > 1 else prev
-        answer = min(answer, len(compressed))
-        
-    return answer
-
+                if count > 1:
+                    stack[-1] = str(count) + stack[-1]
+                    count = 1
+                stack.append(cur)
+        if count > 1:
+            stack[-1] = str(count) + stack[-1]
+        compression = "".join(stack)
+        result = min(result, len(compression))
+    return result
 """
 정확성  테스트
 테스트 1 〉	통과 (0.03ms, 10.3MB)
-테스트 2 〉	통과 (0.32ms, 10.4MB)
-테스트 3 〉	통과 (0.16ms, 10.2MB)
-테스트 4 〉	통과 (0.02ms, 10.3MB)
-테스트 5 〉	통과 (0.00ms, 10.3MB)
-테스트 6 〉	통과 (0.04ms, 10.3MB)
-테스트 7 〉	통과 (0.37ms, 10.2MB)
-테스트 8 〉	통과 (0.37ms, 10.2MB)
-테스트 9 〉	통과 (0.54ms, 10.3MB)
-테스트 10 〉	통과 (2.27ms, 10.4MB)
-테스트 11 〉	통과 (0.08ms, 10.4MB)
-테스트 12 〉	통과 (0.08ms, 10.2MB)
-테스트 13 〉	통과 (0.10ms, 10.2MB)
-테스트 14 〉	통과 (0.52ms, 10.3MB)
-테스트 15 〉	통과 (0.09ms, 10.2MB)
+테스트 2 〉	통과 (0.29ms, 10.3MB)
+테스트 3 〉	통과 (0.15ms, 10.2MB)
+테스트 4 〉	통과 (0.03ms, 10.3MB)
+테스트 5 〉	통과 (0.00ms, 10.1MB)
+테스트 6 〉	통과 (0.04ms, 10.2MB)
+테스트 7 〉	통과 (0.31ms, 10.2MB)
+테스트 8 〉	통과 (0.32ms, 10.3MB)
+테스트 9 〉	통과 (0.45ms, 10.2MB)
+테스트 10 〉	통과 (1.61ms, 10.4MB)
+테스트 11 〉	통과 (0.07ms, 10.2MB)
+테스트 12 〉	통과 (0.07ms, 10.3MB)
+테스트 13 〉	통과 (0.09ms, 10.1MB)
+테스트 14 〉	통과 (0.45ms, 10.1MB)
+테스트 15 〉	통과 (0.08ms, 10.2MB)
 테스트 16 〉	통과 (0.01ms, 10.2MB)
-테스트 17 〉	통과 (1.06ms, 10.3MB)
-테스트 18 〉	통과 (0.95ms, 10.3MB)
-테스트 19 〉	통과 (1.06ms, 10.4MB)
-테스트 20 〉	통과 (2.36ms, 10.2MB)
-테스트 21 〉	통과 (2.33ms, 10.3MB)
-테스트 22 〉	통과 (2.38ms, 10.3MB)
-테스트 23 〉	통과 (2.27ms, 10.2MB)
-테스트 24 〉	통과 (2.18ms, 10.4MB)
-테스트 25 〉	통과 (2.37ms, 10.3MB)
-테스트 26 〉	통과 (2.23ms, 10.3MB)
-테스트 27 〉	통과 (2.21ms, 10.2MB)
-테스트 28 〉	통과 (0.01ms, 10.2MB)
+테스트 17 〉	통과 (0.82ms, 10.3MB)
+테스트 18 〉	통과 (0.79ms, 10.2MB)
+테스트 19 〉	통과 (0.78ms, 10.3MB)
+테스트 20 〉	통과 (1.72ms, 10.2MB)
+테스트 21 〉	통과 (1.73ms, 10.3MB)
+테스트 22 〉	통과 (1.80ms, 10.1MB)
+테스트 23 〉	통과 (1.65ms, 10.3MB)
+테스트 24 〉	통과 (1.56ms, 10.1MB)
+테스트 25 〉	통과 (1.73ms, 10.1MB)
+테스트 26 〉	통과 (1.72ms, 10.1MB)
+테스트 27 〉	통과 (1.72ms, 10.2MB)
+테스트 28 〉	통과 (0.02ms, 10.2MB)
 """
