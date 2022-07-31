@@ -41,13 +41,13 @@ def solution(w,h):
 """
 
 # 그런데 사실 모두 같은 식임
-
 import math
 def solution(w,h):
     gcd = math.gcd(w, h)
+    total = w * h
     a, b = w // gcd, h // gcd
-    return w * h - gcd * (a + b - 1)
-
+    cut = gcd * (a + b - 1)
+    return total - cut
 """
 정확성  테스트
 테스트 1 〉	통과 (0.00ms, 10.2MB)
