@@ -1,10 +1,9 @@
 def solution(citations):
     citations.sort(reverse = True)
-
-    for i in range(len(citations)):
-        if i + 1 > citations[i]: return i
+    for i, v in enumerate(citations):
+        if (i >= v):
+            return i
     return len(citations)
-
 """
 정확성  테스트
 테스트 1 〉	통과 (0.11ms, 9.97MB)
