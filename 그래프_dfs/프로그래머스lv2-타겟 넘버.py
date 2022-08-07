@@ -2,30 +2,27 @@
 def solution(numbers, target):
     count = 0
     
-    def dfs(total, index):
+    def dfs(index, total):
         nonlocal count
-        if index < len(numbers):
-            dfs(total + numbers[index], index + 1)
-            dfs(total - numbers[index], index + 1)
+        if index == len(numbers):
+            if total == target:
+                count += 1
             return
-        elif index == len(numbers) and total == target:
-            count += 1
-            return
-        return
+        dfs(index + 1, total - numbers[index])
+        dfs(index + 1, total + numbers[index])
     
     dfs(0, 0)
     return count
-
 """
 정확성  테스트
-테스트 1 〉	통과 (409.96ms, 10.2MB)
-테스트 2 〉	통과 (381.63ms, 10.2MB)
-테스트 3 〉	통과 (0.41ms, 10.2MB)
-테스트 4 〉	통과 (1.50ms, 10.2MB)
-테스트 5 〉	통과 (11.80ms, 10.2MB)
+테스트 1 〉	통과 (361.14ms, 10.1MB)
+테스트 2 〉	통과 (354.83ms, 10.1MB)
+테스트 3 〉	통과 (0.35ms, 10.1MB)
+테스트 4 〉	통과 (2.27ms, 10.1MB)
+테스트 5 〉	통과 (11.15ms, 10.1MB)
 테스트 6 〉	통과 (0.76ms, 10.2MB)
-테스트 7 〉	통과 (0.40ms, 10.2MB)
-테스트 8 〉	통과 (5.21ms, 10.2MB)
+테스트 7 〉	통과 (0.36ms, 10MB)
+테스트 8 〉	통과 (3.54ms, 10.2MB)
 """
 
 # itertools.product 순열 구해서 풀기
