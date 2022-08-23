@@ -39,7 +39,6 @@ def solution(number, k):
 
 from collections import deque
 def solution(number, k):
-    N = len(number)
     q = deque(number)
     stack = deque()
     
