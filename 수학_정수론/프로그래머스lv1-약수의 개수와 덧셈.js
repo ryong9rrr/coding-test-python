@@ -70,3 +70,26 @@ function solution(left, right) {
 // 테스트 5 〉	통과 (23.95ms, 33.3MB)
 // 테스트 6 〉	통과 (0.66ms, 30.2MB)
 // 테스트 7 〉	통과 (0.44ms, 30.1MB)
+
+// Root가 정수인지 아닌지로 판단이 가능하다.
+const hasRoot = (number) => {
+  return Math.ceil(number ** 0.5) === Math.floor(number ** 0.5)
+}
+
+function solution(left, right) {
+  let result = 0
+
+  for (let number = left; number < right + 1; number++) {
+    hasRoot(number) ? (result -= number) : (result += number)
+  }
+
+  return result
+}
+// 정확성 테스트
+// 테스트 1 〉 통과 (0.21ms, 30MB)
+// 테스트 2 〉 통과 (0.11ms, 30MB)
+// 테스트 3 〉 통과 (0.20ms, 30MB)
+// 테스트 4 〉 통과 (0.07ms, 30.1MB)
+// 테스트 5 〉 통과 (0.20ms, 30.2MB)
+// 테스트 6 〉 통과 (0.10ms, 30.1MB)
+// 테스트 7 〉 통과 (0.07ms, 30.2MB)

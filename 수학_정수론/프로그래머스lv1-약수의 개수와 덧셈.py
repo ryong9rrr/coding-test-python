@@ -58,3 +58,29 @@ def solution(left, right):
 테스트 6 〉	통과 (0.14ms, 10.2MB)
 테스트 7 〉	통과 (0.16ms, 10.2MB)
 """
+
+# 아니... 굳이 저렇게 풀었다고...? 이렇게 간단히 풀 수 있음.
+# root가 정수면 약수의 개수가 홀수임.
+def hasRoot(number):
+    return number ** 0.5 == int(number ** 0.5)
+
+def solution(left, right):
+    result = 0
+
+    for number in range(left, right + 1):
+        if hasRoot(number):
+            result -= number
+        else:
+            result += number
+    
+    return result
+"""
+정확성 테스트
+테스트 1 〉 통과 (0.85ms, 10.1MB)
+테스트 2 〉 통과 (0.63ms, 10.2MB)
+테스트 3 〉 통과 (0.20ms, 10.3MB)
+테스트 4 〉 통과 (0.06ms, 10.1MB)
+테스트 5 〉 통과 (0.41ms, 10MB)
+테스트 6 〉 통과 (0.08ms, 10.1MB)
+테스트 7 〉 통과 (0.05ms, 10.1MB)
+"""

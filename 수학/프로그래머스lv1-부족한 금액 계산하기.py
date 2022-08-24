@@ -7,11 +7,13 @@ def solution(price, money, count):
     1. n(a + l) / 2 (l은 마지막항)
     2. n{2a + (n-1)d} / 2
     """
+    # 등차수열의 마지막 항
+    l = price * count
 
     # 등차수열의 합: n{2a + (n-1)d} / 2
-    total = count * (2 * price + (count - 1) * price) // 2
-
-    return total - money if total > money else 0
+    total = count * (price + l) // 2
+    
+    return total - money if money < total else 0
     
 """
 정확성  테스트
