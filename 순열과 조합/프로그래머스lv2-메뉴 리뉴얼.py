@@ -110,3 +110,54 @@ def solution(orders, course):
 테스트 19 〉	통과 (0.04ms, 10.3MB)
 테스트 20 〉	통과 (0.26ms, 10.3MB)
 """
+
+# 22년 8월 풀이.. 바로 위 풀이랑 비슷한 맥락인 것 같은데 이제보니 위 풀이도 꽤 좋은 풀이였던듯.
+from collections import defaultdict
+from itertools import combinations
+def solution(orders, course):
+    table = defaultdict(int)
+    for i in course:
+        for order in orders:
+            combs = ["".join(sorted(x)) for x in list(combinations(order, i))]
+            for comb in combs:
+                table[comb] += 1
+    
+    courses_table = defaultdict(list)
+    
+    for key, value in table.items():
+        if value == 1:
+            continue
+        courses_table[len(key)].append([key, value])
+    
+    result = []
+    
+    for key, values in courses_table.items():
+        max_value = max([x[1] for x in values])
+        result += [key for key, value in values if value == max_value]
+    
+    result.sort()
+    
+    return result
+"""
+정확성  테스트
+테스트 1 〉	통과 (0.10ms, 10.2MB)
+테스트 2 〉	통과 (0.07ms, 10.2MB)
+테스트 3 〉	통과 (0.19ms, 10.3MB)
+테스트 4 〉	통과 (0.12ms, 10.3MB)
+테스트 5 〉	통과 (0.13ms, 10.2MB)
+테스트 6 〉	통과 (0.29ms, 10.4MB)
+테스트 7 〉	통과 (0.37ms, 10.3MB)
+테스트 8 〉	통과 (3.05ms, 10.3MB)
+테스트 9 〉	통과 (3.55ms, 10.4MB)
+테스트 10 〉	통과 (2.35ms, 10.6MB)
+테스트 11 〉	통과 (1.62ms, 10.4MB)
+테스트 12 〉	통과 (2.23ms, 10.5MB)
+테스트 13 〉	통과 (2.33ms, 10.5MB)
+테스트 14 〉	통과 (2.73ms, 10.4MB)
+테스트 15 〉	통과 (2.19ms, 10.5MB)
+테스트 16 〉	통과 (1.11ms, 10.2MB)
+테스트 17 〉	통과 (0.33ms, 10.4MB)
+테스트 18 〉	통과 (0.14ms, 10.2MB)
+테스트 19 〉	통과 (0.03ms, 10.3MB)
+테스트 20 〉	통과 (0.43ms, 10.2MB)
+"""

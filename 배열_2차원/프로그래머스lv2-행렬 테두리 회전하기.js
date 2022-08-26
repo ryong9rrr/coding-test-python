@@ -63,3 +63,72 @@ function solution(rows, columns, queries) {
 // 테스트 9 〉	통과 (53.52ms, 41.8MB)
 // 테스트 10 〉	통과 (70.96ms, 41.2MB)
 // 테스트 11 〉	통과 (55.70ms, 41.1MB)
+
+// 비슷하지만 좀 더 깔끔(?)해보이는 풀이
+const setInitializeMatrix = (rows, columns) => {
+  const matrix = []
+  let number = 1
+  for (let i = 0; i < rows; i++) {
+    const row = []
+    for (let j = 0; j < columns; j++) {
+      row.push(number)
+      number++
+    }
+    matrix.push(row)
+  }
+  return matrix
+}
+
+const rotate = ([x1, y1], [x2, y2]) => {
+  // 이 문제에서는 1번만 이동시키기 때문에 Queue를 사용하지 않았음.
+  cq = []
+  for (let y = y1; y < y2; y++) {
+    cq.push([x1, y])
+  }
+  for (let x = x1; x < x2; x++) {
+    cq.push([x, y2])
+  }
+  for (let y = y2; y > y1; y--) {
+    cq.push([x2, y])
+  }
+  for (let x = x2; x > x1; x--) {
+    cq.push([x, y1])
+  }
+  prevQ = [...cq]
+  cq.unshift(cq.pop())
+  return [prevQ, cq]
+}
+
+function solution(rows, columns, queries) {
+  const matrix = setInitializeMatrix(rows, columns)
+
+  const result = []
+
+  for (const [x1, y1, x2, y2] of queries) {
+    const [prevs, nexts] = rotate([x1 - 1, y1 - 1], [x2 - 1, y2 - 1])
+    const nextValues = nexts.map(([x, y]) => matrix[x][y])
+
+    // 가장 작은 수 push
+    result.push(Math.min(...nextValues))
+
+    // 행렬 rotate
+    for (let i = 0; i < nextValues.length; i++) {
+      const [x, y] = prevs[i]
+      matrix[x][y] = nextValues[i]
+    }
+  }
+
+  return result
+}
+// 정확성  테스트
+// 테스트 1 〉	통과 (0.31ms, 29.9MB)
+// 테스트 2 〉	통과 (0.33ms, 30.1MB)
+// 테스트 3 〉	통과 (68.88ms, 41MB)
+// 테스트 4 〉	통과 (57.69ms, 39.2MB)
+// 테스트 5 〉	통과 (96.04ms, 40.9MB)
+// 테스트 6 〉	통과 (64.00ms, 41.5MB)
+// 테스트 7 〉	통과 (66.26ms, 42.4MB)
+// 테스트 8 〉	통과 (64.05ms, 40.7MB)
+// 테스트 9 〉	통과 (61.14ms, 41.9MB)
+// 테스트 10 〉	통과 (55.37ms, 41.3MB)
+// 테스트 11 〉	통과 (58.04ms, 40.5MB)
