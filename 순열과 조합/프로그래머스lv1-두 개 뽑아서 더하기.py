@@ -22,15 +22,12 @@ def solution(numbers):
 """
 
 # itertools 조합 메서드 사용
-import itertools
+from itertools import combinations
 def solution(numbers):
-    nCr = itertools.combinations(numbers, 2)
     result = set([])
-    for i in nCr:
-        result.add(sum(i))
-        
+    for a, b in list(combinations(numbers, 2)):
+        result.add(a + b)
     return sorted(result)
-
 """
 정확성  테스트
 테스트 1 〉	통과 (0.01ms, 10.2MB)
