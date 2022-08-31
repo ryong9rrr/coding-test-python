@@ -23,60 +23,57 @@ function solution(numbers, hand) {
   let currentLeft = PHONE['*']
   let currentRight = PHONE['#']
 
-  const changeHand = (number, hand) => {
-    if (hand === 'L') {
-      currentLeft = PHONE[String(number)]
-      return 'L'
-    }
-
-    if (hand === 'R') {
-      currentRight = PHONE[String(number)]
-      return 'R'
-    }
-  }
-
   return numbers
     .map((number) => {
       if (number === 1 || number === 4 || number === 7) {
-        return changeHand(number, 'L')
+        currentLeft = PHONE[number]
+        return 'L'
       }
 
       if (number === 3 || number === 6 || number === 9) {
-        return changeHand(number, 'R')
+        currentRight = PHONE[number]
+        return 'R'
       }
 
       const leftDistance = getDistance(number, currentLeft)
       const rightDistance = getDistance(number, currentRight)
 
       if (leftDistance < rightDistance) {
-        return changeHand(number, 'L')
+        currentLeft = PHONE[number]
+        return 'L'
       } else if (leftDistance > rightDistance) {
-        return changeHand(number, 'R')
+        currentRight = PHONE[number]
+        return 'R'
       } else {
-        return hand === 'left' ? changeHand(number, 'L') : changeHand(number, 'R')
+        if (hand === 'left') {
+          currentLeft = PHONE[number]
+          return 'L'
+        } else {
+          currentRight = PHONE[number]
+          return 'R'
+        }
       }
     })
     .join('')
 }
-
-// 정확성  테스트
-// 테스트 1 〉	통과 (0.15ms, 29.7MB)
-// 테스트 2 〉	통과 (0.18ms, 30.2MB)
-// 테스트 3 〉	통과 (0.18ms, 30.2MB)
-// 테스트 4 〉	통과 (0.13ms, 29.9MB)
-// 테스트 5 〉	통과 (0.17ms, 30.2MB)
-// 테스트 6 〉	통과 (0.17ms, 30.1MB)
-// 테스트 7 〉	통과 (0.18ms, 30.2MB)
-// 테스트 8 〉	통과 (0.20ms, 29.7MB)
-// 테스트 9 〉	통과 (0.19ms, 29.9MB)
-// 테스트 10 〉	통과 (0.19ms, 29.6MB)
-// 테스트 11 〉	통과 (0.22ms, 30MB)
-// 테스트 12 〉	통과 (0.25ms, 30.2MB)
-// 테스트 13 〉	통과 (0.23ms, 30.1MB)
-// 테스트 14 〉	통과 (0.31ms, 30MB)
-// 테스트 15 〉	통과 (0.51ms, 30MB)
-// 테스트 16 〉	통과 (0.48ms, 30.1MB)
-// 테스트 17 〉	통과 (0.78ms, 30.1MB)
-// 테스트 18 〉	통과 (0.72ms, 30.2MB)
-// 테스트 19 〉	통과 (0.79ms, 30MB)
-// 테스트 20 〉	통과 (0.81ms, 30MB)
+// 정확성 테스트
+// 테스트 1 〉 통과 (0.12ms, 30.3MB)
+// 테스트 2 〉 통과 (0.15ms, 30.1MB)
+// 테스트 3 〉 통과 (0.15ms, 30.3MB)
+// 테스트 4 〉 통과 (0.09ms, 30.2MB)
+// 테스트 5 〉 통과 (0.13ms, 30.2MB)
+// 테스트 6 〉 통과 (0.15ms, 30.2MB)
+// 테스트 7 〉 통과 (0.17ms, 30.1MB)
+// 테스트 8 〉 통과 (0.16ms, 30.2MB)
+// 테스트 9 〉 통과 (0.17ms, 30.1MB)
+// 테스트 10 〉 통과 (0.18ms, 30.2MB)
+// 테스트 11 〉 통과 (0.16ms, 30.3MB)
+// 테스트 12 〉 통과 (0.19ms, 30.3MB)
+// 테스트 13 〉 통과 (0.21ms, 30.3MB)
+// 테스트 14 〉 통과 (0.25ms, 30.1MB)
+// 테스트 15 〉 통과 (0.43ms, 30.3MB)
+// 테스트 16 〉 통과 (0.40ms, 30.4MB)
+// 테스트 17 〉 통과 (0.67ms, 30.3MB)
+// 테스트 18 〉 통과 (0.62ms, 30.3MB)
+// 테스트 19 〉 통과 (0.69ms, 30.3MB)
+// 테스트 20 〉 통과 (0.67ms, 30.3MB)
