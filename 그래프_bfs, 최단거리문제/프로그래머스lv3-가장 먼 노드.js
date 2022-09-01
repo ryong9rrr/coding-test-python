@@ -12,7 +12,8 @@ function makeGraph(vertexArray) {
 
 function solution(n, edge) {
   const graph = makeGraph(edge)
-  const visited = Array.from({ length: n + 1 }, (v) => 0)
+  // const visited = Array(n + 1).fill(0) 와 같다.
+  const visited = Array.from({ length: n + 1 }, (v, i) => 0)
   const q = []
 
   q.push([1, 1])
@@ -78,46 +79,44 @@ class Queue {
   }
 }
 
-function makeGraph(vertexArray) {
+function solution(n, edge) {
   const graph = {}
-  for (const [v, w] of vertexArray) {
+  edge.forEach(([v, w]) => {
     if (!graph[v]) graph[v] = []
     if (!graph[w]) graph[w] = []
     graph[v].push(w)
     graph[w].push(v)
-  }
-  return graph
-}
+  })
 
-function solution(n, edge) {
-  const graph = makeGraph(edge)
-  const visited = Array.from({ length: n + 1 }, (v) => 0)
+  // const visited = Array(n + 1).fill(0) 와 같다.
+  const visited = Array.from({ length: n + 1 }, (v, i) => 0)
   const q = new Queue()
-
   q.enqueue([1, 1])
+
   while (q.size > 0) {
     const [v, distance] = q.dequeue()
-    if (visited[v]) continue
+    if (visited[v] !== 0) {
+      continue
+    }
     visited[v] += distance
     for (const w of graph[v]) {
-      if (visited[w]) continue
       q.enqueue([w, distance + 1])
     }
   }
 
-  const maxDistance = Math.max(...visited)
-  return visited.filter((v) => v === maxDistance).length
+  const max = Math.max(...visited)
+  return visited.filter((v) => v === max).length
 }
 
 /*
 정확성  테스트
-테스트 1 〉	통과 (0.69ms, 29.9MB)
-테스트 2 〉	통과 (0.43ms, 29.8MB)
-테스트 3 〉	통과 (0.51ms, 30.1MB)
-테스트 4 〉	통과 (0.91ms, 30.2MB)
-테스트 5 〉	통과 (2.79ms, 30.6MB)
-테스트 6 〉	통과 (23.60ms, 35MB)
-테스트 7 〉	통과 (40.86ms, 48.4MB)
-테스트 8 〉	통과 (59.49ms, 57MB)
-테스트 9 〉	통과 (69.90ms, 58.8MB)
+테스트 1 〉	통과 (0.43ms, 30.4MB)
+테스트 2 〉	통과 (0.46ms, 30.2MB)
+테스트 3 〉	통과 (0.48ms, 30.2MB)
+테스트 4 〉	통과 (1.07ms, 30.3MB)
+테스트 5 〉	통과 (4.45ms, 32.9MB)
+테스트 6 〉	통과 (15.17ms, 36MB)
+테스트 7 〉	통과 (26.67ms, 51.6MB)
+테스트 8 〉	통과 (31.81ms, 58MB)
+테스트 9 〉	통과 (46.80ms, 63.9MB)
 */
