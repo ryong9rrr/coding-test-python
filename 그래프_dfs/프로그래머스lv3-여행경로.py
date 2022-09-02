@@ -23,3 +23,32 @@ def solution(tickets):
 테스트 3 〉	통과 (0.01ms, 10.2MB)
 테스트 4 〉	통과 (0.01ms, 10.2MB)
 """
+
+# 반복문과 스택으로 풀이
+from collections import defaultdict
+def solution(tickets):
+    graph = defaultdict(list)
+    for v, w in tickets:
+        graph[v].append(w)
+    
+    for v in graph.keys():
+        graph[v].sort(reverse = True)
+    
+    stack = ["ICN"]
+    result = []
+    
+    while stack:
+        v = stack[-1]
+        if graph[v]:
+            stack.append(graph[v].pop())
+        else:
+            result.append(stack.pop())
+    
+    return result[::-1]
+"""
+정확성  테스트
+테스트 1 〉	통과 (0.02ms, 10MB)
+테스트 2 〉	통과 (0.01ms, 10.2MB)
+테스트 3 〉	통과 (0.01ms, 10MB)
+테스트 4 〉	통과 (0.01ms, 10.2MB)
+"""
