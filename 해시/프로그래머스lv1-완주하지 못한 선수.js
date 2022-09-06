@@ -1,33 +1,30 @@
 // forEach는 return 값이 undefined라서 사용하면 안됨. 그래서 for-of 사용
 function solution(participant, completion) {
-  const table = completion.reduce((obj, person) => {
-    if (!obj[person]) {
-      obj[person] = 0
-    }
-    obj[person]++
-    return obj
-  }, {})
+  const people = {}
 
-  for (const person of participant) {
-    if (person in table) {
-      table[person] -= 1
-    } else {
-      return person
-    }
+  completion.forEach((name) => {
+    if (!people[name]) people[name] = 0
+    people[name]++
+  })
 
-    if (table[person] < 0) return person
+  for (const name of participant) {
+    if (!people[name]) {
+      return name
+    }
+    people[name]--
   }
-}
 
-// 정확성  테스트
-// 테스트 1 〉	통과 (0.25ms, 30.1MB)
-// 테스트 2 〉	통과 (0.21ms, 30.1MB)
-// 테스트 3 〉	통과 (0.38ms, 30MB)
-// 테스트 4 〉	통과 (0.49ms, 30.2MB)
-// 테스트 5 〉	통과 (0.49ms, 30.1MB)
-// 효율성  테스트
-// 테스트 1 〉	통과 (40.03ms, 45.7MB)
-// 테스트 2 〉	통과 (50.36ms, 51.2MB)
-// 테스트 3 〉	통과 (53.86ms, 54.4MB)
-// 테스트 4 〉	통과 (59.00ms, 61.1MB)
-// 테스트 5 〉	통과 (63.32ms, 64.3MB)
+  return undefined
+}
+// 정확성 테스트
+// 테스트 1 〉 통과 (0.10ms, 33.4MB)
+// 테스트 2 〉 통과 (0.12ms, 33.5MB)
+// 테스트 3 〉 통과 (0.32ms, 33.5MB)
+// 테스트 4 〉 통과 (0.73ms, 33.7MB)
+// 테스트 5 〉 통과 (0.48ms, 33.7MB)
+// 효율성 테스트
+// 테스트 1 〉 통과 (17.04ms, 54.9MB)
+// 테스트 2 〉 통과 (25.83ms, 58.4MB)
+// 테스트 3 〉 통과 (26.39ms, 62MB)
+// 테스트 4 〉 통과 (29.56ms, 69.2MB)
+// 테스트 5 〉 통과 (40.69ms, 72.5MB)

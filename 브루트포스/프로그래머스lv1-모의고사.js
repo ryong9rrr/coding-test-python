@@ -141,43 +141,48 @@ function solution(answers) {
 // 위 풀이들처럼 하나하나 인덱스로 접근하면 당연히 시간복잡도를 줄일 수 있다.
 // 문제와는 관련이 없지만 학생들이 많아질 경우 저렇게 코드를 짤 수는 없음. 따라서 어쩔 수없이 2중 루프를 선택해야 할 것이다.
 function solution(answers) {
-  const PEOPLE = [
+  const N = 3
+  const table = [
     [1, 2, 3, 4, 5],
     [2, 1, 2, 3, 2, 4, 2, 5],
     [3, 3, 1, 1, 2, 2, 4, 4, 5, 5],
   ]
 
-  const PEOPLE_NUMBER = PEOPLE.length
-  const counts = Array.from({ length: PEOPLE_NUMBER }, (_, i) => 0)
+  const result = Array.from({ length: N + 1 }, (v, i) => 0)
 
-  answers.forEach((answer, answerIndex) => {
-    PEOPLE.forEach((personAnswers, personId) => {
-      const personAnswer = personAnswers[answerIndex % personAnswers.length]
-      if (answer === personAnswer) counts[personId] += 1
+  answers.forEach((answer, i) => {
+    table.forEach((x, j) => {
+      if (x[i % x.length] === answer) result[j + 1]++
     })
   })
 
-  const MAX = Math.max(...counts)
-  return counts.reduce((result, count, personId) => {
-    if (count === MAX) result.push(personId + 1)
-    return result
+  const mostValue = Math.max(...result)
+  const iter = Array.from({ length: N }, (v, i) => i + 1)
+
+  // 이미 정렬되어있으므로 다시 정렬시킬 필요는 없음.
+  return iter.reduce((acc, cur) => {
+    if (mostValue === result[cur]) {
+      acc.push(cur)
+    }
+    return acc
   }, [])
 }
 
 /*
-정확성  테스트
-테스트 1 〉	통과 (0.27ms, 30MB)
-테스트 2 〉	통과 (0.29ms, 30.1MB)
-테스트 3 〉	통과 (0.28ms, 30.1MB)
-테스트 4 〉	통과 (0.15ms, 30.2MB)
-테스트 5 〉	통과 (0.39ms, 30MB)
-테스트 6 〉	통과 (0.32ms, 30MB)
-테스트 7 〉	통과 (2.80ms, 32.3MB)
-테스트 8 〉	통과 (0.65ms, 29.9MB)
-테스트 9 〉	통과 (4.08ms, 32.5MB)
-테스트 10 〉	통과 (2.56ms, 32.4MB)
-테스트 11 〉	통과 (4.09ms, 32.7MB)
-테스트 12 〉	통과 (3.08ms, 32.4MB)
-테스트 13 〉	통과 (0.45ms, 30.2MB)
-테스트 14 〉	통과 (3.89ms, 33.2MB)
+정확성 테스트
+테스트 1 〉 통과 (0.22ms, 33.4MB)
+테스트 2 〉 통과 (0.21ms, 33.4MB)
+테스트 3 〉 통과 (0.13ms, 33.5MB)
+테스트 4 〉 통과 (0.13ms, 33.4MB)
+테스트 5 〉 통과 (0.34ms, 33.5MB)
+테스트 6 〉 통과 (0.26ms, 33.5MB)
+테스트 7 〉 통과 (1.96ms, 36.3MB)
+테스트 8 〉 통과 (0.60ms, 33.7MB)
+테스트 9 〉 통과 (4.19ms, 36.7MB)
+테스트 10 〉 통과 (2.03ms, 36.3MB)
+테스트 11 〉 통과 (2.83ms, 36.8MB)
+테스트 12 〉 통과 (3.19ms, 37.2MB)
+테스트 13 〉 통과 (0.34ms, 33.5MB)
+테스트 14 〉 통과 (3.04ms, 36.9MB)
+
 */

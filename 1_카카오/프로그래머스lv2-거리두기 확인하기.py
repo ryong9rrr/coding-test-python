@@ -12,6 +12,7 @@ def check_mht(close, place):
                 return 0
             # 2라면 파티션 유무를 확인
             elif distance == 2:
+                # 1을 빼지 않고 abs(x1 - x2) 이런식으로 하면 테스트케이스 2개를 통과하지 못함.
                 if x1 == x2 and place[x1][y2 - 1] == "O":
                     return 0
                 elif y1 == y2 and place[x2 - 1][y1] == "O":
@@ -69,32 +70,41 @@ def solution(places):
 
 # itertools-combinations
 from itertools import combinations
+def get_mht(a, b):
+    x1, y1 = a
+    x2, y2 = b
+    return abs(x1 - x2) + abs(y1 - y2)
 
-def check_mht(people, place):
-    for a, b in list(combinations(people, 2)):
-        x1, y1 = a
-        x2, y2 = b
-        mht = abs(x1 - x2) + abs(y1 - y2)
-        if mht < 2:
+def is_well(seats, place):
+    combis = combinations(seats, 2)
+    for a, b in list(combis):
+        mht = get_mht(a, b)
+        if mht == 1:
             return 0
         if mht == 2:
+            x1, y1 = a
+            x2, y2 = b
             if x1 == x2 and place[x1][max(y1, y2) - 1] == "O":
                 return 0
             if y1 == y2 and place[max(x1, x2) - 1][y1] == "O":
                 return 0
-            if place[x2][y1] == "O" or place[x1][y2] == "O":
+            if x1 != x2 and y1 != y2 and (place[x2][y1] == "O" or place[x1][y2] == "O"):
                 return 0
     return 1
+
+def search(place):
+    seats = []
+    for i in range(5):
+        for j in range(5):
+            if place[i][j] == "P":
+                seats.append([i, j])
+    return seats
 
 def solution(places):
     result = []
     for place in places:
-        people = []
-        for i in range(5):
-            for j in range(5):
-                if place[i][j] == "P":
-                    people.append([i, j])
-        result.append(check_mht(people, place)) 
+        seats = search(place)
+        result.append(is_well(seats, place))
     return result
 """
 정확성  테스트

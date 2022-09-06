@@ -1,12 +1,10 @@
 function combine(array, k) {
   const results = []
-
   function dfs(elements, start, k) {
     if (k === 0) {
       results.push([...elements])
       return
     }
-
     for (let i = start; i < array.length; i++) {
       elements.push(array[i])
       dfs(elements, i + 1, k - 1)
