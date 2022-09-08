@@ -34,3 +34,14 @@ for i in range(n):
 
 print(result)
 
+############################## 22년 9월 풀이
+n = int(input())
+data = list(map(int, input().split()))
+
+data.sort()
+acc = [0] * n
+acc[0] = data[0]
+for i in range(1, n):
+    acc[i] = acc[i - 1] + data[i]
+
+print(sum(acc))

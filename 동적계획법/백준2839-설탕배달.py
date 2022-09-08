@@ -1,4 +1,4 @@
-# 예전 풀이
+##################################### 예전 풀이
 import sys
 input = sys.stdin.readline
 
@@ -30,7 +30,7 @@ if min(result) == 99999 :
 else :
     print(min(result))
 
-# 개선한 풀이
+##################################### 개선한 풀이
 n = int(input())
 INF = int(1e9)
 d = INF
@@ -42,3 +42,19 @@ while (3 * a) <= n:
     a += 1
 
 print(-1) if d == INF else print(d)
+
+##################################### 22년 9월 풀이
+n = int(input())
+
+INF = int(1e9)
+result = INF
+
+for a in range(n // 3 + 1):
+    b = (n - 3 * a) / 5
+    if b == int(b):
+        result = min(result, int(a + b))
+
+if result == INF:
+    result = -1
+
+print(result)

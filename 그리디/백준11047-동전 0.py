@@ -19,3 +19,26 @@ for m in money_table:
     k = b
 
 print(count)
+
+
+# 22년 9월 풀이
+N, K = map(int, input().split())
+data = []
+for _ in range(N):
+    i = int(input())
+    if K >= i:
+        data.append(i)
+
+data.sort(reverse = True)
+
+count = 0
+for i in data:
+    if K <= 0:
+        break
+    if K < i:
+        continue
+    a, b = divmod(K, i)
+    count += a
+    K = b
+
+print(count)
