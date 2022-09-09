@@ -102,3 +102,39 @@ def solution(s):
 테스트 14 〉	통과 (109.34ms, 11.3MB)
 테스트 15 〉	통과 (0.04ms, 10.4MB)
 """
+
+# 22년 9월 풀이... 문자열대로 쪼개고, 배열로 풀었다. 속도가 무려 2배 이상 빨라짐 ㄷㄷ
+from collections import defaultdict
+def solution(s):
+    tuples = [list(map(int, x.split(","))) for x in "".join(list(s)[2 : -2]).split("},{")]
+    
+    table = defaultdict(int)
+    for tup in tuples:
+        for x in tup:
+            table[x] += 1
+    
+    result = []
+    for key, value in table.items():
+        result.append([key, value])
+    
+    result.sort(key = lambda x:x[1], reverse = True)
+    
+    return [x[0] for x in result]
+"""
+정확성  테스트
+테스트 1 〉	통과 (0.05ms, 10.4MB)
+테스트 2 〉	통과 (0.04ms, 10.3MB)
+테스트 3 〉	통과 (0.03ms, 10.2MB)
+테스트 4 〉	통과 (0.05ms, 10.3MB)
+테스트 5 〉	통과 (0.34ms, 10.2MB)
+테스트 6 〉	통과 (0.43ms, 10.4MB)
+테스트 7 〉	통과 (10.87ms, 11.5MB)
+테스트 8 〉	통과 (33.28ms, 14.2MB)
+테스트 9 〉	통과 (16.48ms, 12.2MB)
+테스트 10 〉	통과 (24.30ms, 14.3MB)
+테스트 11 〉	통과 (32.42ms, 16.3MB)
+테스트 12 〉	통과 (60.56ms, 21.7MB)
+테스트 13 〉	통과 (45.79ms, 21.6MB)
+테스트 14 〉	통과 (45.55ms, 21.8MB)
+테스트 15 〉	통과 (0.02ms, 10.4MB)
+"""

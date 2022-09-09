@@ -10,7 +10,7 @@ for i in range(len(s) - 1):
 print((count + 1) // 2)
 
 
-# 이코테풀이 + 조금 더 개선
+# 이코테 풀이
 import sys
 input = lambda: sys.stdin.readline().rstrip()
 
