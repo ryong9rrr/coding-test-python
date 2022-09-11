@@ -156,3 +156,75 @@ function solution(orders, course) {
 // 테스트 18 〉	통과 (6.78ms, 33.1MB)
 // 테스트 19 〉	통과 (3.25ms, 32.8MB)
 // 테스트 20 〉	통과 (10.90ms, 33.2MB)
+
+// 22년 9월 풀이
+function combine(array, k) {
+  const results = []
+  function dfs(elements, start, k) {
+    if (k === 0) {
+      results.push([...elements])
+      return
+    }
+    for (let i = start; i < array.length; i++) {
+      elements.push(array[i])
+      dfs(elements, i + 1, k - 1)
+      elements.pop()
+    }
+  }
+  dfs([], 0, k)
+  return results
+}
+
+function solution(orders, course) {
+  const sortedOrders = orders.map((order) => [...order].sort())
+  const table = {}
+
+  course.forEach((i) => {
+    table[i] = {}
+    sortedOrders.forEach((order) => {
+      const combinations = combine(order, i)
+      combinations.forEach((combi) => {
+        const key = combi.join('')
+        if (!table[i][key]) table[i][key] = 0
+        table[i][key]++
+      })
+    })
+  })
+
+  const result = []
+  for (const i of course) {
+    const arr = Object.entries(table[i])
+    if (arr.length === 0) {
+      continue
+    }
+    const maxValue = Math.max(...arr.map(([key, value]) => value))
+    arr.forEach(([key, value]) => {
+      if (value > 1 && value === maxValue) {
+        result.push(key)
+      }
+    })
+  }
+
+  return result.sort()
+}
+// 정확성 테스트
+// 테스트 1 〉 통과 (0.78ms, 33.6MB)
+// 테스트 2 〉 통과 (0.68ms, 33.5MB)
+// 테스트 3 〉 통과 (0.82ms, 33.6MB)
+// 테스트 4 〉 통과 (0.81ms, 33.6MB)
+// 테스트 5 〉 통과 (0.75ms, 33.6MB)
+// 테스트 6 〉 통과 (1.25ms, 33.8MB)
+// 테스트 7 〉 통과 (1.22ms, 33.7MB)
+// 테스트 8 〉 통과 (31.28ms, 37.7MB)
+// 테스트 9 〉 통과 (6.03ms, 37.7MB)
+// 테스트 10 〉 통과 (8.34ms, 38.3MB)
+// 테스트 11 〉 통과 (4.97ms, 38MB)
+// 테스트 12 〉 통과 (6.16ms, 38.2MB)
+// 테스트 13 〉 통과 (9.55ms, 38.2MB)
+// 테스트 14 〉 통과 (7.30ms, 38.6MB)
+// 테스트 15 〉 통과 (8.33ms, 38.3MB)
+// 테스트 16 〉 통과 (3.06ms, 37MB)
+// 테스트 17 〉 통과 (6.33ms, 36.7MB)
+// 테스트 18 〉 통과 (4.58ms, 36.5MB)
+// 테스트 19 〉 통과 (4.44ms, 36.4MB)
+// 테스트 20 〉 통과 (5.31ms, 36.8MB)
