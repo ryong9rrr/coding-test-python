@@ -149,3 +149,51 @@ function solution(s) {
 // 테스트 12 〉	통과 (0.08ms, 33.6MB)
 // 테스트 13 〉	통과 (0.09ms, 33.4MB)
 // 테스트 14 〉	통과 (0.11ms, 33.5MB)
+
+// table 만들어서 풀기
+function isValid(s) {
+  const stack = []
+  const table = {
+    ')': '(',
+    '}': '{',
+    ']': '[',
+  }
+  for (const bracket of [...s]) {
+    if (!(bracket in table)) {
+      stack.push(bracket)
+    } else if (stack.length === 0 || table[bracket] !== stack.pop()) {
+      return false
+    }
+  }
+  return stack.length === 0
+}
+
+function solution(s) {
+  const q = [...s]
+
+  let result = 0
+  let n = s.length
+  while (n--) {
+    const string = q.join('')
+    if (isValid(string)) {
+      result++
+    }
+    q.unshift(q.pop())
+  }
+  return result
+}
+// 정확성  테스트
+// 테스트 1 〉	통과 (47.60ms, 37.5MB)
+// 테스트 2 〉	통과 (26.77ms, 37.3MB)
+// 테스트 3 〉	통과 (27.15ms, 37.6MB)
+// 테스트 4 〉	통과 (29.97ms, 37.4MB)
+// 테스트 5 〉	통과 (31.75ms, 37.5MB)
+// 테스트 6 〉	통과 (27.70ms, 37.4MB)
+// 테스트 7 〉	통과 (30.50ms, 37.5MB)
+// 테스트 8 〉	통과 (29.83ms, 37.4MB)
+// 테스트 9 〉	통과 (37.34ms, 37.4MB)
+// 테스트 10 〉	통과 (37.50ms, 37.5MB)
+// 테스트 11 〉	통과 (42.74ms, 37.5MB)
+// 테스트 12 〉	통과 (0.08ms, 33.4MB)
+// 테스트 13 〉	통과 (0.09ms, 33.5MB)
+// 테스트 14 〉	통과 (0.09ms, 33.5MB)
