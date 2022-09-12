@@ -16,7 +16,7 @@ def solution(nums):
 
 # 세번째 풀이
 def solution(nums):
-    canPeek = len(nums) // 2
-    items = set(nums)
-    
-    return min(canPeek, len(items))
+    kinds = len(set(nums))
+    result = len(nums) // 2
+
+    return min(kinds, result)

@@ -67,26 +67,33 @@ def solution(s):
 # 22년 7월 풀이
 # 문자열 + 스택 풀이
 def solution(s):
-    strings_length = len(s)    
-    limit = strings_length // 2
-    result = strings_length
+    N = len(s)
+    LIMIT = N // 2
     
-    for unit in range(1, limit + 1):
+    result = N
+    
+    for unit in range(1, LIMIT + 1):
         stack = []
         count = 1
-        for index in range(0, strings_length, unit):
+        for index in range(0, N, unit):
             cur = s[index : index + unit]
+            # 같은 문자가 들어오면 count만 센다.
             if stack and stack[-1] == cur:
                 count += 1
+            # 다른 문자가 들어오면...
             else:
+                # 그동안 세줬던 count를 확인한다. 만약 count가 1보다 크면...
                 if count > 1:
                     stack[-1] = str(count) + stack[-1]
                     count = 1
                 stack.append(cur)
+        # 남아있는 count 확인
         if count > 1:
             stack[-1] = str(count) + stack[-1]
+        # 압축된 문자열의 길이와 비교
         compression = "".join(stack)
         result = min(result, len(compression))
+    
     return result
 """
 정확성  테스트
