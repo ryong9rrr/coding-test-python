@@ -7,7 +7,7 @@ def solution(n, times):
     # 심사위원 1명이 처리할 시간의 최댓값
     right = sorted_times[-1] * n
     
-    # 심사위원 모두가 n명을 처리할 수 있는 최적시간(중간값)을 찾는다.
+    # 심사위원 모두가 n명을 처리할 수 있는 최적시간(중간값)을 찾는다. (등호는 반드시 =를 포함해야함.)
     while left <= right:
         mid = (left + right) // 2
         total = sum([mid // time for time in times])

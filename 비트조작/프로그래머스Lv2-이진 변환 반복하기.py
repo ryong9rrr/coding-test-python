@@ -1,12 +1,9 @@
 def solution(s):
-    global removed_zero
-    global count
-    removed_zero = 0
-    count = 0
+    global count, removed_zero
+    count = removed_zero = 0
     
     def change(binary):
-        global removed_zero
-        global count
+        global count, removed_zero
         if binary == "1":
             return
         count += 1
