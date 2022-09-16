@@ -15,3 +15,28 @@ const sumMatrix = (arr1, arr2) => {
   }
   return result
 }
+
+// N x M 행렬을 만드는 함수
+function makeMatrix(N, M, defaultValue = 0) {
+  const matrix = []
+  for (let i = 0; i < N; i++) {
+    const row = []
+    for (let j = 0; j < M; j++) {
+      row.push(defaultValue)
+    }
+    matrix.push(row)
+  }
+  return matrix
+}
+
+// N x N 행렬을 오른쪽으로 90도 회전하는 함수
+function rotateMatrix90(matrix) {
+  const N = matrix.length
+  const result = makeMatrix(N, N, 0)
+  for (let i = 0; i < N; i++) {
+    for (let j = 0; j < N; j++) {
+      result[j][N - i - 1] = matrix[i][j]
+    }
+  }
+  return result
+}
