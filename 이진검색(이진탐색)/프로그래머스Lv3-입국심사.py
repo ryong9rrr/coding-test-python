@@ -1,4 +1,4 @@
-# 파라메트릭 서치
+# 파라메트릭 서치(파라메트릭 서치는 반복문이 좀 더 편함)
 # 최적화 전
 def solution(n, times):
     sorted_times = sorted(times)
