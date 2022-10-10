@@ -1,3 +1,7 @@
+"""
+<사용된 문제>
+- 프로그래머스 Lv3 - 카카오 : 표 편집
+"""
 class Node:
     def __init__(self, data):
         self.data = data

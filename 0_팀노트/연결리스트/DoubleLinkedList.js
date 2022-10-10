@@ -1,3 +1,7 @@
+/*
+<사용된 문제>
+- 프로그래머스 Lv3 - 카카오 : 표 편집
+*/
 class Node {
   constructor(data) {
     this.data = data
