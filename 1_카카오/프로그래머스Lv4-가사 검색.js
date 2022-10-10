@@ -120,17 +120,6 @@ class Trie {
     currentNode.word = true
   }
 
-  has(string) {
-    let currentNode = this.root
-    for (const char of string) {
-      if (!currentNode.children.has(char)) {
-        return false
-      }
-      currentNode = currentNode.children.get(char)
-    }
-    return true
-  }
-
   startsWithCount(prefix) {
     let currentNode = this.root
     for (const char of prefix) {

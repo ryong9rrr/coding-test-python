@@ -182,16 +182,12 @@ class Trie:
         return node.count
 
 def solution(words, queries):
-    table = {}
-    reverse_table = {}
+    table = defaultdict(Trie)
+    reverse_table = defaultdict(Trie)
     counter = defaultdict(int)
     
     for word in words:
         key = len(word)
-        if key not in table:
-            table[key] = Trie()
-        if key not in reverse_table:
-            reverse_table[key] = Trie()
         table[key].insert(word)
         reverse_table[key].insert(word[::-1])
         counter[key] += 1
