@@ -22,7 +22,7 @@ for i in range(N + 1):
 for k in range(1, N + 1):
     for a in range(1, N + 1):
         for b in range(1, N + 1):
-            graph[a][b] = min( graph[a][b], graph[a][k]+graph[k][b] )
+            graph[a][b] = min( graph[a][b], graph[a][k] + graph[k][b] )
 
 # 출력
 for i in range(1, N + 1):
