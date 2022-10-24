@@ -29,10 +29,10 @@ function makePrimeFactorization(n) {
 }
 
 function solution(a, b) {
-  const molecule = makePrimeFactorization(a)
+  const numerator = makePrimeFactorization(a)
   const denominator = makePrimeFactorization(b)
 
-  for (const [key, value] of Object.entries(molecule)) {
+  for (const [key, value] of Object.entries(numerator)) {
     if (key in denominator) {
       denominator[key] = Math.max(0, denominator[key] - value)
     }

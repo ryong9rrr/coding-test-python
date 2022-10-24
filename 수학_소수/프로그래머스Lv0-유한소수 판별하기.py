@@ -21,11 +21,11 @@ def make_prime_factorization(n):
     return result
 
 def solution(a, b):
-    molecule = make_prime_factorization(a)
+    numerator = make_prime_factorization(a)
     denominator = make_prime_factorization(b)
     
     # 분모 약분
-    for key, value in molecule.items():
+    for key, value in numerator.items():
         if key in denominator:
             denominator[key] = max(0, denominator[key] - value)
     

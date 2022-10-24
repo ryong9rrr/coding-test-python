@@ -1,11 +1,11 @@
 # 공식 사용
 def count_combinations(n, m):
-    denominator = molecule = 1
+    denominator = numerator = 1
     for i in range(n, m, -1):
         denominator *= i
     for i in range(n - m, 0, -1):
-        molecule *= i
-    return denominator // molecule
+        numerator *= i
+    return denominator // numerator
 
 def solution(balls, share):
     return count_combinations(balls, share)
