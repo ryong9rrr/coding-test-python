@@ -1,4 +1,4 @@
-def is_pronounce(target_word):
+def can_pronounce(target_word):
     BABY_WORDS = ["aya", "ye", "woo", "ma"]
     for i, BABY_WORD in enumerate(BABY_WORDS):
         target_word = target_word.replace(BABY_WORD, str(i))
@@ -9,7 +9,7 @@ def is_pronounce(target_word):
 def solution(babbling):
     result = 0
     for word in babbling:
-        if is_pronounce(word):
+        if can_pronounce(word):
             result += 1
     return result
 """

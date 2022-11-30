@@ -1,4 +1,4 @@
-const isPronounce = (targetWord) => {
+const canPronounce = (targetWord) => {
   const BABY_WORDS = ["aya", "ye", "woo", "ma"];
   for (let i = 0; i < BABY_WORDS.length; i++) {
     const BABY_WORD = BABY_WORDS[i];
@@ -14,7 +14,7 @@ const isPronounce = (targetWord) => {
 function solution(babbling) {
   let total = 0;
   for (const word of babbling) {
-    if (isPronounce(word)) {
+    if (canPronounce(word)) {
       total += 1;
     }
   }

@@ -1,5 +1,5 @@
 import math
-def get_divisor(number):
+def get_divisors(number):
     if number <= 0:
         raise Exception("자연수가 아니에요.")
     limit = math.floor(math.sqrt(number))
