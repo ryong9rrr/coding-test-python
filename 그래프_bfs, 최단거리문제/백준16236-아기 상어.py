@@ -26,12 +26,11 @@ for _ in range(N):
 
 current_shark_size = 2
 current_shark_x = current_shark_y = 0
-# 처음 상어의 위치를 초기화하고 그 위치를 0으로 바꾼다.
+# 처음 상어의 위치를 초기화한다.
 for i in range(N):
     for j in range(N):
         if MAP[i][j] == 9:
-            current_shark_x = i
-            current_shark_y = j
+            current_shark_x, current_shark_y = i, j
             break
 
 dx = [-1, 0, 1, 0]
@@ -42,6 +41,7 @@ def validate_range(x, y):
 
 #현재 상어가 도달할 수 있는 거리정보를 반환한다. 거리가 -1이라면 도달할 수 없는 좌표다.
 def get_distance_map_bfs():
+    # 현재 상어가 있는 좌표는 0으로 초기화한다.
     q = deque([(current_shark_x, current_shark_y)])
     MAP[current_shark_x][current_shark_y] = 0
     distance_map = [[-1] * N for _ in range(N)]
@@ -63,7 +63,7 @@ def get_distance_map_bfs():
 
     return distance_map
 
-def find_can_eat_fish(distance_map):
+def find_eatable_fish(distance_map):
     # 이렇게 루프를 돌리면 자연스럽게 위 - 왼쪽 순으로 물고기를 찾게 된다.
     distance = INF
     target_fish = None
@@ -83,15 +83,14 @@ ate_fish_count = 0
 total_distance = 0
 #물고기를 찾고 먹기 시작
 while True:
-    found_result = find_can_eat_fish(get_distance_map_bfs())
+    found_result = find_eatable_fish(get_distance_map_bfs())
     if not found_result:
         break
     x, y, distance = found_result
     # 먹은 물고기 수를 늘리고, 거리를 누적하고, 상어의 위치를 이동시킨다.
     ate_fish_count += 1
     total_distance += distance
-    current_shark_x = x
-    current_shark_y = y
+    current_shark_x, current_shark_y = x, y
     # 만약 상어의 크기가 먹은 물고기의 수와 같아지면 상어의 크기를 늘리고, 물고기 수를 초기화한다.
     if current_shark_size == ate_fish_count:
         current_shark_size += 1
