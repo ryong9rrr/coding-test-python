@@ -1,53 +1,52 @@
 # dfs
 from collections import defaultdict
 
+def make_graph(wires):
+    graph = defaultdict(set)
+    for v, w in wires:
+        graph[v].add(w)
+        graph[w].add(v)
+    return graph
+
 def dfs(node, visited, graph):
     visited.append(node)
     if not graph[node]:
         return len(visited)
-    for v in graph[node]:
+    for v in list(graph[node]):
         if v not in visited:
             dfs(v, visited, graph)
     return len(visited)
 
-
 def solution(n, wires):
-    # 그래프 초기화
-    graph = defaultdict(list)
-    for v, w in wires:
-        graph[v].append(w)
-        graph[w].append(v)
-
-    result = int(1e9)
+    graph = make_graph(wires)
     
+    result = n
     for v, w in wires:
         graph[v].remove(w)
         graph[w].remove(v)
-
+        
         count = dfs(1, [], graph)
-
-        result = min(result, abs(n - (count * 2)))
-
-        graph[v].append(w)
-        graph[w].append(v)
+        result = min(result, abs(n - count * 2))
+        
+        graph[v].add(w)
+        graph[w].add(v)
     
     return result
-
 """
 정확성  테스트
-테스트 1 〉	통과 (15.56ms, 10.2MB)
-테스트 2 〉	통과 (14.84ms, 10.3MB)
-테스트 3 〉	통과 (8.14ms, 10.3MB)
-테스트 4 〉	통과 (11.95ms, 10.2MB)
-테스트 5 〉	통과 (10.70ms, 10.3MB)
-테스트 6 〉	통과 (0.02ms, 10.2MB)
-테스트 7 〉	통과 (0.01ms, 10.1MB)
-테스트 8 〉	통과 (0.15ms, 10.2MB)
-테스트 9 〉	통과 (0.12ms, 10.2MB)
-테스트 10 〉	통과 (9.29ms, 10.2MB)
-테스트 11 〉	통과 (10.74ms, 10.2MB)
-테스트 12 〉	통과 (12.32ms, 10.2MB)
-테스트 13 〉	통과 (8.48ms, 10.1MB)
+테스트 1 〉	통과 (14.89ms, 10.4MB)
+테스트 2 〉	통과 (9.80ms, 10.3MB)
+테스트 3 〉	통과 (16.04ms, 10.2MB)
+테스트 4 〉	통과 (10.00ms, 10.2MB)
+테스트 5 〉	통과 (11.35ms, 10.2MB)
+테스트 6 〉	통과 (0.03ms, 10.2MB)
+테스트 7 〉	통과 (0.02ms, 10.2MB)
+테스트 8 〉	통과 (0.31ms, 10.2MB)
+테스트 9 〉	통과 (0.15ms, 10.2MB)
+테스트 10 〉	통과 (11.19ms, 10.3MB)
+테스트 11 〉	통과 (12.09ms, 10.2MB)
+테스트 12 〉	통과 (9.94ms, 10.2MB)
+테스트 13 〉	통과 (9.55ms, 10.2MB)
 """
 
 

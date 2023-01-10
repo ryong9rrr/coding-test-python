@@ -2,7 +2,7 @@
 function permute(array, k) {
   if (k > array.length) return null
   const results = []
-  prevElements = []
+  const prevElements = []
   function dfs(elements, k) {
     if (k === 0) {
       results.push([...prevElements])
@@ -10,7 +10,7 @@ function permute(array, k) {
     }
 
     for (let i = 0; i < elements.length; i++) {
-      nextElements = [...elements]
+      const nextElements = [...elements]
       nextElements.splice(i, 1)
 
       prevElements.push(elements[i])

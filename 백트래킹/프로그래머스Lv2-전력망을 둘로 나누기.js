@@ -1,11 +1,22 @@
 // dfs
-const dfs = (node, visited = [], graph) => {
+function makeGraph(wires) {
+  const graph = {}
+  for (const [v, w] of wires) {
+    if (!graph[v]) graph[v] = new Set()
+    if (!graph[w]) graph[w] = new Set()
+    graph[v].add(w)
+    graph[w].add(v)
+  }
+  return graph
+}
+
+function dfs(node, visited, graph) {
   visited.push(node)
-  if (graph[node].length === 0) {
+  if (!graph[node]) {
     return visited.length
   }
-  for (const v of graph[node]) {
-    if (!visited.find((node) => node === v)) {
+  for (const v of [...graph[node]]) {
+    if (!visited.includes(v)) {
       dfs(v, visited, graph)
     }
   }
@@ -13,48 +24,36 @@ const dfs = (node, visited = [], graph) => {
 }
 
 function solution(n, wires) {
-  const graph = {}
-  for (const [v, w] of wires) {
-    if (!graph[v]) {
-      graph[v] = []
-    }
-    if (!graph[w]) {
-      graph[w] = []
-    }
-    graph[v].push(w)
-    graph[w].push(v)
-  }
+  const graph = makeGraph(wires)
 
-  let result = Infinity
-
+  let result = n
   for (const [v, w] of wires) {
-    graph[v] = graph[v].filter((node) => node !== w)
-    graph[w] = graph[w].filter((node) => node !== v)
+    graph[v].delete(w)
+    graph[w].delete(v)
 
     const count = dfs(1, [], graph)
-
     result = Math.min(result, Math.abs(n - count * 2))
 
-    graph[v].push(w)
-    graph[w].push(v)
+    graph[v].add(w)
+    graph[w].add(v)
   }
 
   return result
 }
-// 정확성 테스트
-// 테스트 1 〉 통과 (7.43ms, 32.6MB)
-// 테스트 2 〉 통과 (6.80ms, 32.6MB)
-// 테스트 3 〉 통과 (7.97ms, 32.4MB)
-// 테스트 4 〉 통과 (6.97ms, 32.6MB)
-// 테스트 5 〉 통과 (8.10ms, 32.5MB)
-// 테스트 6 〉 통과 (0.21ms, 30.1MB)
-// 테스트 7 〉 통과 (0.22ms, 30.3MB)
-// 테스트 8 〉 통과 (0.47ms, 30.3MB)
-// 테스트 9 〉 통과 (0.43ms, 30.2MB)
-// 테스트 10 〉 통과 (6.91ms, 32.7MB)
-// 테스트 11 〉 통과 (7.20ms, 32.6MB)
-// 테스트 12 〉 통과 (7.04ms, 32.8MB)
-// 테스트 13 〉 통과 (7.78ms, 32.3MB)
+// 정확성  테스트
+// 테스트 1 〉	통과 (4.67ms, 37.8MB)
+// 테스트 2 〉	통과 (6.03ms, 37.5MB)
+// 테스트 3 〉	통과 (4.35ms, 37.6MB)
+// 테스트 4 〉	통과 (4.58ms, 37.6MB)
+// 테스트 5 〉	통과 (4.85ms, 38MB)
+// 테스트 6 〉	통과 (0.21ms, 33MB)
+// 테스트 7 〉	통과 (0.13ms, 33MB)
+// 테스트 8 〉	통과 (0.47ms, 33.6MB)
+// 테스트 9 〉	통과 (0.44ms, 33.4MB)
+// 테스트 10 〉	통과 (4.43ms, 37.7MB)
+// 테스트 11 〉	통과 (4.71ms, 37.8MB)
+// 테스트 12 〉	통과 (4.51ms, 37.7MB)
+// 테스트 13 〉	통과 (4.38ms, 37.6MB)
 
 // 유니온파인드 (파이썬은 유니온파인드의 속도가 2배 더 빨랐지만... 자바스크립트는 재귀 성능이 안좋아서 그랬는지 더 느렸다.)
 let uf = []
