@@ -1,27 +1,25 @@
-/*
-투 포인터
+/**
  * @param {number[]} height
  * @return {number}
  */
 var trap = function (height) {
-  if (height.length === 0) return 0
-
-  let volume = 0
   let left = 0
   let right = height.length - 1
-  let left_max = height[left]
-  let right_max = height[right]
+
+  let leftMax = height[left]
+  let rightMax = height[right]
+  let volume = 0
 
   while (left < right) {
-    left_max = Math.max(left_max, height[left])
-    right_max = Math.max(right_max, height[right])
+    leftMax = Math.max(leftMax, height[left])
+    rightMax = Math.max(rightMax, height[right])
 
-    if (left_max <= right_max) {
-      volume += left_max - height[left]
-      left++
+    if (leftMax <= rightMax) {
+      volume += leftMax - height[left]
+      left += 1
     } else {
-      volume += right_max - height[right]
-      right--
+      volume += rightMax - height[right]
+      right -= 1
     }
   }
 
@@ -40,7 +38,8 @@ var trap = function (height) {
       if (stack.length === 0) break
 
       const distance = i - stack[stack.length - 1] - 1
-      const waters = Math.min(height[i], height[stack[stack.length - 1]]) - height[top]
+      const waters =
+        Math.min(height[i], height[stack[stack.length - 1]]) - height[top]
       volume += distance * waters
     }
     stack.push(i)
