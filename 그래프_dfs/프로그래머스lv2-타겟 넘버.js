@@ -4,7 +4,7 @@ function solution(numbers, target) {
   const dfs = (index, total) => {
     if (index === numbers.length) {
       if (total === target) {
-        count++
+        count += 1
       }
       return
     }
