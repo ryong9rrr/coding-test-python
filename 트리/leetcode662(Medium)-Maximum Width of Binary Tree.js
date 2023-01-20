@@ -12,10 +12,6 @@
  * @return {number}
  */
 var widthOfBinaryTree = function (root) {
-  if (!root) {
-    return 0
-  }
-
   let result = 0
   const q = [[root, 0]]
 

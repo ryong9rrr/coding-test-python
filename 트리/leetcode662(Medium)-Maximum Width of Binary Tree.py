@@ -1,4 +1,4 @@
-# BFS : 49ms(72.09%)
+# BFS : 36ms(98%)
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
@@ -7,9 +7,6 @@
 #         self.right = right
 class Solution:
     def widthOfBinaryTree(self, root: Optional[TreeNode]) -> int:
-        if not root:
-            return 0
-        
         result = 0
         q = collections.deque([(root, 0)])
         while q:
@@ -18,8 +15,8 @@ class Solution:
             result = max(result, last_idx - first_idx + 1)
             
             for _ in range(len(q)):
-                node, i = q.popleft()
-                sub_idx = i - first_idx
+                node, idx = q.popleft()
+                sub_idx = idx - first_idx
                 if node.left:
                     q.append((node.left, sub_idx * 2 + 1))
                 if node.right:
