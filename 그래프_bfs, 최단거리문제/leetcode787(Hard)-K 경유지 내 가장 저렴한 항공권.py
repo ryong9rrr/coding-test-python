@@ -1,29 +1,27 @@
-# 다익스트라 // 104ms
+# 다익스트라 : 190ms(58.57%), 15.7MB(11.74%)
 class Solution:
     def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
-        INF = float('inf')
         graph = collections.defaultdict(list)
         for v, w, cost in flights:
             graph[v].append((w, cost))
 
-        costs = [INF] * n
-        counts = [k] * n
-        q = [(0, src, k)]
-        
+        costs = [float('inf')] * n
+        rests = [k] * n
+        q = [(0, k, src)]
+
         while q:
-            acc, v, count = heapq.heappop(q)
+            acc, rest, v = heapq.heappop(q)
             if v == dst:
                 return acc
-            if count < 0:
+            if rest < 0:
                 continue
             for w, cost in graph[v]:
                 alt = acc + cost
-                # 이미 갱신해놨던 정보보다 더 저렴하거나 넉넉하다면
-                if alt < costs[w] or counts[w] < count:
+                if alt < costs[w] or rests[w] < rest:
                     costs[w] = alt
-                    counts[w] = count - 1
-                    heapq.heappush(q, (alt, w, count - 1))
-        
+                    rests[w] = rest - 1
+                    heapq.heappush(q, (alt, rest - 1, w))
+
         return -1
 
 # 비슷한 방법

@@ -9,7 +9,7 @@ def convert_number(number, k):
 
 def solution(n, t, m, p):
     numbers = "0"
-    for number in range(1, t * m + m):
+    for number in range(1, t * m):
         numbers += convert_number(number, n)
     
     result = ""
