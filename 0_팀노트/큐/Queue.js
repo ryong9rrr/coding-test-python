@@ -26,7 +26,7 @@ class MyQueue {
   }
 
   enqueue(value) {
-    const node = new Node(value)
+    const node = new MyNode(value)
     if (!this.front) {
       this.front = this.tail = node
     } else {
