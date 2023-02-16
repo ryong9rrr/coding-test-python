@@ -5,10 +5,10 @@
 #         self.left = left
 #         self.right = right
 
-# 큐를 사용한 BFS : 41ms, 15.1MB
+# BFS : 36ms(94.60%), 15.2MB(98.15%)
 class Solution:
     def maxDepth(self, root: Optional[TreeNode]) -> int:
-        if root is None:
+        if not root:
             return 0
             
         q = collections.deque([root])
@@ -16,21 +16,26 @@ class Solution:
 
         while q:
             depth += 1
-            for _ in range(len(q)):
+            n = len(q)
+            for _ in range(n):
                 node = q.popleft()
                 if node.left:
                     q.append(node.left)
                 if node.right:
                     q.append(node.right)
-        
+
         return depth
     
-# DFS : 39ms, 16.3MB
+# DFS : 46ms(54.48%), 16.4MB(18.14%)
 class Solution:
     def maxDepth(self, root: Optional[TreeNode]) -> int:
         def dfs(node, depth):
-            if node is None:
+            if not node:
                 return depth
-            return max(dfs(node.left, depth + 1), dfs(node.right, depth + 1))
+
+            left_depth = dfs(node.left, depth + 1)
+            right_depth = dfs(node.right, depth + 1)
+
+            return max(left_depth, right_depth)
 
         return dfs(root, 0)
