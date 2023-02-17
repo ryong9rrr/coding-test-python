@@ -6,22 +6,22 @@ const fillMatrix = (headX, headY, number, width, matrix) => {
 
   matrix[x][y] = number++
 
-  const fillAndMatrix = (direction) => {
+  const fillAndMove = (direction) => {
     x += dx[direction]
     y += dy[direction]
     matrix[x][y] = number++
   }
 
   for (let i = 0; i < width - 1; i += 1) {
-    fillAndMatrix(0)
+    fillAndMove(0)
   }
 
   for (let i = 0; i < width - 1; i += 1) {
-    fillAndMatrix(1)
+    fillAndMove(1)
   }
 
   for (let i = 0; i < width - 2; i += 1) {
-    fillAndMatrix(2)
+    fillAndMove(2)
   }
 
   return number
