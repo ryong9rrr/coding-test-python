@@ -5,7 +5,7 @@
 #         self.left = left
 #         self.right = right
 
-# 재귀로 스왑 - 바텀업 방식 // 20ms(60%)
+# 재귀로 스왑 - 바텀업 방식 : 34ms(59.87%), 13.8MB(94.98%)
 class Solution(object):
     def invertTree(self, root):
         """
@@ -17,7 +17,7 @@ class Solution(object):
             return root
         return None
 
-# 반복구조 BFS로 스왑 - 탑다운 방식 // 16ms(85%)
+# 반복구조 BFS로 스왑 - 탑다운 방식 : 26ms(94.89%), 13.8MB(94.98%)
 class Solution(object):
     def invertTree(self, root):
         """
@@ -40,7 +40,7 @@ class Solution(object):
         :type root: TreeNode
         :rtype: TreeNode
         """
-        stack = collections.deque([root])
+        stack = [root]
         while stack:
             node = stack.pop()
             if node:
@@ -56,7 +56,7 @@ class Solution(object):
         :type root: TreeNode
         :rtype: TreeNode
         """
-        stack = collections.deque([root])
+        stack = [root]
         while stack:
             node = stack.pop()
             if node:
