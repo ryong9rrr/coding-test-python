@@ -6,9 +6,13 @@ class MyNode {
 }
 
 class MyQueue {
-  constructor() {
+  constructor(array = []) {
     this.front = this.tail = null
     this.size = 0
+
+    for (const el of array) {
+      this.enqueue(el)
+    }
   }
 
   get peek() {
