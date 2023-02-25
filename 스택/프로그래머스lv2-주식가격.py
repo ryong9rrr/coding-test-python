@@ -1,18 +1,18 @@
 # 리트코드 일일온도와 거의 비슷한 문제
-
 def solution(prices):
-    answer = [0] * len(prices)
+    n = len(prices)
+    answer = [0] * n
     stack = []
     
     for i, cur in enumerate(prices):
         while stack and prices[stack[-1]] > cur:
-            last = stack.pop()
-            answer[last] = i - last
+            top = stack.pop()
+            answer[top] = i - top
         stack.append(i)
         
     while stack:
-        last = stack.pop()
-        answer[last] = len(prices) - 1 - last
+        top = stack.pop()
+        answer[top] = n - 1 - top
     
     return answer
 """
