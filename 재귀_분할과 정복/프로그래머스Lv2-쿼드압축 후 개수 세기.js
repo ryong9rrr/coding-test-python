@@ -2,7 +2,9 @@ const divide = (n, i, j, arr) => {
   if (n <= 1) {
     return String(arr[i][j])
   }
+
   const mid = n / 2
+
   const a = divide(mid, i, j, arr)
   const b = divide(mid, i, j + mid, arr)
   const c = divide(mid, i + mid, j, arr)
@@ -11,24 +13,17 @@ const divide = (n, i, j, arr) => {
   if (a.length === 1 && a === b && b === c && c === d) {
     return a
   }
+
   return `(${a + b + c + d})`
+}
+
+const count = (iterable, value) => {
+  return [...iterable].filter((item) => item === value).length
 }
 
 function solution(arr) {
   const result = divide(arr.length, 0, 0, arr)
-
-  let countZero = 0
-  let countOne = 0
-
-  for (const i of result) {
-    if (i === "0") {
-      countZero += 1
-    } else if (i === "1") {
-      countOne += 1
-    }
-  }
-
-  return [countZero, countOne]
+  return [count(result, "0"), count(result, "1")]
 }
 // 정확성  테스트
 // 테스트 1 〉	통과 (0.36ms, 33.5MB)
