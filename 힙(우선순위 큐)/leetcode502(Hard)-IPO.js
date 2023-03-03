@@ -85,27 +85,31 @@ class Heap {
   }
 
   percolateDown(index) {
-    if (!this.isLeaf(index)) {
-      let leftChildIndex = this.leftChild(index)
-      let rightChildIndex = this.rightChild(index)
-      let largestIndex = index
+    if (this.isLeaf(index)) {
+      return
+    }
 
-      if (
-        this.compare(this.values[leftChildIndex], this.values[largestIndex])
-      ) {
-        largestIndex = leftChildIndex
-      }
+    let leftChildIndex = this.leftChild(index)
+    let rightChildIndex = this.rightChild(index)
+    let largestIndex = index
 
-      if (
-        this.compare(this.values[rightChildIndex], this.values[largestIndex])
-      ) {
-        largestIndex = rightChildIndex
-      }
+    if (
+      leftChildIndex < this.values.length &&
+      this.compare(this.values[leftChildIndex], this.values[largestIndex])
+    ) {
+      largestIndex = leftChildIndex
+    }
 
-      if (largestIndex !== index) {
-        this.swap(index, largestIndex)
-        this.percolateDown(largestIndex)
-      }
+    if (
+      rightChildIndex < this.values.length &&
+      this.compare(this.values[rightChildIndex], this.values[largestIndex])
+    ) {
+      largestIndex = rightChildIndex
+    }
+
+    if (largestIndex !== index) {
+      this.swap(index, largestIndex)
+      this.percolateDown(largestIndex)
     }
   }
 }
