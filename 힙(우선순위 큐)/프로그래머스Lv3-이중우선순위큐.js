@@ -1,4 +1,3 @@
-// 390ms(78.31%), 96.7MB(10.84%)
 class Heap {
   constructor(compareFn) {
     this.values = []
@@ -7,6 +6,9 @@ class Heap {
   }
 
   compare(a, b) {
+    if (a === undefined || b === undefined) {
+      return false
+    }
     const result = this.compareFn(a, b)
     if (typeof result === "boolean") {
       return result
@@ -110,41 +112,77 @@ class Heap {
   }
 }
 
-/**
- * @param {number} k
- * @param {number} w
- * @param {number[]} profits
- * @param {number[]} capital
- * @return {number}
- */
-var findMaximizedCapital = function (k, w, profits, capital) {
-  const n = profits.length
-  const projects = Array.from({ length: n }, (v, i) => i)
-    .map((i) => [capital[i], profits[i]])
-    .sort((a, b) => a[0] - b[0])
+class Counter {
+  constructor() {
+    this.table = {}
+  }
 
-  let index = 0
+  get(key) {
+    if (!this.table[key]) {
+      this.table[key] = 0
+    }
+    return this.table[key]
+  }
+
+  increase(key, value = 1) {
+    if (!this.table[key]) {
+      this.table[key] = 0
+    }
+    this.table[key] += value
+  }
+
+  decrease(key, value = 1) {
+    if (!this.table[key]) {
+      this.table[key] = 0
+    }
+    this.table[key] -= value
+  }
+}
+
+function solution(operations) {
   const maxHeap = new Heap((a, b) => b - a)
+  const minHeap = new Heap((a, b) => a - b)
+  const counter = new Counter()
 
-  const insertToHeap = () => {
-    while (index < n) {
-      const [cost, profit] = projects[index]
-      if (cost <= w) {
-        maxHeap.add(profit)
-        index += 1
-      } else {
-        break
-      }
+  for (const operation of operations) {
+    const [command, x] = operation.split(" ")
+
+    if (command === "I") {
+      const number = parseInt(x, 10)
+      maxHeap.add(number)
+      minHeap.add(number)
+      counter.increase(number)
+      continue
+    }
+
+    if (x === "1" && maxHeap.size > 0) {
+      const maxNumber = maxHeap.extract()
+      counter.decrease(maxNumber)
+    }
+
+    if (x === "-1" && minHeap.size > 0) {
+      const minNumber = minHeap.extract()
+      counter.decrease(minNumber)
+    }
+
+    while (maxHeap.size > 0 && counter.get(maxHeap.top) <= 0) {
+      maxHeap.extract()
+    }
+
+    while (minHeap.size > 0 && counter.get(minHeap.top) <= 0) {
+      minHeap.extract()
     }
   }
 
-  insertToHeap()
+  const maxNumber = maxHeap.size > 0 ? maxHeap.top : 0
+  const minNumber = minHeap.size > 0 ? minHeap.top : 0
 
-  while (k > 0 && maxHeap.size > 0) {
-    w += maxHeap.extract()
-    k -= 1
-    insertToHeap()
-  }
-
-  return w
+  return [maxNumber, minNumber]
 }
+// 정확성  테스트
+// 테스트 1 〉	통과 (0.74ms, 33.5MB)
+// 테스트 2 〉	통과 (0.56ms, 33.7MB)
+// 테스트 3 〉	통과 (0.78ms, 33.6MB)
+// 테스트 4 〉	통과 (0.17ms, 33.5MB)
+// 테스트 5 〉	통과 (0.44ms, 33.5MB)
+// 테스트 6 〉	통과 (0.68ms, 33.7MB)

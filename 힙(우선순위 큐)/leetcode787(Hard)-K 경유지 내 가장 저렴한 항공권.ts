@@ -1,12 +1,19 @@
-// 390ms(78.31%), 96.7MB(10.84%)
-class Heap {
-  constructor(compareFn) {
+// 힙 구현 : 125ms(58.71%), 51.5MB(33.71%)
+class Heap<T> {
+  private values: T[]
+
+  private compareFn: (a: T, b: T) => boolean | number
+
+  constructor(compareFn: (a: T, b: T) => boolean | number) {
     this.values = []
 
     this.compareFn = compareFn
   }
 
-  compare(a, b) {
+  private compare(a: T, b: T) {
+    if (a === undefined || b === undefined) {
+      return false
+    }
     const result = this.compareFn(a, b)
     if (typeof result === "boolean") {
       return result
@@ -22,7 +29,7 @@ class Heap {
     return this.values.length
   }
 
-  add(element) {
+  add(element: T) {
     this.values.push(element)
     this.percolateUp(this.values.length - 1)
   }
@@ -33,7 +40,7 @@ class Heap {
     }
 
     const top = this.values[0]
-    const end = this.values.pop()
+    const end = this.values.pop() as T
 
     if (this.values.length > 0) {
       this.values[0] = end
@@ -44,33 +51,33 @@ class Heap {
     return top
   }
 
-  swap(aIndex, bIndex) {
+  private swap(aIndex: number, bIndex: number) {
     ;[this.values[aIndex], this.values[bIndex]] = [
       this.values[bIndex],
       this.values[aIndex],
     ]
   }
 
-  parent(index) {
+  private parent(index: number) {
     return Math.floor(Math.floor((index - 1) / 2))
   }
 
-  leftChild(index) {
+  private leftChild(index: number) {
     return index * 2 + 1
   }
 
-  rightChild(index) {
+  private rightChild(index: number) {
     return index * 2 + 2
   }
 
-  isLeaf(index) {
+  private isLeaf(index: number) {
     return (
       index >= Math.floor(this.values.length / 2) &&
       index <= this.values.length - 1
     )
   }
 
-  percolateUp(index) {
+  private percolateUp(index: number) {
     let currentIndex = index
     let parentIndex = this.parent(currentIndex)
 
@@ -84,7 +91,7 @@ class Heap {
     }
   }
 
-  percolateDown(index) {
+  private percolateDown(index: number) {
     if (!this.isLeaf(index)) {
       let leftChildIndex = this.leftChild(index)
       let rightChildIndex = this.rightChild(index)
@@ -110,41 +117,55 @@ class Heap {
   }
 }
 
-/**
- * @param {number} k
- * @param {number} w
- * @param {number[]} profits
- * @param {number[]} capital
- * @return {number}
- */
-var findMaximizedCapital = function (k, w, profits, capital) {
-  const n = profits.length
-  const projects = Array.from({ length: n }, (v, i) => i)
-    .map((i) => [capital[i], profits[i]])
-    .sort((a, b) => a[0] - b[0])
+function findCheapestPrice(
+  n: number,
+  flights: number[][],
+  src: number,
+  dst: number,
+  k: number,
+): number {
+  const graph = {}
+  for (const [v, w, cost] of flights) {
+    if (!graph[v]) graph[v] = []
+    graph[v].push([w, cost])
+  }
 
-  let index = 0
-  const maxHeap = new Heap((a, b) => b - a)
+  const costs = new Array(n).fill(Infinity)
+  const rests = new Array(n).fill(k)
+  const heap = new Heap<[number, number, number]>((a, b) => {
+    if (a[0] !== b[0]) {
+      return a[0] - b[0]
+    }
+    if (a[1] !== b[1]) {
+      return a[1] - b[1]
+    }
+    return a[2] - b[2]
+  })
 
-  const insertToHeap = () => {
-    while (index < n) {
-      const [cost, profit] = projects[index]
-      if (cost <= w) {
-        maxHeap.add(profit)
-        index += 1
-      } else {
-        break
+  heap.add([0, k, src])
+
+  while (heap.size > 0) {
+    const [acc, rest, v] = heap.extract()
+    if (v === dst) {
+      return acc
+    }
+    if (rest < 0) {
+      continue
+    }
+
+    if (!graph[v] || graph[v].length === 0) {
+      continue
+    }
+
+    for (const [w, cost] of graph[v]) {
+      const alt = acc + cost
+      if (alt < costs[w] || rests[w] < rest) {
+        costs[w] = alt
+        rests[w] = rest - 1
+        heap.add([alt, rest - 1, w])
       }
     }
   }
 
-  insertToHeap()
-
-  while (k > 0 && maxHeap.size > 0) {
-    w += maxHeap.extract()
-    k -= 1
-    insertToHeap()
-  }
-
-  return w
+  return -1
 }

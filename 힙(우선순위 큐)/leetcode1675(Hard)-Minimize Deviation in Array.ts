@@ -1,40 +1,54 @@
-// 최대 힙 풀이 : 180ms(100%), 62.3MB(100%)
-class MaxHeap {
-  private values: number[]
+// 199ms(90%), 63.7MB(46.67%)
+class Heap<T> {
+  private values: T[]
 
-  constructor() {
-    // this is where the array that represents our heap will be stored
+  private compareFn: (a: T, b: T) => boolean | number
+
+  constructor(compareFn: (a: T, b: T) => boolean | number) {
     this.values = []
+
+    this.compareFn = compareFn
+  }
+
+  private compare(a: T, b: T) {
+    if (a === undefined || b === undefined) {
+      return false
+    }
+    const result = this.compareFn(a, b)
+    if (typeof result === "boolean") {
+      return result
+    }
+    return result < 0 ? true : false
+  }
+
+  get top() {
+    return this.values.length > 0 ? this.values[0] : undefined
   }
 
   get size() {
     return this.values.length
   }
 
-  add(element: number) {
+  add(element: T) {
     this.values.push(element)
     this.percolateUp(this.values.length - 1)
   }
 
-  // removes and returns max element
-  extractMax() {
+  extract() {
     if (this.values.length < 1) {
       throw new Error("heap is empty")
     }
 
-    // get max and last element
-    const max = this.values[0]
-    const end = this.values.pop() as number
+    const top = this.values[0]
+    const end = this.values.pop() as T
 
     if (this.values.length > 0) {
-      // reassign first element to the last element
       this.values[0] = end
-      // heapify down until element is back in its correct position
       this.percolateDown(0)
     }
 
-    // return the max
-    return max
+    // return the top
+    return top
   }
 
   private swap(aIndex: number, bIndex: number) {
@@ -67,45 +81,36 @@ class MaxHeap {
     let currentIndex = index
     let parentIndex = this.parent(currentIndex)
 
-    // while we haven't reached the root node and the current element is greater than its parent node
     while (
       currentIndex > 0 &&
-      this.values[currentIndex] > this.values[parentIndex]
+      this.compare(this.values[currentIndex], this.values[parentIndex])
     ) {
-      // swap
       this.swap(currentIndex, parentIndex)
-      // move up the binary heap
       currentIndex = parentIndex
       parentIndex = this.parent(parentIndex)
     }
   }
 
   private percolateDown(index: number) {
-    // if the node at index has children
     if (!this.isLeaf(index)) {
-      // get indices of children
       let leftChildIndex = this.leftChild(index)
       let rightChildIndex = this.rightChild(index)
-      // start out largest index at parent index
       let largestIndex = index
 
-      // if the left child > parent
-      if (this.values[leftChildIndex] > this.values[largestIndex]) {
-        // reassign largest index to left child index
+      if (
+        this.compare(this.values[leftChildIndex], this.values[largestIndex])
+      ) {
         largestIndex = leftChildIndex
       }
 
-      // if the right child > element at largest index (either parent or left child)
-      if (this.values[rightChildIndex] >= this.values[largestIndex]) {
-        // reassign largest index to right child index
+      if (
+        this.compare(this.values[rightChildIndex], this.values[largestIndex])
+      ) {
         largestIndex = rightChildIndex
       }
 
-      // if the largest index is not the parent index
       if (largestIndex !== index) {
-        // swap
         this.swap(index, largestIndex)
-        // recursively move down the heap
         this.percolateDown(largestIndex)
       }
     }
@@ -114,25 +119,25 @@ class MaxHeap {
 
 function minimumDeviation(nums: number[]): number {
   let minValue = Infinity
-  const heap = new MaxHeap()
+  const maxHeap = new Heap<number>((a, b) => b - a)
 
   // 최솟값 설정 및 힙 구성
   Array.from(new Set(nums)).forEach((num) => {
     const value = num % 2 === 0 ? num : num * 2
     minValue = Math.min(minValue, value)
-    heap.add(value)
+    maxHeap.add(value)
   })
 
   let deviation = Infinity
   while (true) {
-    let maxValue = heap.extractMax()
+    let maxValue = maxHeap.extract()
     deviation = Math.min(deviation, maxValue - minValue)
     if (maxValue % 2 === 1) {
       break
     }
     maxValue = maxValue / 2
     minValue = Math.min(minValue, maxValue)
-    heap.add(maxValue)
+    maxHeap.add(maxValue)
   }
 
   return deviation

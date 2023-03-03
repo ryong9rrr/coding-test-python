@@ -1,4 +1,4 @@
-class MaxHeap {
+class MinHeap {
   private values: number[]
 
   constructor() {
@@ -19,7 +19,7 @@ class MaxHeap {
     this.percolateUp(this.values.length - 1)
   }
 
-  // removes and returns max element
+  // removes and returns min element
   extract() {
     if (this.values.length < 1) {
       throw new Error("heap is empty")
@@ -70,10 +70,10 @@ class MaxHeap {
     let currentIndex = index
     let parentIndex = this.parent(currentIndex)
 
-    // while we haven't reached the root node and the current element is greater than its parent node
+    // while we haven't reached the root node and the current element is smaller than its parent node
     while (
       currentIndex > 0 &&
-      this.values[currentIndex] > this.values[parentIndex]
+      this.values[currentIndex] < this.values[parentIndex]
     ) {
       // swap
       this.swap(currentIndex, parentIndex)
@@ -90,26 +90,26 @@ class MaxHeap {
       let leftChildIndex = this.leftChild(index)
       let rightChildIndex = this.rightChild(index)
       // start out largest index at parent index
-      let largestIndex = index
+      let smallestIndex = index
 
-      // if the left child > parent
-      if (this.values[leftChildIndex] > this.values[largestIndex]) {
+      // if the left child < parent
+      if (this.values[leftChildIndex] < this.values[smallestIndex]) {
         // reassign largest index to left child index
-        largestIndex = leftChildIndex
+        smallestIndex = leftChildIndex
       }
 
-      // if the right child > element at largest index (either parent or left child)
-      if (this.values[rightChildIndex] > this.values[largestIndex]) {
+      // if the right child <= element at largest index (either parent or left child)
+      if (this.values[rightChildIndex] < this.values[smallestIndex]) {
         // reassign largest index to right child index
-        largestIndex = rightChildIndex
+        smallestIndex = rightChildIndex
       }
 
       // if the largest index is not the parent index
-      if (largestIndex !== index) {
+      if (smallestIndex !== index) {
         // swap
-        this.swap(index, largestIndex)
+        this.swap(index, smallestIndex)
         // recursively move down the heap
-        this.percolateDown(largestIndex)
+        this.percolateDown(smallestIndex)
       }
     }
   }

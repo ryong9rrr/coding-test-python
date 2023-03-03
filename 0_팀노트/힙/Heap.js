@@ -1,9 +1,20 @@
-class MaxHeap {
-  private values: number[]
-
-  constructor() {
-    // this is where the array that represents our heap will be stored
+class Heap {
+  constructor(compareFn) {
     this.values = []
+
+    this.compareFn = compareFn
+  }
+
+  compare(a, b) {
+    if (a === undefined || b === undefined) {
+      return false
+    }
+
+    const result = this.compareFn(a, b)
+    if (typeof result === "boolean") {
+      return result
+    }
+    return result < 0 ? true : false
   }
 
   get top() {
@@ -14,25 +25,21 @@ class MaxHeap {
     return this.values.length
   }
 
-  add(element: number) {
+  add(element) {
     this.values.push(element)
     this.percolateUp(this.values.length - 1)
   }
 
-  // removes and returns max element
   extract() {
     if (this.values.length < 1) {
       throw new Error("heap is empty")
     }
 
-    // get top and last element
     const top = this.values[0]
-    const end = this.values.pop() as number
+    const end = this.values.pop()
 
     if (this.values.length > 0) {
-      // reassign first element to the last element
       this.values[0] = end
-      // heapify down until element is back in its correct position
       this.percolateDown(0)
     }
 
@@ -40,75 +47,66 @@ class MaxHeap {
     return top
   }
 
-  private swap(aIndex: number, bIndex: number) {
+  swap(aIndex, bIndex) {
     ;[this.values[aIndex], this.values[bIndex]] = [
       this.values[bIndex],
       this.values[aIndex],
     ]
   }
 
-  private parent(index: number) {
+  parent(index) {
     return Math.floor(Math.floor((index - 1) / 2))
   }
 
-  private leftChild(index: number) {
+  leftChild(index) {
     return index * 2 + 1
   }
 
-  private rightChild(index: number) {
+  rightChild(index) {
     return index * 2 + 2
   }
 
-  private isLeaf(index: number) {
+  isLeaf(index) {
     return (
       index >= Math.floor(this.values.length / 2) &&
       index <= this.values.length - 1
     )
   }
 
-  private percolateUp(index: number) {
+  percolateUp(index) {
     let currentIndex = index
     let parentIndex = this.parent(currentIndex)
 
-    // while we haven't reached the root node and the current element is greater than its parent node
     while (
       currentIndex > 0 &&
-      this.values[currentIndex] > this.values[parentIndex]
+      this.compare(this.values[currentIndex], this.values[parentIndex])
     ) {
-      // swap
       this.swap(currentIndex, parentIndex)
-      // move up the binary heap
       currentIndex = parentIndex
       parentIndex = this.parent(parentIndex)
     }
   }
 
-  private percolateDown(index: number) {
-    // if the node at index has children
+  percolateDown(index) {
     if (!this.isLeaf(index)) {
-      // get indices of children
       let leftChildIndex = this.leftChild(index)
       let rightChildIndex = this.rightChild(index)
-      // start out largest index at parent index
       let largestIndex = index
 
-      // if the left child > parent
-      if (this.values[leftChildIndex] > this.values[largestIndex]) {
-        // reassign largest index to left child index
+      if (
+        this.compare(this.values[leftChildIndex], this.values[largestIndex])
+      ) {
         largestIndex = leftChildIndex
       }
 
-      // if the right child > element at largest index (either parent or left child)
-      if (this.values[rightChildIndex] > this.values[largestIndex]) {
-        // reassign largest index to right child index
+      if (
+        this.compare(this.values[rightChildIndex], this.values[largestIndex])
+      ) {
         largestIndex = rightChildIndex
       }
 
-      // if the largest index is not the parent index
       if (largestIndex !== index) {
-        // swap
         this.swap(index, largestIndex)
-        // recursively move down the heap
         this.percolateDown(largestIndex)
       }
     }

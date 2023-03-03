@@ -1,40 +1,52 @@
-// 447ms(100%), 101MB(100%)
-class MaxHeap {
-  private values: number[]
+// 416ms(52.11%), 74.2MB(73.94%)
 
-  constructor() {
-    // this is where the array that represents our heap will be stored
+class Heap<T> {
+  private values: T[]
+
+  private compareFn: (a: T, b: T) => boolean | number
+
+  constructor(compareFn: (a: T, b: T) => boolean | number) {
     this.values = []
+
+    this.compareFn = compareFn
+  }
+
+  private compare(a: T, b: T) {
+    const result = this.compareFn(a, b)
+    if (typeof result === "boolean") {
+      return result
+    }
+    return result < 0 ? true : false
+  }
+
+  get top() {
+    return this.values.length > 0 ? this.values[0] : undefined
   }
 
   get size() {
     return this.values.length
   }
 
-  add(element: number) {
+  add(element: T) {
     this.values.push(element)
     this.percolateUp(this.values.length - 1)
   }
 
-  // removes and returns max element
-  extractMax() {
+  extract() {
     if (this.values.length < 1) {
       throw new Error("heap is empty")
     }
 
-    // get max and last element
-    const max = this.values[0]
-    const end = this.values.pop() as number
+    const top = this.values[0]
+    const end = this.values.pop() as T
 
     if (this.values.length > 0) {
-      // reassign first element to the last element
       this.values[0] = end
-      // heapify down until element is back in its correct position
       this.percolateDown(0)
     }
 
-    // return the max
-    return max
+    // return the top
+    return top
   }
 
   private swap(aIndex: number, bIndex: number) {
@@ -67,45 +79,36 @@ class MaxHeap {
     let currentIndex = index
     let parentIndex = this.parent(currentIndex)
 
-    // while we haven't reached the root node and the current element is greater than its parent node
     while (
       currentIndex > 0 &&
-      this.values[currentIndex] > this.values[parentIndex]
+      this.compare(this.values[currentIndex], this.values[parentIndex])
     ) {
-      // swap
       this.swap(currentIndex, parentIndex)
-      // move up the binary heap
       currentIndex = parentIndex
       parentIndex = this.parent(parentIndex)
     }
   }
 
   private percolateDown(index: number) {
-    // if the node at index has children
     if (!this.isLeaf(index)) {
-      // get indices of children
       let leftChildIndex = this.leftChild(index)
       let rightChildIndex = this.rightChild(index)
-      // start out largest index at parent index
       let largestIndex = index
 
-      // if the left child > parent
-      if (this.values[leftChildIndex] > this.values[largestIndex]) {
-        // reassign largest index to left child index
+      if (
+        this.compare(this.values[leftChildIndex], this.values[largestIndex])
+      ) {
         largestIndex = leftChildIndex
       }
 
-      // if the right child > element at largest index (either parent or left child)
-      if (this.values[rightChildIndex] >= this.values[largestIndex]) {
-        // reassign largest index to right child index
+      if (
+        this.compare(this.values[rightChildIndex], this.values[largestIndex])
+      ) {
         largestIndex = rightChildIndex
       }
 
-      // if the largest index is not the parent index
       if (largestIndex !== index) {
-        // swap
         this.swap(index, largestIndex)
-        // recursively move down the heap
         this.percolateDown(largestIndex)
       }
     }
@@ -124,13 +127,13 @@ function findMaximizedCapital(
     .sort((a, b) => a[0] - b[0])
 
   let index = 0
-  const heap = new MaxHeap()
+  const maxHeap = new Heap<number>((a, b) => b - a)
 
   const insertToHeap = () => {
     while (index < n) {
       const [cost, profit] = projects[index]
       if (cost <= w) {
-        heap.add(profit)
+        maxHeap.add(profit)
         index += 1
       } else {
         break
@@ -140,8 +143,8 @@ function findMaximizedCapital(
 
   insertToHeap()
 
-  while (k > 0 && heap.size > 0) {
-    w += heap.extractMax()
+  while (k > 0 && maxHeap.size > 0) {
+    w += maxHeap.extract()
     k -= 1
     insertToHeap()
   }

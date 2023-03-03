@@ -1,4 +1,5 @@
-// 390ms(78.31%), 96.7MB(10.84%)
+// 우선순위 힙 구현 : 113ms(63.1%), 50.4MB(32.36%)
+
 class Heap {
   constructor(compareFn) {
     this.values = []
@@ -7,6 +8,10 @@ class Heap {
   }
 
   compare(a, b) {
+    if (a === undefined || b === undefined) {
+      return false
+    }
+
     const result = this.compareFn(a, b)
     if (typeof result === "boolean") {
       return result
@@ -111,40 +116,56 @@ class Heap {
 }
 
 /**
+ * @param {number} n
+ * @param {number[][]} flights
+ * @param {number} src
+ * @param {number} dst
  * @param {number} k
- * @param {number} w
- * @param {number[]} profits
- * @param {number[]} capital
  * @return {number}
  */
-var findMaximizedCapital = function (k, w, profits, capital) {
-  const n = profits.length
-  const projects = Array.from({ length: n }, (v, i) => i)
-    .map((i) => [capital[i], profits[i]])
-    .sort((a, b) => a[0] - b[0])
+var findCheapestPrice = function (n, flights, src, dst, k) {
+  const graph = {}
+  for (const [v, w, cost] of flights) {
+    if (!graph[v]) graph[v] = []
+    graph[v].push([w, cost])
+  }
 
-  let index = 0
-  const maxHeap = new Heap((a, b) => b - a)
+  const costs = new Array(n).fill(Infinity)
+  const rests = new Array(n).fill(k)
+  const heap = new Heap((a, b) => {
+    if (a[0] !== b[0]) {
+      return a[0] - b[0]
+    }
+    if (a[1] !== b[1]) {
+      return a[1] - b[1]
+    }
+    return a[2] - b[2]
+  })
 
-  const insertToHeap = () => {
-    while (index < n) {
-      const [cost, profit] = projects[index]
-      if (cost <= w) {
-        maxHeap.add(profit)
-        index += 1
-      } else {
-        break
+  heap.add([0, k, src])
+
+  while (heap.size > 0) {
+    const [acc, rest, v] = heap.extract()
+    if (v === dst) {
+      return acc
+    }
+    if (rest < 0) {
+      continue
+    }
+
+    if (!graph[v] || graph[v].length === 0) {
+      continue
+    }
+
+    for (const [w, cost] of graph[v]) {
+      const alt = acc + cost
+      if (alt < costs[w] || rests[w] < rest) {
+        costs[w] = alt
+        rests[w] = rest - 1
+        heap.add([alt, rest - 1, w])
       }
     }
   }
 
-  insertToHeap()
-
-  while (k > 0 && maxHeap.size > 0) {
-    w += maxHeap.extract()
-    k -= 1
-    insertToHeap()
-  }
-
-  return w
+  return -1
 }

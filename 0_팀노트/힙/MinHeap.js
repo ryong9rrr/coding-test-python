@@ -1,4 +1,4 @@
-class MaxHeap {
+class MinHeap {
   constructor() {
     this.values = []
   }
@@ -64,7 +64,7 @@ class MaxHeap {
 
     while (
       currentIndex > 0 &&
-      this.values[currentIndex] > this.values[parentIndex]
+      this.values[currentIndex] < this.values[parentIndex]
     ) {
       this.swap(currentIndex, parentIndex)
       currentIndex = parentIndex
@@ -76,19 +76,19 @@ class MaxHeap {
     if (!this.isLeaf(index)) {
       let leftChildIndex = this.leftChild(index)
       let rightChildIndex = this.rightChild(index)
-      let largestIndex = index
+      let smallestIndex = index
 
-      if (this.values[leftChildIndex] > this.values[largestIndex]) {
-        largestIndex = leftChildIndex
+      if (this.values[leftChildIndex] < this.values[smallestIndex]) {
+        smallestIndex = leftChildIndex
       }
 
-      if (this.values[rightChildIndex] > this.values[largestIndex]) {
-        largestIndex = rightChildIndex
+      if (this.values[rightChildIndex] < this.values[smallestIndex]) {
+        smallestIndex = rightChildIndex
       }
 
-      if (largestIndex !== index) {
-        this.swap(index, largestIndex)
-        this.percolateDown(largestIndex)
+      if (smallestIndex !== index) {
+        this.swap(index, smallestIndex)
+        this.percolateDown(smallestIndex)
       }
     }
   }

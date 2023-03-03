@@ -1,37 +1,30 @@
-# 우선순위 큐+bfs // 100~150ms
-class Solution(object):
-    def findCheapestPrice(self, n, flights, src, dst, k):
-        """
-        :type n: int
-        :type flights: List[List[int]]
-        :type src: int
-        :type dst: int
-        :type k: int
-        :rtype: int
-        """
-        INF = int(1e9)
-        nodeInfo = [(INF, k)] * n
-        graph = defaultdict(list)
-        for u, v, w in flights:
-            graph[u].append((v, w))
-        
-        q = [(0, src, k)]
-        
-        while q:
-            price, node, count = heappop(q)
-            if node == dst:
-                return price
-            if count >= 0:
-                for v, w in graph[node]:
-                    alt = price + w
-                    if alt <= nodeInfo[v][0] or count > nodeInfo[v][1] :
-                        nodeInfo[v] = (alt, count - 1)
-                        heappush(q, (alt, v, count - 1))
-                    
-        return -1
-                
+# 다익스트라 : 190ms(58.57%), 15.7MB(11.74%)
+class Solution:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+        graph = collections.defaultdict(list)
+        for v, w, cost in flights:
+            graph[v].append((w, cost))
 
-# 다른 방법
+        costs = [float('inf')] * n
+        rests = [k] * n
+        q = [(0, k, src)]
+
+        while q:
+            acc, rest, v = heapq.heappop(q)
+            if v == dst:
+                return acc
+            if rest < 0:
+                continue
+            for w, cost in graph[v]:
+                alt = acc + cost
+                if alt < costs[w] or rests[w] < rest:
+                    costs[w] = alt
+                    rests[w] = rest - 1
+                    heapq.heappush(q, (alt, rest - 1, w))
+
+        return -1
+
+# 비슷한 방법
 class Solution(object):
     def findCheapestPrice(self, n, flights, src, dst, k):
         """
