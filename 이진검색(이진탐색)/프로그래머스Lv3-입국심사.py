@@ -33,36 +33,34 @@ def solution(n, times):
 
 # 최적화
 def solution(n, times):
-    sorted_times = sorted(times)
-    # 심사위원 1명이 처리할 시간의 최솟값
-    left = sorted_times[0]
-    # 심사위원 1명이 처리할 시간의 최댓값
-    right = sorted_times[-1] * n
+    times.sort()
+    left, right = times[0], times[-1] * n
     
-    # 심사위원 모두가 n명을 처리할 수 있는 최적시간(중간값)을 찾는다.
-    while left <= right:
-        mid = (left + right) // 2
-        total = 0
-        for time in times:
-            total += mid // time
-            if total >= n:
-                break
-        
-        if total < n:
-            left = mid + 1
+    def is_enough(mid):
+        acc = 0
+        for t in times:
+            acc += (mid // t)
+            if acc >= n:
+                return True
+        return False
+    
+    while left < right:
+        mid = int((left / 2) + (right / 2))
+        if is_enough(mid):
+            right = mid
         else:
-            right = mid - 1
+            left = mid + 1
     
     return left
 """
 정확성  테스트
-테스트 1 〉	통과 (0.01ms, 10.3MB)
-테스트 2 〉	통과 (0.16ms, 10.3MB)
-테스트 3 〉	통과 (6.53ms, 10.3MB)
-테스트 4 〉	통과 (204.83ms, 14.9MB)
-테스트 5 〉	통과 (346.90ms, 14.8MB)
-테스트 6 〉	통과 (212.87ms, 15.2MB)
-테스트 7 〉	통과 (412.15ms, 14.9MB)
-테스트 8 〉	통과 (509.35ms, 14.8MB)
-테스트 9 〉	통과 (0.02ms, 10.3MB)
+테스트 1 〉	통과 (0.01ms, 10.2MB)
+테스트 2 〉	통과 (0.07ms, 10.1MB)
+테스트 3 〉	통과 (3.57ms, 10.2MB)
+테스트 4 〉	통과 (126.37ms, 14.4MB)
+테스트 5 〉	통과 (395.99ms, 14.1MB)
+테스트 6 〉	통과 (231.79ms, 14.3MB)
+테스트 7 〉	통과 (529.11ms, 14.3MB)
+테스트 8 〉	통과 (589.53ms, 14.4MB)
+테스트 9 〉	통과 (0.03ms, 10.1MB)
 """
