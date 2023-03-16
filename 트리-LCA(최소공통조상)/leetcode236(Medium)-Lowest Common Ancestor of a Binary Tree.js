@@ -79,3 +79,43 @@ var lowestCommonAncestor = function (root, p, q) {
 
   return nodes[y]
 }
+
+// 딕셔너리 대신 Map 사용하기, Map은 key로 문자열 뿐 아니라 참조형 객체타입도 사용이 가능하다.
+// 99ms(17.70%), 52.4MB(12.66%)
+/**
+ * @param {TreeNode} root
+ * @param {TreeNode} p
+ * @param {TreeNode} q
+ * @return {TreeNode}
+ */
+var lowestCommonAncestor = function (root, p, q) {
+  const stack = [root]
+  parent = new Map()
+  parent.set(root, null)
+
+  while (!(parent.has(p) && parent.has(q))) {
+    const node = stack.pop()
+
+    if (node.left) {
+      parent.set(node.left, node)
+      stack.push(node.left)
+    }
+
+    if (node.right) {
+      parent.set(node.right, node)
+      stack.push(node.right)
+    }
+  }
+
+  const ancestors = new Set()
+  while (p) {
+    ancestors.add(p)
+    p = parent.get(p)
+  }
+
+  while (!ancestors.has(q)) {
+    q = parent.get(q)
+  }
+
+  return q
+}
