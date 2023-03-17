@@ -1,45 +1,34 @@
 class TrieNode:
     def __init__(self):
-        self.word = False
+        self.isWord = False
         self.children = collections.defaultdict(TrieNode)
 
-class Trie(object):
+class Trie:
+
     def __init__(self):
         self.root = TrieNode()
 
-    def insert(self, word):
-        """
-        :type word: str
-        :rtype: None
-        """
+    def insert(self, word: str) -> None:
         node = self.root
         for char in word:
             node = node.children[char]
-        node.word = True
+        node.isWord = True
 
-    def search(self, word):
-        """
-        :type word: str
-        :rtype: bool
-        """
+    def searchPrefixNode(self, word: str) -> TrieNode:
         node = self.root
         for char in word:
             if char not in node.children:
-                return False
+                return None
             node = node.children[char]
-        return node.word
-        
-    def startsWith(self, prefix):
-        """
-        :type prefix: str
-        :rtype: bool
-        """
-        node = self.root
-        for char in prefix:
-            if char not in node.children:
-                return False
-            node = node.children[char]
-        return True
+        return node
+
+    def search(self, word: str) -> bool:
+        node = self.searchPrefixNode(word)
+        return node.isWord if node else False
+
+    def startsWith(self, prefix: str) -> bool:
+        node = self.searchPrefixNode(prefix)
+        return True if node else False
 
 
 # Your Trie object will be instantiated and called as such:

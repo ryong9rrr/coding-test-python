@@ -1,11 +1,11 @@
 // 정렬 + 이분탐색
 function reverseString(string) {
-  return [...string].reverse().join('')
+  return [...string].reverse().join("")
 }
 
 function search(arr, target) {
   const lower = (arr, target) => {
-    target = target.replace(/\?/g, 'a')
+    target = target.replace(/\?/g, "a")
     let lo = 0
     let hi = arr.length
     while (lo < hi) {
@@ -20,7 +20,7 @@ function search(arr, target) {
   }
 
   const upper = (arr, target) => {
-    target = target.replace(/\?/g, 'z')
+    target = target.replace(/\?/g, "z")
     let lo = 0
     let hi = arr.length
     while (lo < hi) {
@@ -60,7 +60,7 @@ function solution(words, queries) {
     if (!table[key]) {
       return 0
     }
-    if (query[query.length - 1] === '?') {
+    if (query[query.length - 1] === "?") {
       return search(table[key], query)
     }
     return search(reverseTable[key], reverseString(query))
@@ -93,101 +93,98 @@ function solution(words, queries) {
 // 테스트 5 〉	통과 (83.86ms, 47MB)
 
 /////////////////////////////  트라이 풀이  //////////////////////////////
-class Node {
-  constructor(value = '') {
-    this.value = value
-    this.children = new Map()
-    this.word = false
+class TrieNode {
+  constructor() {
     this.count = 0
+    this.children = new Map()
   }
 }
 
 class Trie {
   constructor() {
-    this.root = new Node()
+    this.root = new TrieNode()
   }
 
-  insert(string) {
-    let currentNode = this.root
-    for (const char of string) {
-      if (!currentNode.children.has(char)) {
-        currentNode.children.set(char, new Node(currentNode.value + char))
+  insert(word) {
+    let node = this.root
+    for (const char of word) {
+      if (!node.children.has(char)) {
+        node.children.set(char, new TrieNode())
       }
-      currentNode = currentNode.children.get(char)
-      currentNode.count++
+      node = node.children.get(char)
+      node.count += 1
     }
-    // 검색된 단어 데이터 업데이트
-    currentNode.word = true
   }
 
   startsWithCount(prefix) {
-    let currentNode = this.root
+    let node = this.root
     for (const char of prefix) {
-      if (!currentNode.children.has(char)) {
+      if (!node.children.has(char)) {
         return 0
       }
-      currentNode = currentNode.children.get(char)
+      node = node.children.get(char)
     }
-    return currentNode.count
+    return node.count
   }
 }
 
-function reverseString(string) {
-  return [...string].reverse().join('')
-}
-
 function solution(words, queries) {
-  const table = {}
-  const reverseTable = {}
+  const trieTable = {}
+  const trieTable2 = {}
   const counter = {}
 
+  // initialize
   words.forEach((word) => {
     const key = word.length
-    if (!table[key]) table[key] = new Trie()
-    if (!reverseTable[key]) reverseTable[key] = new Trie()
-    table[key].insert(word)
-    reverseTable[key].insert(reverseString(word))
-    if (counter[key] === undefined) counter[key] = 0
-    counter[key]++
+
+    if (!trieTable[key]) trieTable[key] = new Trie()
+    if (!trieTable2[key]) trieTable2[key] = new Trie()
+    if (!counter[key]) counter[key] = 0
+
+    trieTable[key].insert(word)
+    trieTable2[key].insert([...word].reverse().join(""))
+    counter[key] += 1
   })
 
   return queries.map((query) => {
     const key = query.length
-    if (!table[key]) {
+
+    if (!counter[key]) {
       return 0
     }
-    const tQuery = query.replace(/\?/g, '')
-    if (!tQuery) {
+
+    const q = query.replace(/\?/g, "")
+    if (!q) {
       return counter[key]
     }
-    if (query[query.length - 1] === '?') {
-      return table[key].startsWithCount(tQuery)
+    if (query[0] === "?") {
+      return trieTable2[key].startsWithCount([...q].reverse().join(""))
     }
-    return reverseTable[key].startsWithCount(reverseString(tQuery))
+    return trieTable[key].startsWithCount(q)
   })
 }
 // 정확성  테스트
-// 테스트 1 〉	통과 (1.00ms, 33.8MB)
-// 테스트 2 〉	통과 (0.61ms, 33.6MB)
-// 테스트 3 〉	통과 (0.74ms, 33.7MB)
-// 테스트 4 〉	통과 (0.68ms, 33.6MB)
-// 테스트 5 〉	통과 (0.63ms, 33.6MB)
-// 테스트 6 〉	통과 (0.76ms, 33.6MB)
-// 테스트 7 〉	통과 (29.37ms, 38.1MB)
-// 테스트 8 〉	통과 (2.12ms, 34.4MB)
-// 테스트 9 〉	통과 (27.26ms, 38MB)
-// 테스트 10 〉	통과 (32.67ms, 37.9MB)
-// 테스트 11 〉	통과 (2.10ms, 34.4MB)
-// 테스트 12 〉	통과 (31.31ms, 38.1MB)
-// 테스트 13 〉	통과 (21.61ms, 50MB)
-// 테스트 14 〉	통과 (38.17ms, 42.3MB)
-// 테스트 15 〉	통과 (20.81ms, 50.5MB)
-// 테스트 16 〉	통과 (18.36ms, 50.4MB)
-// 테스트 17 〉	통과 (12.00ms, 42.5MB)
-// 테스트 18 〉	통과 (18.61ms, 50.3MB)
+// 테스트 1 〉	통과 (0.87ms, 33.8MB)
+// 테스트 2 〉	통과 (0.56ms, 33.5MB)
+// 테스트 3 〉	통과 (0.63ms, 33.7MB)
+// 테스트 4 〉	통과 (0.79ms, 33.7MB)
+// 테스트 5 〉	통과 (0.58ms, 33.5MB)
+// 테스트 6 〉	통과 (0.67ms, 33.6MB)
+// 테스트 7 〉	통과 (6.15ms, 38.5MB)
+// 테스트 8 〉	통과 (1.96ms, 34.4MB)
+// 테스트 9 〉	통과 (5.72ms, 38.3MB)
+// 테스트 10 〉	통과 (5.98ms, 38.8MB)
+// 테스트 11 〉	통과 (1.90ms, 34.2MB)
+// 테스트 12 〉	통과 (7.29ms, 38.8MB)
+// 테스트 13 〉	통과 (19.19ms, 50.1MB)
+// 테스트 14 〉	통과 (11.95ms, 42.1MB)
+// 테스트 15 〉	통과 (17.49ms, 50.3MB)
+// 테스트 16 〉	통과 (23.76ms, 50MB)
+// 테스트 17 〉	통과 (11.02ms, 42.6MB)
+// 테스트 18 〉	통과 (17.73ms, 50MB)
 // 효율성  테스트
-// 테스트 1 〉	통과 (650.53ms, 192MB)
-// 테스트 2 〉	통과 (1507.84ms, 313MB)
-// 테스트 3 〉	통과 (1423.04ms, 299MB)
-// 테스트 4 〉	통과 (1527.54ms, 332MB)
-// 테스트 5 〉	통과 (2688.26ms, 586MB)
+// 테스트 1 〉	통과 (647.23ms, 171MB)
+// 테스트 2 〉	통과 (1477.69ms, 271MB)
+// 테스트 3 〉	통과 (1246.18ms, 255MB)
+// 테스트 4 〉	통과 (952.15ms, 285MB)
+// 테스트 5 〉	통과 (2822.93ms, 493MB)
