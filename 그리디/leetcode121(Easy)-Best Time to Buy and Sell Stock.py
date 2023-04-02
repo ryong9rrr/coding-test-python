@@ -1,9 +1,10 @@
-# 스택 풀이 : 1035ms(76.19%), 25MB(82.91%)
+# 접근 1 : 스택
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
         stack = []
         max_profit = 0
-
+        
+        # 스택의 top은 항상 가장 작은 값의 인덱스를 위치시킨다.
         for i, price in enumerate(prices):
             if stack and prices[stack[-1]] < price:
                 min_price = prices[stack[-1]]
@@ -13,28 +14,26 @@ class Solution:
         
         return max_profit
     
-# dp식 카데인 알고리즘 1 : 1205ms(22.60%), 24.6MB(98.9%)
+# 접근 2 : DP(1)
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
-        n = len(prices)
-        min_prices = [prices[0]]
-        for i in range(1, n):
-            min_price = min(min_prices[i - 1], prices[i])
-            min_prices.append(min_price)
+        dp = [prices[0]]
+        for i in range(1, len(prices)):
+            dp.append(min(dp[i - 1], prices[i]))
 
-        result = 0
-        for i in range(n):
-            result = max(result, prices[i] - min_prices[i])
-
-        return result
-    
-# 그런데 사실 이렇게도 가능 ... 카데인 알고리즘 2 : 1088ms(60.45%), 25.1MB(32.77%)
-class Solution:
-    def maxProfit(self, prices: List[int]) -> int:
-        min_price = sys.maxsize
         max_profit = 0
+        for i in range(len(prices)):
+            max_profit = max(max_profit, prices[i] - dp[i])
+        return max_profit
+    
+
+# 접근 3 : DP(2) - 카데인 알고리즘
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        max_profit = 0
+        min_price = int(1e9)
+
         for price in prices:
             min_price = min(min_price, price)
             max_profit = max(max_profit, price - min_price)
-        
         return max_profit
