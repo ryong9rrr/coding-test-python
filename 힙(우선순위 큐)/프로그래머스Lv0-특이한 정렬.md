@@ -1,3 +1,12 @@
+# 프로그래머스 Lv0 : 특이한 정렬
+
+> related topics : 힙, 정렬
+
+## 접근 1 : 힙
+
+#### python
+
+```python
 import heapq
 def find_standard_index(numlist, n):
     index = 0
@@ -9,10 +18,10 @@ def find_standard_index(numlist, n):
 def solution(numlist, n):
     heap = []
     index = find_standard_index(numlist, n)
-    
+
     for i, number in enumerate(numlist):
         heapq.heappush(heap, (abs(number - n), -number))
-    
+
     result = []
     while heap:
         diff, opposite_number = heapq.heappop(heap)
@@ -28,8 +37,15 @@ def solution(numlist, n):
 테스트 6 〉	통과 (0.02ms, 10.2MB)
 테스트 7 〉	통과 (0.00ms, 10.4MB)
 """
+```
 
-# 근데 걍 정렬로 풀면 됨;;
+## 접근 2 : 정렬
+
+근데 걍 정렬로 풀면 됨;;
+
+#### python
+
+```python
 def solution(numlist, n):
     return sorted(numlist, key = lambda x: (abs(x - n), -x))
 """
@@ -42,3 +58,4 @@ def solution(numlist, n):
 테스트 6 〉	통과 (0.01ms, 10.2MB)
 테스트 7 〉	통과 (0.00ms, 10.2MB)
 """
+```
