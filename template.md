@@ -1,5 +1,3 @@
-# 문제
-
 > related topics :
 
 ## 접근 1 :
