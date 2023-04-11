@@ -21,7 +21,7 @@ class Deque {
     return this._tail ? this._tail.value : null
   }
 
-  get size() {
+  get length() {
     return this._length
   }
 

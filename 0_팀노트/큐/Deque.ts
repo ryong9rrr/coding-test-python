@@ -36,7 +36,7 @@ class Deque<T> {
   }
 
   // Returns the number of elements in the deque
-  get size() {
+  get length() {
     return this._length
   }
 
