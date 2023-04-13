@@ -16,7 +16,6 @@ for i in range(1, n):
 print(max(dp))
 
 
-
 # 접근 2 : 약간 최적화된 O(N^2), 140ms
 import sys
 input = lambda: sys.stdin.readline().rstrip()
