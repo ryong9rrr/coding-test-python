@@ -1,79 +1,109 @@
-> related topics : 그리디, 포인터, 수학
+> https://school.programmers.co.kr/learn/courses/30/lessons/12979
+> related topics : 그리디, 배열, 수학
 
-어려운 문제였다. 나중에 다시 풀어보자 ㅜㅜ
+어려운 문제였다. 나중에 또 풀어보자 ㅜㅜ
 
-# 접근 1 : 그리디 + 포인터
+# 접근 1 : 그리디 + 배열
 
-기지국의 위치 `loc`을 계속 변경해주는 풀이..
+기지국의 위치 `loc`을 계속 변경해주는 풀이.. 배열의 인덱스를 잘 조정해줘야한다.
 
 #### python
 
 ```python
 def solution(n, stations, w):
-    loc = 1
+    stations_length = len(stations)
     stations_index = 0
+    loc = 1
 
     ans = 0
     while loc <= n:
-        if stations_index < len(stations) and loc >= stations[stations_index] - w:
+        if stations_index < stations_length and stations[stations_index] - w <= loc:
             loc = stations[stations_index] + w + 1
             stations_index += 1
         else:
+            loc += (2 * w + 1)
             ans += 1
-            loc += 2 * w + 1
 
     return ans
+"""
+정확성  테스트
+테스트 1 〉	통과 (0.00ms, 10.3MB)
+테스트 2 〉	통과 (0.00ms, 10.2MB)
+테스트 3 〉	통과 (0.00ms, 10.2MB)
+테스트 4 〉	통과 (0.00ms, 10.2MB)
+테스트 5 〉	통과 (0.00ms, 10.2MB)
+테스트 6 〉	통과 (0.00ms, 10.2MB)
+테스트 7 〉	통과 (0.00ms, 10.2MB)
+테스트 8 〉	통과 (0.00ms, 10.2MB)
+테스트 9 〉	통과 (0.00ms, 10.2MB)
+테스트 10 〉	통과 (0.00ms, 10.2MB)
+테스트 11 〉	통과 (0.00ms, 10.1MB)
+테스트 12 〉	통과 (0.01ms, 10.3MB)
+테스트 13 〉	통과 (0.00ms, 10.3MB)
+테스트 14 〉	통과 (0.00ms, 10.2MB)
+테스트 15 〉	통과 (0.01ms, 10.2MB)
+테스트 16 〉	통과 (0.01ms, 10.2MB)
+테스트 17 〉	통과 (0.01ms, 10.3MB)
+테스트 18 〉	통과 (0.01ms, 10.2MB)
+테스트 19 〉	통과 (0.01ms, 10.2MB)
+테스트 20 〉	통과 (0.00ms, 10.2MB)
+테스트 21 〉	통과 (0.01ms, 10.3MB)
+효율성  테스트
+테스트 1 〉	통과 (2.57ms, 10.3MB)
+테스트 2 〉	통과 (4.07ms, 10.5MB)
+테스트 3 〉	통과 (2.87ms, 10.3MB)
+테스트 4 〉	통과 (3.62ms, 10.3MB)
+"""
 ```
 
 #### js
 
-이렇게 상수로 사용안해주면 효율성에서 시간초과가 나더라..;;
-
 ```js
 function solution(n, stations, w) {
   const stationsLength = stations.length
-  const interval = 2 * w + 1
-  let loc = 1
   let stationsIndex = 0
+  let loc = 1
+
   let ans = 0
   while (loc <= n) {
-    if (stationsIndex < stationsLength && loc >= stations[stationsIndex] - w) {
+    if (stationsIndex < stationsLength && stations[stationsIndex] - w <= loc) {
       loc = stations[stationsIndex] + w + 1
       stationsIndex += 1
     } else {
       ans += 1
-      loc += interval
+      loc += 2 * w + 1
     }
   }
+
   return ans
 }
 // 정확성  테스트
-// 테스트 1 〉	통과 (0.06ms, 33.4MB)
-// 테스트 2 〉	통과 (0.06ms, 33.6MB)
-// 테스트 3 〉	통과 (0.05ms, 33.4MB)
+// 테스트 1 〉	통과 (0.05ms, 33.4MB)
+// 테스트 2 〉	통과 (0.04ms, 33.4MB)
+// 테스트 3 〉	통과 (0.04ms, 33.5MB)
 // 테스트 4 〉	통과 (0.06ms, 33.5MB)
-// 테스트 5 〉	통과 (0.07ms, 33.5MB)
-// 테스트 6 〉	통과 (0.06ms, 33.5MB)
-// 테스트 7 〉	통과 (0.04ms, 33.5MB)
-// 테스트 8 〉	통과 (0.04ms, 33.5MB)
-// 테스트 9 〉	통과 (0.04ms, 33.5MB)
-// 테스트 10 〉	통과 (0.04ms, 33.5MB)
-// 테스트 11 〉	통과 (0.07ms, 33.5MB)
-// 테스트 12 〉	통과 (0.06ms, 33.4MB)
-// 테스트 13 〉	통과 (0.08ms, 33.6MB)
-// 테스트 14 〉	통과 (0.07ms, 33.6MB)
-// 테스트 15 〉	통과 (0.07ms, 33.6MB)
-// 테스트 16 〉	통과 (0.05ms, 33.5MB)
-// 테스트 17 〉	통과 (0.14ms, 33.5MB)
-// 테스트 18 〉	통과 (0.19ms, 33.5MB)
-// 테스트 19 〉	통과 (0.13ms, 33.5MB)
-// 테스트 20 〉	통과 (0.04ms, 33.7MB)
+// 테스트 5 〉	통과 (0.04ms, 33.4MB)
+// 테스트 6 〉	통과 (0.05ms, 33.4MB)
+// 테스트 7 〉	통과 (0.04ms, 33.4MB)
+// 테스트 8 〉	통과 (0.05ms, 33.5MB)
+// 테스트 9 〉	통과 (0.05ms, 33.4MB)
+// 테스트 10 〉	통과 (0.04ms, 33.1MB)
+// 테스트 11 〉	통과 (0.04ms, 32.9MB)
+// 테스트 12 〉	통과 (0.04ms, 33.5MB)
+// 테스트 13 〉	통과 (0.04ms, 33.5MB)
+// 테스트 14 〉	통과 (0.04ms, 33.5MB)
+// 테스트 15 〉	통과 (0.04ms, 33.4MB)
+// 테스트 16 〉	통과 (0.11ms, 33.5MB)
+// 테스트 17 〉	통과 (0.12ms, 33.5MB)
+// 테스트 18 〉	통과 (0.11ms, 33.4MB)
+// 테스트 19 〉	통과 (0.12ms, 33.4MB)
+// 테스트 20 〉	통과 (0.04ms, 33.4MB)
 // 테스트 21 〉	통과 (0.12ms, 33.4MB)
 // 효율성  테스트
-// 테스트 1 〉	통과 (2.02ms, 36.8MB)
-// 테스트 2 〉	통과 (2.09ms, 36.9MB)
-// 테스트 3 〉	통과 (2.24ms, 36.9MB)
-// 테스트 4 〉	통과 (2.12ms, 36.9MB)
+// 테스트 1 〉	통과 (2.04ms, 36.9MB)
+// 테스트 2 〉	통과 (2.36ms, 36.9MB)
+// 테스트 3 〉	통과 (2.06ms, 36.8MB)
+// 테스트 4 〉	통과 (1.91ms, 36.9MB)
 ```
 
 # 접근 2 : 수학

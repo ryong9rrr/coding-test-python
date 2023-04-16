@@ -1,16 +1,26 @@
+> https://school.programmers.co.kr/learn/courses/30/lessons/176963
+> related topics : 해시
+
+# 접근 : 해시
+
+#### python
+
 ```python
+from collections import defaultdict
 def solution(name, yearning, photo):
-    score_map = {}
+    table = defaultdict(int)
     for i in range(len(name)):
-        score_map[name[i]] = yearning[i]
+        key = name[i]
+        value = yearning[i]
+        table[key] = value
 
     result = []
-    for people in photo:
-        acc = 0
-        for person in people:
-            if person in score_map:
-                acc += score_map[person]
-        result.append(acc)
+    for keys in photo:
+        value = 0
+        for key in keys:
+            value += table[key]
+        result.append(value)
+
     return result
 """
 정확성  테스트
@@ -31,20 +41,25 @@ def solution(name, yearning, photo):
 """
 ```
 
+#### js
+
 ```js
 function solution(name, yearning, photo) {
-  const scoreMap = {}
+  const table = {}
   for (let i = 0; i < name.length; i += 1) {
-    scoreMap[name[i]] = yearning[i]
+    const key = name[i]
+    const value = yearning[i]
+    table[key] = value
   }
 
-  return photo.map((people) => {
-    return people.reduce((acc, person) => {
-      if (!scoreMap[person]) {
-        return acc
+  return photo.map((keys) => {
+    let value = 0
+    for (const key of keys) {
+      if (key in table) {
+        value += table[key]
       }
-      return scoreMap[person] + acc
-    }, 0)
+    }
+    return value
   })
 }
 // 정확성  테스트
