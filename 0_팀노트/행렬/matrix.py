@@ -7,24 +7,25 @@ def rotate_matrix_90(matrix):
             result[j][N - i - 1] = matrix[i][j]
     return result
 
+
 # 곱셈이 가능한 두 행렬 곱하기
 def multiplyMatrix(matrix1, matrix2):
     def multiply(arr1, arr2):
-        result = 0
+        value = 0
         for i, v in enumerate(arr1):
-            result = result + v * arr2[i]
-        return result
-    
-    def getColumns(matrix, j):
-        result = []
+            value = value + v * arr2[i]
+        return value
+
+    def get_columns(matrix, j):
+        columns = []
         for i in range(len(matrix)):
-            result.append(matrix[i][j])
-        return result
-    
-    result = []
+            columns.append(matrix[i][j])
+        return columns
+
+    multiplied_matrix = []
     for i in range(len(matrix1)):
         row = []
         for j in range(len(matrix2[0])):
-            row.append(multiply(matrix1[i], getColumns(matrix2, j)))
-        result.append(row)
-    return result
+            row.append(multiply(matrix1[i], get_columns(matrix2, j)))
+        multiplied_matrix.append(row)
+    return multiplied_matrix

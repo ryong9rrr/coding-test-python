@@ -99,3 +99,40 @@ class Deque {
     return values;
   }
 }
+
+const brackets = {
+  ')': '(',
+  '}': '{',
+  ']': '[',
+};
+
+function check(arr) {
+  const stack = [];
+  for (const value of arr) {
+    if (!brackets[value]) {
+      stack.push(value);
+      continue;
+    }
+
+    if (stack.length === 0) {
+      return false;
+    }
+
+    if (brackets[value] !== stack.pop()) {
+      return false;
+    }
+  }
+  return stack.length === 0;
+}
+
+function solution(s) {
+  const q = new Deque([...s]);
+  let result = 0;
+  for (let i = 0; i < s.length; i += 1) {
+    if (check(q.desc())) {
+      result += 1;
+    }
+    q.push(q.shift());
+  }
+  return result;
+}
